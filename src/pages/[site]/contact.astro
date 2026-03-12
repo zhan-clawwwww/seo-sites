@@ -1,0 +1,167 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../lib/site-routing";
+
+export function getStaticPaths() {
+  return getSiteStaticPaths();
+}
+
+const siteSlug = Astro.params.site!;
+const siteConfig = requireSiteConfig(siteSlug);
+const canonical = canonicalFor(siteConfig, `/${siteSlug}/contact/`);
+
+// ContactPage 结构化数据
+const contactPageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": `Contact - ${siteConfig.name}`,
+  "url": canonical,
+  "mainEntity": {
+    "@type": "Organization",
+    "name": siteConfig.name,
+    "url": siteConfig.baseUrl,
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Customer Service",
+      "email": siteConfig.contact?.email || undefined,
+      "availableLanguage": ["en", "zh-CN"]
+    }
+  }
+};
+
+const generalEmail = siteConfig.contact?.email || "contact@example.com";
+const privacyEmail = siteConfig.contact?.privacyEmail || siteConfig.contact?.email || "privacy@example.com";
+const businessEmail = siteConfig.contact?.businessEmail || siteConfig.contact?.email || "business@example.com";
+
+// 社交链接
+const socialLinks: Array<{ name: string; url: string }> = [];
+if (siteConfig.social?.twitter) socialLinks.push({ name: "Twitter / X", url: siteConfig.social.twitter });
+if (siteConfig.social?.linkedin) socialLinks.push({ name: "LinkedIn", url: siteConfig.social.linkedin });
+if (siteConfig.social?.github) socialLinks.push({ name: "GitHub", url: siteConfig.social.github });
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": canonicalFor(siteConfig, `/${siteSlug}/`) },
+    { "@type": "ListItem", "position": 2, "name": "Contact", "item": canonical },
+  ],
+};
+
+const openGraph = {
+  type: "website" as const,
+  title: `Contact Us - ${siteConfig.name}`,
+  description: `Contact ${siteConfig.name}. We're here to help with your questions, feedback, or inquiries. Get in touch with our team.`,
+  url: canonical,
+  siteName: siteConfig.name,
+  image: siteConfig.defaultImage,
+  locale: siteConfig.lang === "en" ? "en_US" : siteConfig.lang,
+};
+
+const twitter = {
+  card: siteConfig.defaultImage ? ("summary_large_image" as const) : ("summary" as const),
+  title: `Contact Us - ${siteConfig.name}`,
+  description: `Contact ${siteConfig.name}. We're here to help with your questions, feedback, or inquiries.`,
+  image: siteConfig.defaultImage,
+};
+---
+
+<BaseLayout
+  title={`Contact Us - ${siteConfig.name}`}
+  description={`Contact ${siteConfig.name}. We're here to help with your questions, feedback, or inquiries. Get in touch with our team.`}
+  canonical={canonical}
+  keywords={siteConfig.keywords}
+  jsonLd={[contactPageJsonLd, breadcrumbJsonLd]}
+  openGraph={openGraph}
+  twitter={twitter}
+  siteSlug={siteSlug}
+  siteName={siteConfig.name}
+  siteDescription={siteConfig.description}
+  lang={siteConfig.lang}
+  analytics={siteConfig.analytics}
+  hasAffiliates={(siteConfig.affiliates?.length ?? 0) > 0}
+>
+  <article class="section-page">
+    <h1>Contact Us</h1>
+    <p>
+      We value your feedback, questions, and suggestions. Whether you have a technical
+      inquiry, want to report an issue, or simply want to get in touch, we're here to help.
+    </p>
+
+    <section>
+      <h2>Get in Touch</h2>
+      <p>You can reach us through the following channels:</p>
+
+      <div class="info-box">
+        <h3>Email</h3>
+        <p>
+          <strong>General Inquiries:</strong><br />
+          <a href={`mailto:${generalEmail}`}>{generalEmail}</a>
+        </p>
+        <p>
+          <strong>Privacy & Legal:</strong><br />
+          <a href={`mailto:${privacyEmail}`}>{privacyEmail}</a>
+        </p>
+        <p>
+          <strong>Business & Partnerships:</strong><br />
+          <a href={`mailto:${businessEmail}`}>{businessEmail}</a>
+        </p>
+      </div>
+
+      {socialLinks.length > 0 ? (
+        <div class="info-box" style="margin-top: 16px;">
+          <h3>Social Media</h3>
+          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+            {socialLinks.map((link) => (
+              <a href={link.url} target="_blank" rel="noopener noreferrer">
+                {link.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      <div class="info-box" style="margin-top: 16px;">
+        <h3>Website</h3>
+        <p>
+          <a href={siteConfig.baseUrl} target="_blank" rel="noopener noreferrer">
+            {siteConfig.baseUrl}
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Response Time</h2>
+      <ul>
+        <li><strong>General Inquiries:</strong> 1-3 business days</li>
+        <li><strong>Technical Support:</strong> 1-2 business days</li>
+        <li><strong>Business Inquiries:</strong> 2-5 business days</li>
+        <li><strong>Privacy & Legal:</strong> 3-5 business days</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What to Include in Your Message</h2>
+      <p>To help us assist you more effectively, please include:</p>
+      <ul>
+        <li>A clear subject line describing your inquiry</li>
+        <li>Relevant details about your question or issue</li>
+        <li>If reporting a technical issue: browser type, device, and steps to reproduce</li>
+        <li>Your preferred method of response (if applicable)</li>
+      </ul>
+    </section>
+
+    <section style="padding-top: 24px; border-top: 1px solid var(--color-border);">
+      <h2>Legal & Privacy</h2>
+      <p>
+        For information about how we handle your data, please review our
+        <a href={`/${siteSlug}/privacy/`}>Privacy Policy</a>. Our
+        <a href={`/${siteSlug}/terms/`}>Terms of Service</a> outline the terms and
+        conditions for using our website.
+      </p>
+    </section>
+  </article>
+</BaseLayout>

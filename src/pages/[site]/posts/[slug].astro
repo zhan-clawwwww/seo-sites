@@ -1,0 +1,383 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getAllPosts, getPostRawContent, getTwitterHandleFromUrl } from "../../../lib/site-data";
+import { getAuthor, getDefaultAuthorForSite } from "../../../lib/authors";
+import { canonicalFor, getPostStaticPaths, requirePostModule, requireSiteConfig } from "../../../lib/site-routing";
+import { estimateReadingTime, formatReadingTime } from "../../../lib/reading-time";
+import { getRelatedPosts } from "../../../lib/related-posts";
+
+export function getStaticPaths() {
+  return getPostStaticPaths();
+}
+
+type FaqItem = { question: string; answer: string };
+
+function normalizeKeywords(k: unknown): string[] | undefined {
+  if (!k) return undefined;
+  if (Array.isArray(k)) return k.map(String).map((s) => s.trim()).filter(Boolean);
+  if (typeof k === "string") return k.split(",").map((s) => s.trim()).filter(Boolean);
+  return undefined;
+}
+
+function normalizeFaq(faq: unknown): FaqItem[] {
+  if (!Array.isArray(faq)) return [];
+  return faq
+    .map((x) => {
+      const q = (x as any)?.question?.toString?.().trim?.();
+      const a = (x as any)?.answer?.toString?.().trim?.();
+      if (!q || !a) return null;
+      return { question: q, answer: a };
+    })
+    .filter((x): x is FaqItem => Boolean(x));
+}
+
+// 从 Markdown 内容提取 TOC
+type TocItem = { depth: number; text: string; slug: string };
+function extractToc(content: string): TocItem[] {
+  const headingRegex = /^(#{2,4})\s+(.+)$/gm;
+  const items: TocItem[] = [];
+  let match: RegExpExecArray | null;
+  while ((match = headingRegex.exec(content)) !== null) {
+    const depth = match[1].length;
+    const text = match[2].trim();
+    const slug = text
+      .toLowerCase()
+      .replace(/[^\w\s\u4e00-\u9fff-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-");
+    items.push({ depth, text, slug });
+  }
+  return items;
+}
+
+const siteSlug = Astro.params.site!;
+const slug = Astro.params.slug!;
+
+const siteConfig = requireSiteConfig(siteSlug);
+const mod = requirePostModule(siteSlug, slug);
+
+const Content = (mod as any).Content;
+const frontmatter = (mod as any).frontmatter ?? {};
+
+const canonical = canonicalFor(siteConfig, `/${siteSlug}/posts/${slug}/`);
+const postTitle = frontmatter.title?.toString?.().trim?.() || slug;
+const title = frontmatter.title ? `${postTitle} - ${siteConfig.name}` : `${siteConfig.name} - ${slug}`;
+const description = frontmatter.description?.toString?.().trim()
+  || `${postTitle} - ${siteConfig.description}`;
+const keywords = normalizeKeywords(frontmatter.keywords) ?? siteConfig.keywords;
+
+const image = frontmatter.image?.toString?.() || siteConfig.defaultImage;
+const pubDate = frontmatter.pubDate?.toString?.();
+const updatedDate = frontmatter.updatedDate?.toString?.();
+const faq = normalizeFaq(frontmatter.faq);
+
+// 作者信息
+const authorId = frontmatter.author?.toString?.().trim() || null;
+const author = authorId ? getAuthor(authorId) : getDefaultAuthorForSite(siteSlug);
+
+// 阅读时间
+const rawContent = getPostRawContent(siteSlug, slug);
+const readingTime = rawContent ? estimateReadingTime(rawContent) : estimateReadingTime(
+  `${postTitle} ${description}`
+);
+
+// 目录
+const toc = rawContent ? extractToc(rawContent) : [];
+
+// 基于关键词的相关文章
+const allPosts = getAllPosts(siteSlug);
+const relatedPosts = getRelatedPosts(slug, allPosts, 4);
+
+// Giscus 配置
+const giscusConfig = siteConfig.giscus;
+const hasGiscus = giscusConfig?.repo && giscusConfig?.repoId && giscusConfig?.category && giscusConfig?.categoryId;
+
+// 联盟产品（变现）
+const affiliates = siteConfig.affiliates ?? [];
+const hasAffiliates = affiliates.length > 0;
+
+// AdSense
+const adsense = siteConfig.adsense;
+
+const openGraph = {
+  type: "article" as const,
+  title,
+  description,
+  url: canonical,
+  siteName: siteConfig.name,
+  image,
+  publishedTime: pubDate,
+  modifiedTime: updatedDate,
+  tags: keywords,
+};
+
+const twitterHandle = getTwitterHandleFromUrl(siteConfig.social?.twitter);
+const twitter = {
+  card: image ? ("summary_large_image" as const) : ("summary" as const),
+  title,
+  description,
+  image,
+  ...(twitterHandle ? { site: twitterHandle, creator: twitterHandle } : {}),
+};
+
+// Article 结构化数据
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": postTitle,
+  "description": description,
+  "url": canonical,
+  "datePublished": pubDate || undefined,
+  "dateModified": updatedDate || pubDate || undefined,
+  "wordCount": rawContent ? rawContent.split(/\s+/).length : undefined,
+  "author": {
+    "@type": "Person",
+    "name": author.name,
+    "url": author.website || siteConfig.baseUrl,
+    ...(author.email ? { "email": author.email } : {}),
+    ...(author.social?.twitter ? { "sameAs": [author.social.twitter] } : {}),
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": siteConfig.name,
+    "url": siteConfig.baseUrl,
+    "logo": {
+      "@type": "ImageObject",
+      "url": canonicalFor(siteConfig, "/favicon.svg"),
+    },
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": canonical,
+  },
+  ...(image ? { "image": { "@type": "ImageObject", "url": image } } : {}),
+  ...(keywords?.length ? { "keywords": keywords.join(", ") } : {}),
+};
+
+// 面包屑导航
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": canonicalFor(siteConfig, `/${siteSlug}/`),
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Articles",
+      "item": canonicalFor(siteConfig, `/${siteSlug}/posts/`),
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": postTitle,
+      "item": canonical,
+    },
+  ],
+};
+
+// FAQ Schema
+const faqJsonLd =
+  faq.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faq.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: f.answer,
+          },
+        })),
+      }
+    : null;
+
+const allJsonLd = [articleJsonLd, breadcrumbJsonLd, ...(faqJsonLd ? [faqJsonLd] : [])];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  keywords={keywords}
+  openGraph={openGraph}
+  twitter={twitter}
+  jsonLd={allJsonLd}
+  siteSlug={siteSlug}
+  siteName={siteConfig.name}
+  siteDescription={siteConfig.description}
+  lang={siteConfig.lang}
+  analytics={siteConfig.analytics}
+  adsense={adsense}
+  hasAffiliates={hasAffiliates}
+>
+  {/* 面包屑导航 */}
+  <nav class="breadcrumb">
+    <a href={`/${siteSlug}/`}>Home</a>
+    <span class="sep">/</span>
+    <a href={`/${siteSlug}/posts/`}>Articles</a>
+    <span class="sep">/</span>
+    <span>{postTitle}</span>
+  </nav>
+
+  <article>
+    <h1>{postTitle}</h1>
+
+    {/* 文章元信息 */}
+    <div class="article-meta">
+      {pubDate ? (
+        <span>
+          {pubDate}
+          {updatedDate && updatedDate !== pubDate ? ` (updated ${updatedDate})` : ""}
+        </span>
+      ) : null}
+      <span class="divider">|</span>
+      <span>{formatReadingTime(readingTime)}</span>
+      {author ? (
+        <>
+          <span class="divider">|</span>
+          <span>By <strong>{author.name}</strong></span>
+        </>
+      ) : null}
+    </div>
+
+    {/* 联盟披露提示（有联盟产品时显示）*/}
+    {hasAffiliates ? (
+      <p class="affiliate-notice">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>
+          Some links are affiliate links — we may earn a commission at no extra cost to you.
+          <a href={`/${siteSlug}/disclosure/`}> Learn more</a>.
+        </span>
+      </p>
+    ) : null}
+
+    {/* 目录 */}
+    {toc.length >= 3 ? (
+      <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ul class="toc-list">
+          {toc.map((item) => (
+            <li class={item.depth > 2 ? `depth-${item.depth}` : ""}>
+              <a href={`#${item.slug}`}>{item.text}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ) : null}
+
+    {/* 联盟产品推荐框（文章顶部，转化率最高位置）*/}
+    {hasAffiliates ? (
+      <div class="affiliate-box">
+        <div class="affiliate-box-title">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Our Top VPN Picks for USA
+        </div>
+        <div class="affiliate-table">
+          {affiliates.map((aff) => (
+            <div class="affiliate-row">
+              <div class="affiliate-name">
+                {aff.badge ? <span class="affiliate-badge">{aff.badge}</span> : null}
+                <strong>{aff.name}</strong>
+                {aff.features && aff.features.length > 0 ? (
+                  <div class="affiliate-features">
+                    {aff.features.map((f) => <span>{f}</span>)}
+                  </div>
+                ) : null}
+              </div>
+              {aff.rating ? (
+                <div class="affiliate-rating">★ {aff.rating}</div>
+              ) : null}
+              <div class="affiliate-price">
+                {aff.price ? <span class="price-amount">{aff.price}</span> : null}
+                {aff.discount ? <span class="price-discount">{aff.discount}</span> : null}
+              </div>
+              <div class="affiliate-cta">
+                <a href={aff.url} rel="nofollow sponsored noopener" target="_blank">
+                  Get Deal →
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ) : null}
+
+    {/* 文章正文 */}
+    <Content />
+
+    {/* 关键词标签 */}
+    {keywords && keywords.length > 0 ? (
+      <div style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 8px;">
+        {keywords.map((kw) => (
+          <span class="tag">{kw}</span>
+        ))}
+      </div>
+    ) : null}
+
+    {/* AdSense 广告位（文章底部）*/}
+    {adsense?.publisherId && adsense?.adSlot ? (
+      <div class="ad-slot">
+        <ins
+          class="adsbygoogle"
+          style="display:block"
+          data-ad-client={adsense.publisherId}
+          data-ad-slot={adsense.adSlot}
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></ins>
+        <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    ) : null}
+  </article>
+
+  {/* 基于关键词的相关文章推荐 */}
+  {relatedPosts.length > 0 ? (
+    <section class="related-section">
+      <h2>Related Articles</h2>
+      <div>
+        {relatedPosts.map((p) => (
+          <a href={`/${siteSlug}/posts/${p.slug}/`} class="post-card">
+            <div class="post-card-title">{p.frontmatter.title ?? p.slug}</div>
+            {p.frontmatter.description ? (
+              <div class="post-card-desc">{p.frontmatter.description}</div>
+            ) : null}
+          </a>
+        ))}
+      </div>
+    </section>
+  ) : null}
+
+  {/* Giscus 评论系统 */}
+  {hasGiscus ? (
+    <section class="giscus-container">
+      <h2 style="font-size: 1.3rem; margin: 0 0 16px; border: none; padding: 0;">Comments</h2>
+      <div class="giscus"></div>
+      <script
+        is:inline
+        src="https://giscus.app/client.js"
+        data-repo={giscusConfig!.repo}
+        data-repo-id={giscusConfig!.repoId}
+        data-category={giscusConfig!.category}
+        data-category-id={giscusConfig!.categoryId}
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async
+      ></script>
+    </section>
+  ) : null}
+</BaseLayout>

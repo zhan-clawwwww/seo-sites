@@ -1,0 +1,249 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getAllAuthors } from "../../lib/authors";
+import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../lib/site-routing";
+
+export function getStaticPaths() {
+  return getSiteStaticPaths();
+}
+
+const siteSlug = Astro.params.site!;
+const siteConfig = requireSiteConfig(siteSlug);
+const canonical = canonicalFor(siteConfig, `/${siteSlug}/about/`);
+const authors = getAllAuthors();
+
+// Organization 结构化数据
+const sameAs: string[] = [];
+if (siteConfig.social?.twitter) sameAs.push(siteConfig.social.twitter);
+if (siteConfig.social?.linkedin) sameAs.push(siteConfig.social.linkedin);
+if (siteConfig.social?.github) sameAs.push(siteConfig.social.github);
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": siteConfig.name,
+  "url": siteConfig.baseUrl,
+  "description": siteConfig.description,
+  ...(sameAs.length > 0 ? { "sameAs": sameAs } : {}),
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "Customer Service",
+    "url": canonicalFor(siteConfig, `/${siteSlug}/contact/`),
+    ...(siteConfig.contact?.email ? { "email": siteConfig.contact.email } : {}),
+  }
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": siteConfig.name,
+  "url": siteConfig.baseUrl,
+  "description": siteConfig.description,
+  "publisher": {
+    "@type": "Organization",
+    "name": siteConfig.name
+  }
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": canonicalFor(siteConfig, `/${siteSlug}/`) },
+    { "@type": "ListItem", "position": 2, "name": "About", "item": canonical },
+  ],
+};
+
+const openGraph = {
+  type: "website" as const,
+  title: `About Us - ${siteConfig.name}`,
+  description: `Learn about ${siteConfig.name}, our mission, methodology, and commitment to providing accurate technical reviews and SEO insights.`,
+  url: canonical,
+  siteName: siteConfig.name,
+  image: siteConfig.defaultImage,
+  locale: siteConfig.lang === "en" ? "en_US" : siteConfig.lang,
+};
+
+const twitter = {
+  card: siteConfig.defaultImage ? ("summary_large_image" as const) : ("summary" as const),
+  title: `About Us - ${siteConfig.name}`,
+  description: `Learn about ${siteConfig.name}, our mission, methodology, and commitment to providing accurate technical reviews and SEO insights.`,
+  image: siteConfig.defaultImage,
+};
+---
+
+<BaseLayout
+  title={`About Us - ${siteConfig.name}`}
+  description={`Learn about ${siteConfig.name}, our mission, methodology, and commitment to providing accurate technical reviews and SEO insights.`}
+  canonical={canonical}
+  keywords={siteConfig.keywords}
+  jsonLd={[organizationJsonLd, websiteJsonLd, breadcrumbJsonLd]}
+  openGraph={openGraph}
+  twitter={twitter}
+  siteSlug={siteSlug}
+  siteName={siteConfig.name}
+  siteDescription={siteConfig.description}
+  lang={siteConfig.lang}
+  analytics={siteConfig.analytics}
+  hasAffiliates={(siteConfig.affiliates?.length ?? 0) > 0}
+>
+  <article class="section-page">
+    <h1>About {siteConfig.name}</h1>
+
+    {siteSlug === "vpn-usa" ? (
+      <>
+        <section>
+          <h2>Who We Are</h2>
+          <p>
+            {siteConfig.name} is an independent VPN review and comparison platform dedicated to
+            helping US internet users find the best VPN service for their needs. We conduct
+            hands-on testing of VPN products, evaluating speed, security, privacy policies,
+            server networks, and value for money.
+          </p>
+          <p>
+            Our team of VPN and cybersecurity specialists has decades of combined experience in
+            network security, digital privacy, and online safety. We have personally tested
+            every VPN service we recommend.
+          </p>
+        </section>
+
+        <section>
+          <h2>Our Mission</h2>
+          <p>
+            Our mission is to help everyday internet users in the USA make informed decisions
+            about online privacy and security. We cut through the marketing hype to give you
+            honest, data-driven VPN recommendations. We believe in:
+          </p>
+          <ul>
+            <li><strong>Honest Reviews:</strong> We test every product ourselves — no paid rankings</li>
+            <li><strong>Full Transparency:</strong> We clearly disclose affiliate relationships</li>
+            <li><strong>Your Privacy Matters:</strong> We only recommend no-logs VPNs with verified audits</li>
+            <li><strong>Always Updated:</strong> We re-test VPNs regularly and update our content</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>How We Test VPNs</h2>
+          <h3>Speed Testing</h3>
+          <ul>
+            <li>Multiple speed tests across US server locations at different times of day</li>
+            <li>Comparing download, upload, and latency with and without VPN</li>
+            <li>Testing WireGuard, OpenVPN, and proprietary protocols</li>
+          </ul>
+
+          <h3>Security & Privacy Audits</h3>
+          <ul>
+            <li>DNS and WebRTC leak tests on multiple platforms</li>
+            <li>Review of no-logs policy and independent audit results</li>
+            <li>Analysis of encryption standards (AES-256, ChaCha20)</li>
+            <li>Kill switch and split tunneling verification</li>
+          </ul>
+
+          <h3>Streaming & Unblocking</h3>
+          <ul>
+            <li>Testing against Netflix, Hulu, HBO Max, Disney+, ESPN+, and more</li>
+            <li>Verifying US IP address delivery</li>
+            <li>Assessing consistency over time (not just one-time tests)</li>
+          </ul>
+        </section>
+      </>
+    ) : (
+      <>
+        <section>
+          <h2>Who We Are</h2>
+          <p>
+            {siteConfig.name} is a technical review and analysis platform dedicated to providing
+            accurate, data-driven insights and comprehensive evaluations. We specialize in testing,
+            analyzing, and reviewing technology solutions with a focus on performance, reliability,
+            and user experience.
+          </p>
+          <p>
+            Our team consists of experienced technical writers, SEO specialists, and industry
+            analysts who bring years of expertise to every review and analysis we publish.
+          </p>
+        </section>
+
+        <section>
+          <h2>Our Mission</h2>
+          <p>
+            Our mission is to deliver transparent, unbiased, and thoroughly researched content
+            that helps users make informed decisions. We believe in:
+          </p>
+          <ul>
+            <li><strong>Accuracy First:</strong> Every claim is backed by real-world testing and verifiable data</li>
+            <li><strong>Transparency:</strong> We clearly disclose our testing methodologies and any potential conflicts of interest</li>
+            <li><strong>User-Centric Approach:</strong> Our reviews prioritize what matters most to end users</li>
+            <li><strong>Continuous Improvement:</strong> We regularly update our content to reflect the latest developments</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Our Methodology</h2>
+          <ul>
+            <li>Hands-on testing in real-world scenarios</li>
+            <li>Performance benchmarking and comparative analysis</li>
+            <li>Fact-checking and source verification</li>
+            <li>Regular content audits and updates</li>
+          </ul>
+        </section>
+      </>
+    )}
+
+    {/* 作者团队 - E-E-A-T 信号 */}
+    <section>
+      <h2>Our Team</h2>
+      <div style="display: grid; gap: 20px; margin-top: 16px;">
+        {authors
+          .filter((a) =>
+            siteSlug === "vpn-usa"
+              ? a.id === "vpn-expert"
+              : a.id !== "vpn-expert"
+          )
+          .map((a) => (
+            <div class="info-box">
+              <h3 style="margin: 0 0 8px; font-size: 1.1rem;">{a.name}</h3>
+              <p style="color: var(--color-text-secondary); margin: 0 0 12px; font-size: 0.9rem;">{a.bio}</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                {a.expertise.map((exp) => (
+                  <span class="tag">{exp}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+      </div>
+    </section>
+
+    <section>
+      <h2>Editorial Independence</h2>
+      <p>
+        We maintain strict editorial independence in all our reviews and analyses. While we
+        may participate in affiliate programs, our opinions and rankings are never influenced
+        by commercial relationships. We clearly disclose all affiliate relationships on our
+        <a href={`/${siteSlug}/disclosure/`}> Affiliate Disclosure</a> page.
+      </p>
+    </section>
+
+    <section>
+      <h2>Contact Us</h2>
+      <p>
+        We value feedback from our readers. If you have questions, suggestions, or would
+        like to report an issue, please visit our <a href={`/${siteSlug}/contact/`}>contact page</a>.
+      </p>
+    </section>
+
+    <section style="padding-top: 24px; border-top: 1px solid var(--color-border);">
+      <h2>Legal & Compliance</h2>
+      <p>
+        For information about how we handle your data, please review our
+        <a href={`/${siteSlug}/privacy/`}>Privacy Policy</a>. Our
+        <a href={`/${siteSlug}/terms/`}>Terms of Service</a> outline the terms and
+        conditions for using our website.
+        {siteConfig.affiliates?.length ? (
+          <> See also our <a href={`/${siteSlug}/disclosure/`}>Affiliate Disclosure</a>.</>
+        ) : null}
+      </p>
+    </section>
+  </article>
+</BaseLayout>

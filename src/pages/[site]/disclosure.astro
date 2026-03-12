@@ -1,0 +1,123 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../lib/site-routing";
+
+export function getStaticPaths() {
+  return getSiteStaticPaths();
+}
+
+const siteSlug = Astro.params.site!;
+const siteConfig = requireSiteConfig(siteSlug);
+const canonical = canonicalFor(siteConfig, `/${siteSlug}/disclosure/`);
+const currentYear = new Date().getFullYear();
+---
+
+<BaseLayout
+  title={`Affiliate Disclosure - ${siteConfig.name}`}
+  description={`Affiliate disclosure for ${siteConfig.name}. We believe in full transparency about how we earn revenue to keep our content free.`}
+  canonical={canonical}
+  keywords={siteConfig.keywords}
+  siteSlug={siteSlug}
+  siteName={siteConfig.name}
+  siteDescription={siteConfig.description}
+  lang={siteConfig.lang}
+  analytics={siteConfig.analytics}
+>
+  <article class="section-page">
+    <h1>Affiliate Disclosure</h1>
+    <p style="color: var(--color-text-secondary); font-size: 0.9rem;">
+      Last updated: {new Date().toISOString().slice(0, 10)}
+    </p>
+
+    <section>
+      <h2>Our Commitment to Transparency</h2>
+      <p>
+        {siteConfig.name} is reader-supported. We believe in complete transparency about how
+        we generate revenue and how that might influence our content.
+      </p>
+      <p>
+        This disclosure is provided in accordance with the U.S. Federal Trade Commission (FTC)
+        guidelines on endorsements and testimonials, as well as applicable laws in other jurisdictions.
+      </p>
+    </section>
+
+    <section>
+      <h2>What Are Affiliate Links?</h2>
+      <p>
+        Some links on this website are <strong>affiliate links</strong>. This means that if you
+        click on a link and make a purchase, we may receive a commission at <strong>no additional
+        cost to you</strong>. The price you pay is the same whether you use our affiliate link
+        or go directly to the company's website.
+      </p>
+    </section>
+
+    <section>
+      <h2>How We Select Products We Recommend</h2>
+      <p>
+        We only recommend products and services that we genuinely believe provide value to
+        our readers. Our editorial team evaluates products based on:
+      </p>
+      <ul>
+        <li><strong>Real-world testing</strong> — We test products hands-on before recommending them</li>
+        <li><strong>Security and privacy standards</strong> — We evaluate actual security credentials, not marketing claims</li>
+        <li><strong>Performance data</strong> — Speed tests, reliability metrics, and uptime statistics</li>
+        <li><strong>User feedback</strong> — We aggregate reviews from thousands of real users</li>
+        <li><strong>Value for money</strong> — We compare pricing across competitors</li>
+        <li><strong>Reputation</strong> — Company history, transparency, and track record</li>
+      </ul>
+      <p>
+        <strong>The existence of an affiliate relationship does NOT influence our rankings or
+        recommendations.</strong> We have declined to promote higher-paying products that did
+        not meet our quality standards.
+      </p>
+    </section>
+
+    <section>
+      <h2>How to Identify Affiliate Links</h2>
+      <p>
+        Affiliate links on our website may be identified by:
+      </p>
+      <ul>
+        <li>A notice near the top of articles that contain sponsored or affiliate content</li>
+        <li>Buttons labeled "Get Deal," "Visit Site," "Try Free," or similar calls-to-action</li>
+        <li>Comparison tables with product listings and associated links</li>
+      </ul>
+      <p>
+        When in doubt, assume any product or service link may be an affiliate link.
+      </p>
+    </section>
+
+    <section>
+      <h2>Third-Party Advertising</h2>
+      <p>
+        We may also display third-party advertisements (such as Google AdSense) on our website.
+        These ads are served automatically based on your browsing behavior and the content
+        of our pages. We do not have direct control over which specific ads appear.
+      </p>
+    </section>
+
+    <section>
+      <h2>Your Trust Is Our Priority</h2>
+      <p>
+        We understand that our reputation depends entirely on the trust of our readers.
+        Affiliate commissions help us keep our content free and allow us to invest in
+        thorough testing and research. However, we will never compromise our editorial
+        integrity for financial gain.
+      </p>
+      <p>
+        If you have any questions about our affiliate relationships or our review process,
+        please <a href={`/${siteSlug}/contact/`}>contact us</a>.
+      </p>
+    </section>
+
+    <section style="padding-top: 24px; border-top: 1px solid var(--color-border);">
+      <p style="font-size: 0.85rem; color: var(--color-text-secondary);">
+        &copy; {currentYear} {siteConfig.name}. See also:
+        <a href={`/${siteSlug}/privacy/`}>Privacy Policy</a> &middot;
+        <a href={`/${siteSlug}/terms/`}>Terms of Service</a>
+      </p>
+    </section>
+  </article>
+</BaseLayout>

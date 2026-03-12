@@ -1,0 +1,134 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getAllPosts, getTwitterHandleFromUrl } from "../../lib/site-data";
+import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../lib/site-routing";
+import { formatReadingTime } from "../../lib/reading-time";
+
+export function getStaticPaths() {
+  return getSiteStaticPaths();
+}
+
+const siteSlug = Astro.params.site!;
+const siteConfig = requireSiteConfig(siteSlug);
+
+const posts = getAllPosts(siteSlug).slice(0, 10);
+const canonical = canonicalFor(siteConfig, `/${siteSlug}/`);
+
+// Organization 结构化数据
+const sameAs: string[] = [];
+if (siteConfig.social?.twitter) sameAs.push(siteConfig.social.twitter);
+if (siteConfig.social?.linkedin) sameAs.push(siteConfig.social.linkedin);
+if (siteConfig.social?.github) sameAs.push(siteConfig.social.github);
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": siteConfig.name,
+  "url": siteConfig.baseUrl,
+  "description": siteConfig.description,
+  "logo": canonicalFor(siteConfig, "/favicon.svg"),
+  ...(sameAs.length > 0 ? { "sameAs": sameAs } : {}),
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "Customer Service",
+    "url": canonicalFor(siteConfig, `/${siteSlug}/contact/`),
+    ...(siteConfig.contact?.email ? { "email": siteConfig.contact.email } : {}),
+  }
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": siteConfig.name,
+  "url": siteConfig.baseUrl,
+  "description": siteConfig.description,
+  "publisher": {
+    "@type": "Organization",
+    "name": siteConfig.name
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": `${siteConfig.baseUrl}/${siteSlug}/posts/?q={search_term_string}`
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
+const defaultImage = siteConfig.defaultImage;
+
+const openGraph = {
+  type: "website" as const,
+  title: `${siteConfig.name} - Home`,
+  description: siteConfig.description,
+  url: canonical,
+  siteName: siteConfig.name,
+  image: defaultImage,
+  locale: siteConfig.lang === "en" ? "en_US" : siteConfig.lang,
+};
+
+const twitterHandle = getTwitterHandleFromUrl(siteConfig.social?.twitter);
+const twitter = {
+  card: defaultImage ? ("summary_large_image" as const) : ("summary" as const),
+  title: `${siteConfig.name} - Home`,
+  description: siteConfig.description,
+  image: defaultImage,
+  ...(twitterHandle ? { site: twitterHandle, creator: twitterHandle } : {}),
+};
+---
+
+<BaseLayout
+  title={`${siteConfig.name} - Home`}
+  description={siteConfig.description}
+  canonical={canonical}
+  keywords={siteConfig.keywords}
+  openGraph={openGraph}
+  twitter={twitter}
+  jsonLd={[organizationJsonLd, websiteJsonLd]}
+  siteSlug={siteSlug}
+  siteName={siteConfig.name}
+  siteDescription={siteConfig.description}
+  lang={siteConfig.lang}
+  analytics={siteConfig.analytics}
+  hasAffiliates={(siteConfig.affiliates?.length ?? 0) > 0}
+>
+  <section style="margin-bottom: 48px;">
+    <h1 style="font-size: 2.2rem; font-weight: 800; margin: 0 0 12px; letter-spacing: -0.02em;">
+      {siteConfig.name}
+    </h1>
+    <p style="font-size: 1.1rem; color: var(--color-text-secondary); margin: 0; max-width: 600px; line-height: 1.7;">
+      {siteConfig.description}
+    </p>
+  </section>
+
+  <section>
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+      <h2 style="font-size: 1.4rem; font-weight: 700; margin: 0; border: none; padding: 0;">Latest Articles</h2>
+      <a href={`/${siteSlug}/posts/`} style="font-size: 0.9rem;">View all &rarr;</a>
+    </div>
+
+    {posts.length ? (
+      <div>
+        {posts.map((p) => {
+          return (
+            <a href={`/${siteSlug}/posts/${p.slug}/`} class="post-card">
+              <div class="post-card-title">{p.frontmatter.title ?? p.slug}</div>
+              {p.frontmatter.description ? (
+                <div class="post-card-desc">{p.frontmatter.description}</div>
+              ) : null}
+              <div class="post-card-meta">
+                {p.pubDate ? <span>{p.pubDate.toISOString().slice(0, 10)}</span> : null}
+                <span>{formatReadingTime(p.readingTime)}</span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    ) : (
+      <p style="color: var(--color-text-secondary);">No articles yet.</p>
+    )}
+  </section>
+</BaseLayout>

@@ -1,0 +1,119 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getAllPosts } from "../../../lib/site-data";
+import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../../lib/site-routing";
+import { formatReadingTime } from "../../../lib/reading-time";
+
+export function getStaticPaths() {
+  return getSiteStaticPaths();
+}
+
+const siteSlug = Astro.params.site!;
+const siteConfig = requireSiteConfig(siteSlug);
+
+const posts = getAllPosts(siteSlug);
+const canonical = canonicalFor(siteConfig, `/${siteSlug}/posts/`);
+
+// 提取所有唯一关键词用于标签过滤
+const allKeywords = [...new Set(
+  posts.flatMap((p) => p.frontmatter.keywords ?? []).map((k) => k.toLowerCase().trim())
+)].sort();
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": canonicalFor(siteConfig, `/${siteSlug}/`) },
+    { "@type": "ListItem", "position": 2, "name": "Articles", "item": canonical },
+  ],
+};
+
+const itemListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": `All Articles - ${siteConfig.name}`,
+  "description": `Browse all articles and guides from ${siteConfig.name}`,
+  "numberOfItems": posts.length,
+  "itemListElement": posts.slice(0, 20).map((p, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": p.frontmatter.title ?? p.slug,
+    "url": canonicalFor(siteConfig, `/${siteSlug}/posts/${p.slug}/`),
+  })),
+};
+
+const openGraph = {
+  type: "website" as const,
+  title: `All Articles - ${siteConfig.name}`,
+  description: `Browse all articles and guides from ${siteConfig.name}. Expert technical reviews, SEO insights, and web development resources.`,
+  url: canonical,
+  siteName: siteConfig.name,
+  image: siteConfig.defaultImage,
+  locale: siteConfig.lang === "en" ? "en_US" : siteConfig.lang,
+};
+
+const twitter = {
+  card: siteConfig.defaultImage ? ("summary_large_image" as const) : ("summary" as const),
+  title: `All Articles - ${siteConfig.name}`,
+  description: `Browse all articles and guides from ${siteConfig.name}.`,
+  image: siteConfig.defaultImage,
+};
+---
+
+<BaseLayout
+  title={`All Articles - ${siteConfig.name}`}
+  description={`Browse all articles and guides from ${siteConfig.name}. Expert technical reviews, SEO insights, and web development resources.`}
+  canonical={canonical}
+  keywords={siteConfig.keywords}
+  jsonLd={[breadcrumbJsonLd, itemListJsonLd]}
+  openGraph={openGraph}
+  twitter={twitter}
+  siteSlug={siteSlug}
+  siteName={siteConfig.name}
+  siteDescription={siteConfig.description}
+  lang={siteConfig.lang}
+  analytics={siteConfig.analytics}
+  hasAffiliates={(siteConfig.affiliates?.length ?? 0) > 0}
+>
+  <section style="margin-bottom: 32px;">
+    <h1 style="font-size: 2rem; font-weight: 800; margin: 0 0 8px;">All Articles</h1>
+    <p style="color: var(--color-text-secondary); margin: 0;">
+      {posts.length} articles published
+    </p>
+  </section>
+
+  {/* 关键词标签云 */}
+  {allKeywords.length > 0 ? (
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px;">
+      {allKeywords.slice(0, 15).map((kw) => (
+        <span class="tag">{kw}</span>
+      ))}
+    </div>
+  ) : null}
+
+  {posts.length ? (
+    <div>
+      {posts.map((p) => {
+        return (
+          <a href={`/${siteSlug}/posts/${p.slug}/`} class="post-card">
+            <div class="post-card-title">{p.frontmatter.title ?? p.slug}</div>
+            {p.frontmatter.description ? (
+              <div class="post-card-desc">{p.frontmatter.description}</div>
+            ) : null}
+            <div class="post-card-meta">
+              {p.pubDate ? <span>{p.pubDate.toISOString().slice(0, 10)}</span> : null}
+              <span>{formatReadingTime(p.readingTime)}</span>
+              {p.frontmatter.keywords?.slice(0, 3).map((kw) => (
+                <span class="tag" style="font-size: 0.75rem;">{kw}</span>
+              ))}
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  ) : (
+    <p style="color: var(--color-text-secondary);">No articles yet.</p>
+  )}
+</BaseLayout>

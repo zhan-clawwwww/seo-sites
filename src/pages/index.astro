@@ -1,16 +1,73 @@
 ---
+export const prerender = true;
 
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getAllSites, toCanonical } from "../lib/site-data";
+
+const sites = getAllSites();
+
+// 单站点部署时，直接 301 跳转到该站点首页
+if (sites.length === 1) {
+  return Astro.redirect(`/${sites[0].slug}/`, 301);
+}
+
+const rootBaseUrl =
+  import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://example.com";
+const canonical = toCanonical(rootBaseUrl, "/");
+
+const openGraph = {
+  type: "website" as const,
+  title: "SEO Multi-Site Template (Astro SSG)",
+  description: "A multi-site SEO template built with Astro static site generation.",
+  url: canonical,
+  siteName: "SEO Multi-Site",
+};
+
+const twitter = {
+  card: "summary" as const,
+  title: "SEO Multi-Site Template (Astro SSG)",
+  description: "A multi-site SEO template built with Astro static site generation.",
+};
+
+const itemListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Active Sites",
+  "description": "List of active sites in this multi-site SEO template",
+  "numberOfItems": sites.length,
+  "itemListElement": sites.map((s, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": s.config.name,
+    "url": toCanonical(rootBaseUrl, `/${s.slug}/`),
+  })),
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="SEO Multi-Site Template (Astro SSG)"
+  description="A multi-site SEO template built with Astro static site generation."
+  canonical={canonical}
+  keywords={["Astro", "SSG", "SEO", "Multi-Site"]}
+  openGraph={openGraph}
+  twitter={twitter}
+  jsonLd={itemListJsonLd}
+>
+  <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 16px;">SEO Multi-Site Template</h1>
+  <p style="color: var(--color-text-secondary); margin-bottom: 32px;">
+    Active sites detected in <code>sites/</code> directory:
+  </p>
+
+  <div>
+    {sites.map((s) => (
+      <a href={`/${s.slug}/`} class="post-card">
+        <div class="post-card-title">{s.config.name}</div>
+        <div class="post-card-desc">{s.config.description}</div>
+        <div class="post-card-meta">
+          <span>Slug: {s.slug}</span>
+          <span>{s.config.baseUrl}</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</BaseLayout>

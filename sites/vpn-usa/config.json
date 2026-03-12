@@ -1,0 +1,73 @@
+{
+  "name": "Best USA VPN",
+  "description": "Expert reviews and comparisons of the best VPN services for users in the USA. We test speed, security, privacy, and value so you can find the perfect VPN.",
+  "keywords": ["best vpn usa", "usa vpn", "vpn for usa", "cheap vpn usa", "fast vpn usa", "secure vpn usa"],
+  "baseUrl": "https://wordok.top",
+  "lang": "en",
+  "defaultImage": "https://wordok.top/og-default.png",
+  "contact": {
+    "email": "iwangzhanpeng94@gmail.com",
+    "privacyEmail": "iwangzhanpeng94@gmail.com",
+    "businessEmail": "iwangzhanpeng94@gmail.com"
+  },
+  "social": {
+    "twitter": "",
+    "linkedin": ""
+  },
+  "analytics": {
+    "ga4Id": "",
+    "cfBeacon": ""
+  },
+  "giscus": {
+    "repo": "",
+    "repoId": "",
+    "category": "",
+    "categoryId": ""
+  },
+  "adsense": {
+    "publisherId": "",
+    "adSlot": ""
+  },
+  "affiliates": [
+    {
+      "name": "NordVPN",
+      "url": "https://go.nordvpn.net/aff_c?offer_id=15&aff_id=REPLACE_YOUR_AFF_ID",
+      "badge": "Editor's Choice",
+      "price": "$3.99/mo",
+      "discount": "67% OFF + 3 Months Free",
+      "features": ["6,400+ servers", "No-logs policy", "6 devices", "Threat Protection"],
+      "rating": 4.9,
+      "logoText": "Nord"
+    },
+    {
+      "name": "ExpressVPN",
+      "url": "https://www.expressvpn.com/refer-a-friend/30-days-free?referrer_id=REPLACE_YOUR_REF_ID",
+      "badge": "Fastest VPN",
+      "price": "$6.67/mo",
+      "discount": "3 Months Free",
+      "features": ["3,000+ servers", "Lightway protocol", "5 devices", "Split tunneling"],
+      "rating": 4.8,
+      "logoText": "Express"
+    },
+    {
+      "name": "Surfshark",
+      "url": "https://surfshark.com/deal/REPLACE_YOUR_DEAL_CODE",
+      "badge": "Best Value",
+      "price": "$2.49/mo",
+      "discount": "82% OFF",
+      "features": ["3,200+ servers", "Unlimited devices", "CleanWeb ad blocker", "No-logs"],
+      "rating": 4.7,
+      "logoText": "Surf"
+    },
+    {
+      "name": "CyberGhost",
+      "url": "https://www.cyberghostvpn.com/REPLACE_YOUR_AFF_LINK",
+      "badge": "Most Servers",
+      "price": "$2.19/mo",
+      "discount": "83% OFF",
+      "features": ["9,000+ servers", "45-day guarantee", "7 devices", "Streaming optimized"],
+      "rating": 4.6,
+      "logoText": "Ghost"
+    }
+  ]
+}

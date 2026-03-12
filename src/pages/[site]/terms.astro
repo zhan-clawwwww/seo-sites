@@ -1,0 +1,188 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../lib/site-routing";
+
+export function getStaticPaths() {
+  return getSiteStaticPaths();
+}
+
+const siteSlug = Astro.params.site!;
+const siteConfig = requireSiteConfig(siteSlug);
+const canonical = canonicalFor(siteConfig, `/${siteSlug}/terms/`);
+const lastUpdated = new Date().toISOString().slice(0, 10);
+const legalEmail = siteConfig.contact?.businessEmail || siteConfig.contact?.email || "legal@example.com";
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": canonicalFor(siteConfig, `/${siteSlug}/`) },
+    { "@type": "ListItem", "position": 2, "name": "Terms of Service", "item": canonical },
+  ],
+};
+
+const openGraph = {
+  type: "website" as const,
+  title: `Terms of Service - ${siteConfig.name}`,
+  description: `Terms of Service for ${siteConfig.name}. Please read these terms carefully before using our website.`,
+  url: canonical,
+  siteName: siteConfig.name,
+  image: siteConfig.defaultImage,
+  locale: siteConfig.lang === "en" ? "en_US" : siteConfig.lang,
+};
+
+const twitter = {
+  card: siteConfig.defaultImage ? ("summary_large_image" as const) : ("summary" as const),
+  title: `Terms of Service - ${siteConfig.name}`,
+  description: `Terms of Service for ${siteConfig.name}. Please read these terms carefully.`,
+  image: siteConfig.defaultImage,
+};
+---
+
+<BaseLayout
+  title={`Terms of Service - ${siteConfig.name}`}
+  description={`Terms of Service for ${siteConfig.name}. Please read these terms carefully before using our website.`}
+  canonical={canonical}
+  keywords={siteConfig.keywords}
+  jsonLd={breadcrumbJsonLd}
+  openGraph={openGraph}
+  twitter={twitter}
+  siteSlug={siteSlug}
+  siteName={siteConfig.name}
+  siteDescription={siteConfig.description}
+  lang={siteConfig.lang}
+  analytics={siteConfig.analytics}
+  hasAffiliates={(siteConfig.affiliates?.length ?? 0) > 0}
+>
+  <article class="section-page">
+    <h1>Terms of Service</h1>
+    <p><strong>Last Updated:</strong> {lastUpdated}</p>
+    <p>
+      These Terms of Service ("Terms") govern your access to and use of {siteConfig.name}
+      (the "Website"). By accessing or using our Website, you agree to be bound by these Terms.
+    </p>
+
+    <section>
+      <h2>1. Acceptance of Terms</h2>
+      <p>
+        By accessing, browsing, or using this Website, you acknowledge that you have read,
+        understood, and agree to be bound by these Terms and all applicable laws and regulations.
+      </p>
+    </section>
+
+    <section>
+      <h2>2. Use License</h2>
+      <p>
+        Permission is granted to temporarily access and use the materials on {siteConfig.name}
+        for personal, non-commercial transitory viewing only. Under this license you may not:
+      </p>
+      <ul>
+        <li>Modify or copy the materials</li>
+        <li>Use the materials for any commercial purpose</li>
+        <li>Attempt to reverse engineer any software contained on the Website</li>
+        <li>Remove any copyright or other proprietary notations</li>
+        <li>Transfer the materials to another person or mirror the materials</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. Acceptable Use</h2>
+      <p>You agree to use the Website only for lawful purposes and in a way that does not:</p>
+      <ul>
+        <li>Infringe the rights of others or restrict anyone's use of the Website</li>
+        <li>Violate any applicable laws or regulations</li>
+        <li>Transmit harmful materials (viruses, Trojan horses, etc.)</li>
+        <li>Attempt to gain unauthorized access to any part of the Website</li>
+        <li>Interfere with the Website's servers or connected networks</li>
+        <li>Use automated systems (bots, scrapers) without written permission</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Intellectual Property Rights</h2>
+      <p>
+        All content on this Website is the property of {siteConfig.name} or its content
+        suppliers and is protected by international copyright, trademark, and other
+        intellectual property laws.
+      </p>
+    </section>
+
+    <section>
+      <h2>5. User Content</h2>
+      <p>
+        If you submit content on or through the Website (including comments and feedback),
+        you grant us a worldwide, non-exclusive, royalty-free license to use, reproduce,
+        modify, and distribute such content in any media.
+      </p>
+    </section>
+
+    <section>
+      <h2>6. Disclaimer of Warranties</h2>
+      <p>
+        THE INFORMATION ON THIS WEBSITE IS PROVIDED ON AN "AS IS" BASIS. TO THE FULLEST
+        EXTENT PERMITTED BY LAW, {siteConfig.name.toUpperCase()} EXCLUDES ALL WARRANTIES
+        RELATING TO THIS WEBSITE AND ITS USE.
+      </p>
+    </section>
+
+    <section>
+      <h2>7. Limitation of Liability</h2>
+      <p>
+        TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, {siteConfig.name.toUpperCase()}
+        SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR
+        EXEMPLARY DAMAGES ARISING OUT OF THE USE OF THIS WEBSITE.
+      </p>
+    </section>
+
+    <section>
+      <h2>8. Third-Party Links</h2>
+      <p>
+        Our Website may contain links to third-party websites. We have no control over
+        and assume no responsibility for these external sites.
+      </p>
+    </section>
+
+    <section>
+      <h2>9. Indemnification</h2>
+      <p>
+        You agree to defend, indemnify, and hold harmless {siteConfig.name} from any claims
+        arising from your breach of these Terms or misuse of the Website.
+      </p>
+    </section>
+
+    <section>
+      <h2>10. Termination</h2>
+      <p>
+        We may terminate or suspend your access to the Website immediately, without prior
+        notice, for any reason including breach of these Terms.
+      </p>
+    </section>
+
+    <section>
+      <h2>11. Governing Law</h2>
+      <p>
+        These Terms shall be governed by and construed in accordance with the laws of the
+        jurisdiction in which {siteConfig.name} operates.
+      </p>
+    </section>
+
+    <section>
+      <h2>12. Changes to Terms</h2>
+      <p>
+        We reserve the right to modify these Terms at any time. Continued use of the
+        Website after changes constitutes acceptance of the revised terms.
+      </p>
+    </section>
+
+    <section>
+      <h2>13. Contact Information</h2>
+      <p>
+        If you have any questions about these Terms, please contact us at
+        <a href={`mailto:${legalEmail}`}>{legalEmail}</a> or visit our
+        <a href={`/${siteSlug}/contact/`}>contact page</a>.
+      </p>
+    </section>
+  </article>
+</BaseLayout>

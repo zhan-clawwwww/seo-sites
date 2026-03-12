@@ -1,0 +1,27 @@
+{
+  "name": "TechReview Pro",
+  "description": "Expert technical reviews, SEO insights, and comprehensive analysis of web technologies, tools, and best practices.",
+  "keywords": ["technical reviews", "SEO analysis", "web development", "technology testing", "performance optimization"],
+  "baseUrl": "https://techreviewpro.com",
+  "lang": "en",
+  "defaultImage": "https://techreviewpro.com/og-default.png",
+  "contact": {
+    "email": "iwangzhanpeng94@gmail.com",
+    "privacyEmail": "iwangzhanpeng94@gmail.com",
+    "businessEmail": "iwangzhanpeng94@gmail.com"
+  },
+  "social": {
+    "twitter": "https://twitter.com/techreviewpro",
+    "linkedin": "https://linkedin.com/company/techreviewpro"
+  },
+  "analytics": {
+    "ga4Id": "",
+    "cfBeacon": ""
+  },
+  "giscus": {
+    "repo": "",
+    "repoId": "",
+    "category": "",
+    "categoryId": ""
+  }
+}
