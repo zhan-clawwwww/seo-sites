@@ -14,7 +14,7 @@
  *   3. 部署后再运行
  */
 
-import { readFileSync } from "fs";
+import { readFileSync, readdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -23,7 +23,7 @@ const rootDir = join(__dirname, "..");
 
 // ── 配置区 ──────────────────────────────────────────────────
 // 在 IndexNow 官网申请 key，或直接生成一个 UUID
-const INDEXNOW_KEY = "REPLACE_WITH_YOUR_INDEXNOW_KEY";
+const INDEXNOW_KEY = "by687dm0txw1ovfinrpkhg2z5q3jeasu";
 
 // 站点配置（从 config.json 读取）
 function loadSiteConfig(siteSlug) {
@@ -33,7 +33,6 @@ function loadSiteConfig(siteSlug) {
 
 // 读取所有文章 slug
 function getPostSlugs(siteSlug) {
-  const { readdirSync } = await import("fs");
   const postsDir = join(rootDir, "sites", siteSlug, "posts");
   const files = readdirSync(postsDir);
   return files
@@ -50,8 +49,6 @@ async function submitToIndexNow(siteSlug) {
   const config = loadSiteConfig(siteSlug);
   const baseUrl = config.baseUrl.replace(/\/$/, "");
 
-  // 动态 import 读取文章列表
-  const { readdirSync } = await import("fs");
   const postsDir = join(rootDir, "sites", siteSlug, "posts");
   const slugs = readdirSync(postsDir)
     .filter((f) => f.endsWith(".md"))
