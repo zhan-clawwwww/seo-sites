@@ -417,45 +417,93 @@ faq:
 
 ## 9. 待办清单（按优先级）
 
-### 🔴 阶段一：上线（必须完成，约 1 小时）
+> ✅ = 已完成 | ⬜ = 你需要手动做
 
-- [ ] **在 GitHub 创建 seo-sites 仓库**（Public）
-  - 网址：https://github.com/new
-- [ ] **推送代码**
+### 🔴 阶段一：上线
+
+- [x] ✅ **GitHub 仓库已创建**（`zhan-clawwwww/seo-sites`）
+- [x] ✅ **GA4 已配置**（`G-JWYQZWRTBN`）
+- [x] ✅ **CI/CD 已更新**（Node.js 24，分支 main）
+- [x] ✅ **100 篇文章已就绪**（88 篇 VPN + 12 篇网络知识）
+- [x] ✅ **DNS A 记录已配置**（火山引擎 4 条 A 记录指向 GitHub）
+- [ ] ⬜ **开启 GitHub Pages**：打开 https://github.com/zhan-clawwwww/seo-sites/settings/pages → Source 选 **GitHub Actions** → Save
+- [ ] ⬜ **Custom Domain**：同一页面填入 `wordok.top`，勾选 Enforce HTTPS
+- [ ] ⬜ **推送代码到 GitHub**（需要 VPN/代理网络）：
   ```powershell
+  # 先开 VPN，然后设置 git 代理（端口换成你的 VPN 本地端口）
+  git config --global http.proxy http://127.0.0.1:7890
+  git config --global https.proxy http://127.0.0.1:7890
+  
+  # 推送
   cd "d:\code\seo-sites"
-  git remote add origin https://github.com/你的用户名/seo-sites.git
-  git push -u origin main
+  git push origin main
+  
+  # 推送成功后取消代理
+  git config --global --unset http.proxy
+  git config --global --unset https.proxy
   ```
-- [ ] **GitHub Pages 设置**：Settings → Pages → Source 选 GitHub Actions
-- [ ] **Custom Domain 填入** `wordok.top`，勾选 Enforce HTTPS
-- [ ] **火山引擎添加 5 条 DNS 记录**（见第 5 节）
-- [ ] **验证上线**：访问 `https://wordok.top/vpn-usa/` 确认能打开
+- [ ] ⬜ **验证上线**：等 3-5 分钟后访问 `https://wordok.top/vpn-usa/` 确认能打开
 
-### 🟡 阶段二：流量追踪（上线后第 1 周）
+### 🟡 阶段二：让搜索引擎收录（上线后第 1 天）
 
-- [ ] **Google Analytics GA4**：创建媒体资源，获取 G-XXXXXXXXXX，填入 config.json
-- [ ] **Google Search Console 验证域名**（见第 6 节）
-- [ ] **提交 Sitemap** 到 GSC：`https://wordok.top/vpn-usa/sitemap.xml`
-- [ ] **手动请求收录**首页和 5 篇核心文章（每天最多 10 条）
-- [ ] **IndexNow**：申请 Key，配置并运行 `npm run submit:indexnow:vpn`
+- [x] ✅ **GA4 已配置**（G-JWYQZWRTBN 已填入 config.json）
+- [ ] ⬜ **Google Search Console 验证域名**（详细步骤见第 6 节第二部分）
+  1. 打开 https://search.google.com/search-console/welcome
+  2. 输入 `wordok.top` → 复制 TXT 验证码
+  3. 火山引擎 DNS 添加 TXT 记录：主机记录 `@`，值为验证码
+  4. 回到 GSC 点「验证」
+- [ ] ⬜ **提交 Sitemap**：GSC 左侧「Sitemap」→ 输入 `vpn-usa/sitemap.xml` → 提交
+- [ ] ⬜ **手动请求收录**：GSC 顶部搜索框逐条粘贴以下 URL → 点「请求编入索引」（每天上限 10 条）
+  ```
+  https://wordok.top/vpn-usa/
+  https://wordok.top/vpn-usa/posts/best-vpn-usa-2025/
+  https://wordok.top/vpn-usa/posts/what-is-a-vpn-how-it-works/
+  https://wordok.top/vpn-usa/posts/how-to-speed-up-internet-connection/
+  https://wordok.top/vpn-usa/posts/public-wifi-security-guide/
+  https://wordok.top/vpn-usa/posts/usa-vpn-for-netflix/
+  https://wordok.top/vpn-usa/posts/cheap-vpn-usa/
+  https://wordok.top/vpn-usa/posts/how-to-hide-your-ip-address/
+  https://wordok.top/vpn-usa/posts/what-is-dns-how-it-works/
+  https://wordok.top/vpn-usa/posts/how-to-protect-privacy-online/
+  ```
+- [ ] ⬜ **IndexNow 提交 Bing**（详细步骤见第 6 节第三部分）
+  1. 终端运行生成 Key：`-join ((48..57) + (97..122) | Get-Random -Count 32 | ForEach-Object {[char]$_})`
+  2. 创建 `public/你的Key.txt`（内容也是 Key）
+  3. 打开 `scripts/submit-indexnow.mjs`，替换 `REPLACE_WITH_YOUR_INDEXNOW_KEY`
+  4. 推送代码 → 等部署完 → 运行 `npm run submit:indexnow:vpn`
 
-### 🟠 阶段三：变现准备（上线 2-4 周后）
+### 🟠 阶段三：变现（上线 2-4 周后有流量再申请）
 
-- [ ] **注册 NordVPN 联盟**：https://affiliates.nordvpn.com
-- [ ] **注册 ExpressVPN 联盟**：https://www.expressvpn.com/affiliates
-- [ ] **注册 Surfshark 联盟**：https://surfshark.com/affiliates
-- [ ] **将真实联盟链接填入** `sites/vpn-usa/config.json` 并推送
-- [ ] **申请 Google AdSense**：https://www.google.com/adsense/start/
+- [ ] ⬜ **注册 NordVPN 联盟**：https://affiliates.nordvpn.com（审核最快，优先申请）
+- [ ] ⬜ **注册 ExpressVPN 联盟**：https://www.expressvpn.com/affiliates
+- [ ] ⬜ **注册 Surfshark 联盟**：https://surfshark.com/affiliates
+- [ ] ⬜ **将真实联盟链接填入** `sites/vpn-usa/config.json` → 推送代码自动部署
+- [ ] ⬜ **申请 Google AdSense**：https://www.google.com/adsense/start/（详细步骤见第 7 节第四部分）
 
 ### 🟢 阶段四：持续增长（长期执行）
 
-- [ ] 每周发布 1-2 篇新文章（可参考关键词：`vpn for [city]`、`vpn for [app/service]`）
-- [ ] 每月更新旧文章的 `updatedDate` 字段（让 Google 重新爬取）
+- [ ] 每周发布 1-2 篇新文章（建议关键词方向见下方）
+- [ ] 每月更新 5-10 篇旧文章的 `updatedDate` 字段（让 Google 重新爬取）
 - [ ] 每月查看 GSC「覆盖率报告」，修复索引错误
 - [ ] 每季度在 GSC 看哪些文章有排名，重点优化这些文章内容
-- [ ] 外链建设：在 Reddit（r/VPN、r/privacy）、Quora 发布有价值回答并附链接
-- [ ] 考虑建设 `site-a`（SEO 技术文章站）作为第二流量来源
+- [ ] 外链建设：在 Reddit（r/VPN、r/privacy、r/HomeNetworking）、Quora 发布有价值回答并附链接
+
+### 推荐的新文章选题方向
+
+**网络知识类（低竞争，高搜索量，适合 AdSense）：**
+- `how to set up parental controls on router`
+- `what is a firewall and do you need one`
+- `how to fix slow wifi in apartment`
+- `ethernet vs wifi which is better for gaming`
+- `what is a proxy server vs vpn`
+- `how to check if your internet is being throttled`
+- `best dns servers for gaming 2026`
+- `how to secure your smart home devices`
+
+**VPN 相关类（高 CPC，适合联盟）：**
+- `vpn for [新城市名]`：`vpn for new york`, `vpn for california`
+- `vpn for [新应用]`：`vpn for tiktok`, `vpn for spotify`, `vpn for chatgpt`
+- `[VPN品牌] vs [VPN品牌]`：`nordvpn vs expressvpn 2026`
 
 ---
 
