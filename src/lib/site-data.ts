@@ -54,6 +54,7 @@ export type PostFrontmatter = {
   keywords?: string[];
   author?: string;
   image?: string;
+  topic?: string;
   faq?: Array<{ question: string; answer: string }>;
 };
 
@@ -284,6 +285,15 @@ export function getAllPosts(siteSlug?: string) {
   }
 
   return posts;
+}
+
+/**
+ * Get posts filtered by topic (e.g. "ai-frontiers")
+ */
+export function getPostsByTopic(siteSlug: string, topic: string) {
+  return getAllPosts(siteSlug).filter(
+    (p) => (p.frontmatter.topic ?? "").toLowerCase() === topic.toLowerCase(),
+  );
 }
 
 export function getPostModule(siteSlug: string, slug: string) {

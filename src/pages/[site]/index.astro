@@ -2,7 +2,7 @@
 export const prerender = true;
 
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getAllPosts, getTwitterHandleFromUrl } from "../../lib/site-data";
+import { getAllPosts, getPostsByTopic, getTwitterHandleFromUrl } from "../../lib/site-data";
 import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../lib/site-routing";
 import { formatReadingTime } from "../../lib/reading-time";
 
@@ -14,6 +14,7 @@ const siteSlug = Astro.params.site!;
 const siteConfig = requireSiteConfig(siteSlug);
 
 const posts = getAllPosts(siteSlug).slice(0, 10);
+const aiFrontiersPosts = getPostsByTopic(siteSlug, "ai-frontiers").slice(0, 5);
 const canonical = canonicalFor(siteConfig, `/${siteSlug}/`);
 
 // Organization 结构化数据
@@ -103,6 +104,29 @@ const twitter = {
       {siteConfig.description}
     </p>
   </section>
+
+  {aiFrontiersPosts.length > 0 ? (
+  <section style="margin-bottom: 48px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+      <h2 style="font-size: 1.4rem; font-weight: 700; margin: 0; border: none; padding: 0;">AI Frontiers</h2>
+      <a href={`/${siteSlug}/ai-frontiers/`} style="font-size: 0.9rem;">View all &rarr;</a>
+    </div>
+    <div>
+      {aiFrontiersPosts.map((p) => (
+        <a href={`/${siteSlug}/posts/${p.slug}/`} class="post-card">
+          <div class="post-card-title">{p.frontmatter.title ?? p.slug}</div>
+          {p.frontmatter.description ? (
+            <div class="post-card-desc">{p.frontmatter.description}</div>
+          ) : null}
+          <div class="post-card-meta">
+            {p.pubDate ? <span>{p.pubDate.toISOString().slice(0, 10)}</span> : null}
+            <span>{formatReadingTime(p.readingTime)}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+) : null}
 
   <section>
     <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
