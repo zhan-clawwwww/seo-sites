@@ -6,7 +6,6 @@ import { getAllSites, toCanonical } from "../lib/site-data";
 
 const sites = getAllSites();
 
-// 单站点部署时，直接 301 跳转到该站点首页
 if (sites.length === 1) {
   return Astro.redirect(`/${sites[0].slug}/`, 301);
 }
@@ -17,23 +16,23 @@ const canonical = toCanonical(rootBaseUrl, "/");
 
 const openGraph = {
   type: "website" as const,
-  title: "wordok.top — VPN 评测与 AI 资讯",
-  description: "精选专栏：美国 VPN 评测、AI 新闻与前沿洞察。选择你感兴趣的专栏开始探索。",
+  title: "wordok.top — VPN Reviews & AI News",
+  description: "Expert VPN reviews for the USA and latest AI news. Choose your channel to explore.",
   url: canonical,
   siteName: "wordok.top",
 };
 
 const twitter = {
   card: "summary" as const,
-  title: "wordok.top — VPN 评测与 AI 资讯",
-  description: "精选专栏：美国 VPN 评测、AI 新闻与前沿洞察。",
+  title: "wordok.top — VPN Reviews & AI News",
+  description: "Expert VPN reviews and AI news. Choose your channel to explore.",
 };
 
 const itemListJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": "wordok.top 专栏",
-  "description": "wordok.top 精选内容专栏",
+  "name": "wordok.top Channels",
+  "description": "wordok.top content channels",
   "numberOfItems": sites.length,
   "itemListElement": sites.map((s, i) => ({
     "@type": "ListItem",
@@ -43,33 +42,32 @@ const itemListJsonLd = {
   })),
 };
 
-// 专栏展示配置：slug -> 中文名、图标、简短描述
 const columnMeta: Record<string, { label: string; desc: string; icon: string }> = {
   "vpn-usa": {
-    label: "VPN 专栏",
-    desc: "美国 VPN 评测与选购指南",
+    label: "VPN",
+    desc: "Best USA VPN reviews and buying guides",
     icon: "🔒",
   },
   ai: {
-    label: "AI 专栏",
-    desc: "AI 新闻与前沿洞察",
+    label: "AI News",
+    desc: "Latest AI news and industry insights",
     icon: "🤖",
   },
 };
 ---
 
 <BaseLayout
-  title="wordok.top — 选择专栏"
-  description="精选专栏：美国 VPN 评测、AI 新闻与前沿洞察。选择你感兴趣的专栏开始探索。"
+  title="wordok.top — Choose Your Channel"
+  description="Expert VPN reviews for the USA and latest AI news. Choose your channel to explore."
   canonical={canonical}
-  keywords={["wordok", "VPN 评测", "AI 新闻", "美国 VPN", "AI 资讯"]}
+  keywords={["wordok", "VPN reviews", "AI news", "USA VPN", "AI insights"]}
   openGraph={openGraph}
   twitter={twitter}
   jsonLd={itemListJsonLd}
 >
   <div class="portal">
     <h1 class="portal-title">wordok.top</h1>
-    <p class="portal-subtitle">选择你感兴趣的专栏</p>
+    <p class="portal-subtitle">Choose your channel</p>
 
     <div class="portal-cards">
       {sites.map((s) => {
@@ -79,7 +77,7 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string }> 
             <span class="portal-card-icon">{meta.icon}</span>
             <h2 class="portal-card-title">{meta.label}</h2>
             <p class="portal-card-desc">{meta.desc}</p>
-            <span class="portal-card-cta">进入专栏 →</span>
+            <span class="portal-card-cta">Enter channel →</span>
           </a>
         );
       })}

@@ -1,4 +1,12 @@
 ---
+import { getAllSites } from "../lib/site-data";
+
+// Short labels for cross-channel nav
+const CHANNEL_LABELS: Record<string, string> = {
+  "vpn-usa": "VPN",
+  ai: "AI News",
+};
+
 type Props = {
   title: string;
   description?: string;
@@ -67,6 +75,11 @@ function safeJsonStringify(v: unknown): string {
 }
 
 const currentYear = new Date().getFullYear();
+
+const allSites = getAllSites();
+const otherChannels = siteSlug
+  ? allSites.filter((s) => s.slug !== siteSlug)
+  : allSites;
 ---
 
 <!doctype html>
@@ -789,6 +802,12 @@ const currentYear = new Date().getFullYear();
         <div class="header-inner">
           <a href={`/${siteSlug}/`} class="site-logo">{siteName}</a>
           <nav class="site-nav">
+            <a href="/">All Channels</a>
+            {otherChannels.map((s) => (
+              <a href={`/${s.slug}/`} class="channel-switch">
+                {CHANNEL_LABELS[s.slug] ?? s.config.name} →
+              </a>
+            ))}
             <a href={`/${siteSlug}/posts/`}>Articles</a>
             <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
             <a href={`/${siteSlug}/about/`}>About</a>
@@ -813,6 +832,10 @@ const currentYear = new Date().getFullYear();
               {siteDescription ? <p class="footer-desc">{siteDescription}</p> : null}
             </div>
             <div class="footer-links">
+              <a href="/">All Channels</a>
+              {otherChannels.map((s) => (
+                <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
+              ))}
               <a href={`/${siteSlug}/posts/`}>Articles</a>
               <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
               <a href={`/${siteSlug}/about/`}>About</a>

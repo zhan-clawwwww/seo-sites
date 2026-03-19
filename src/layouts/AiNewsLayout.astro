@@ -1,8 +1,14 @@
 ---
+import { getAllSites } from "../lib/site-data";
+
+const CHANNEL_LABELS: Record<string, string> = {
+  "vpn-usa": "VPN",
+  ai: "AI News",
+};
+
 /**
- * AI News Layout - 36氪风格
- * 参考：高效、简洁、精致、年轻
- * 氪星蓝主色、网格布局、卡片式新闻流
+ * AI News Layout - 36Kr style
+ * Clean, efficient, modern news grid
  */
 type Props = {
   title: string;
@@ -65,6 +71,11 @@ function safeJsonStringify(v: unknown): string {
 }
 
 const currentYear = new Date().getFullYear();
+
+const allSites = getAllSites();
+const otherChannels = siteSlug
+  ? allSites.filter((s) => s.slug !== siteSlug)
+  : [];
 ---
 
 <!doctype html>
@@ -475,6 +486,12 @@ const currentYear = new Date().getFullYear();
         <div class="ai-header-inner">
           <a href={`/${siteSlug}/`} class="ai-logo">{siteName}</a>
           <nav class="ai-nav">
+            <a href="/">All Channels</a>
+            {otherChannels.map((s) => (
+              <a href={`/${s.slug}/`} class="channel-switch">
+                {CHANNEL_LABELS[s.slug] ?? s.config.name} →
+              </a>
+            ))}
             <a href={`/${siteSlug}/`}>Home</a>
             <a href={`/${siteSlug}/posts/`}>News</a>
             <a href={`/${siteSlug}/about/`}>About</a>
@@ -492,6 +509,10 @@ const currentYear = new Date().getFullYear();
       <footer class="ai-footer">
         <div class="ai-footer-inner">
           <div class="ai-footer-links">
+            <a href="/">All Channels</a>
+            {otherChannels.map((s) => (
+              <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
+            ))}
             <a href={`/${siteSlug}/`}>Home</a>
             <a href={`/${siteSlug}/posts/`}>News</a>
             <a href={`/${siteSlug}/about/`}>About</a>

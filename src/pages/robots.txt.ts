@@ -9,19 +9,18 @@ export const prerender = true;
  */
 export const GET: APIRoute = () => {
   const rootBaseUrl =
-    import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://example.com";
+    import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://wordok.top";
   const sites = getAllSites();
 
   const lines: string[] = [
     "User-agent: *",
     "Allow: /",
     "",
+    `Sitemap: ${rootBaseUrl}/sitemap.xml`,
   ];
 
-  // 每个启用站点的 sitemap
   for (const s of sites) {
-    const sitemapUrl = toCanonical(s.config.baseUrl, `/${s.slug}/sitemap.xml`);
-    lines.push(`Sitemap: ${sitemapUrl}`);
+    lines.push(`Sitemap: ${toCanonical(s.config.baseUrl, `/${s.slug}/sitemap.xml`)}`);
   }
 
   const body = lines.join("\n") + "\n";
