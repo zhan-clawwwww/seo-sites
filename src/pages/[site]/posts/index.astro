@@ -131,6 +131,25 @@ const layoutProps = {
     </p>
   </section>
 
+  {/* Popular 入口（VPN 频道）*/}
+  {siteSlug === "vpn-usa" ? (() => {
+    const popularSlugs = ["best-vpn-usa-2025", "usa-vpn-for-netflix", "cheap-vpn-usa", "best-vpn-for-usa-streaming", "what-is-a-vpn-how-it-works"];
+    const popular = posts.filter((p) => popularSlugs.includes(p.slug));
+    return popular.length > 0 ? (
+      <section style="margin-bottom: 32px;">
+        <h2 style="font-size: 1.2rem; font-weight: 600; margin: 0 0 16px;">Popular Guides</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          {popular.map((p) => (
+            <a href={`/${siteSlug}/posts/${p.slug}/`} class="post-card" style="flex: 1; min-width: 200px; max-width: 320px;">
+              <div class="post-card-title">{p.frontmatter.title ?? p.slug}</div>
+              {p.frontmatter.description ? <div class="post-card-desc">{p.frontmatter.description}</div> : null}
+            </a>
+          ))}
+        </div>
+      </section>
+    ) : null;
+  })() : null}
+
   {/* 关键词标签云 */}
   {allKeywords.length > 0 ? (
     <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px;">

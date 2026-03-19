@@ -89,7 +89,7 @@ const toc = rawContent ? extractToc(rawContent) : [];
 
 // 基于关键词的相关文章
 const allPosts = getAllPosts(siteSlug);
-const relatedPosts = getRelatedPosts(slug, allPosts, 4);
+const relatedPosts = getRelatedPosts(slug, allPosts, 6);
 
 // Giscus 配置
 const giscusConfig = siteConfig.giscus;
@@ -346,6 +346,13 @@ const layoutProps = {
           Some links are affiliate links — we may earn a commission at no extra cost to you.
           <a href={`/${siteSlug}/disclosure/`}> Learn more</a>.
         </span>
+      </p>
+    ) : null}
+
+    {/* YMYL 免责声明（VPN/隐私类内容）*/}
+    {siteSlug === "vpn-usa" ? (
+      <p class="ymyl-disclaimer">
+        <strong>Disclaimer:</strong> This content is for informational purposes only. It does not constitute legal, security, or professional advice. VPN regulations vary by country — research local laws before using a VPN abroad.
       </p>
     ) : null}
 

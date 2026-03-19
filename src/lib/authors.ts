@@ -72,11 +72,12 @@ export const authors: Record<string, Author> = {
   "vpn-expert": {
     id: "vpn-expert",
     name: "VPN Expert Team",
-    bio: "VPN and privacy specialists focused on hands-on testing, protocol analysis, and practical security guidance for users in the USA market.",
+    bio: "Our team has tested 30+ VPN services over 6+ months, running 200+ speed tests, analyzing privacy policies, and verifying security claims. We focus on hands-on testing, protocol analysis, and practical security guidance for users in the USA market. All recommendations are based on real-world testing — no paid rankings.",
     expertise: [
       "VPN Reviews",
       "Online Privacy",
       "Network Security",
+      "Speed Testing",
     ],
     email: "iwangzhanpeng94@gmail.com",
     website: "https://wordok.top",

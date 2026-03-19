@@ -38,6 +38,12 @@ function getPostKeywords(post: PostData): Set<string> {
     }
   }
 
+  if (post.frontmatter.description) {
+    for (const w of tokenize(post.frontmatter.description)) {
+      if (w.length > 3) keywords.add(w); // 忽略过短词
+    }
+  }
+
   return keywords;
 }
 
