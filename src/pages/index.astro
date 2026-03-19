@@ -2,9 +2,11 @@
 export const prerender = true;
 
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getAllSites, toCanonical } from "../lib/site-data";
+import { getAllSites, getSiteConfig, toCanonical } from "../lib/site-data";
 
 const sites = getAllSites();
+const firstSite = sites[0];
+const analytics = firstSite ? getSiteConfig(firstSite.slug)?.analytics : undefined;
 
 if (sites.length === 1) {
   return Astro.redirect(`/${sites[0].slug}/`, 301);
@@ -64,6 +66,7 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string }> 
   openGraph={openGraph}
   twitter={twitter}
   jsonLd={itemListJsonLd}
+  analytics={analytics}
 >
   <div class="portal">
     <h1 class="portal-title">wordok.top</h1>
