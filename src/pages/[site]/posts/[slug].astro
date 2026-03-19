@@ -202,7 +202,7 @@ const faqJsonLd =
 
 const allJsonLd = [articleJsonLd, breadcrumbJsonLd, ...(faqJsonLd ? [faqJsonLd] : [])];
 
-const isAiSite = siteSlug === "ai";
+const isNewsStyleSite = siteSlug === "ai" || siteSlug === "apple";
 
 const layoutProps = {
   title,
@@ -222,7 +222,7 @@ const layoutProps = {
 };
 ---
 
-{isAiSite ? (
+{isNewsStyleSite ? (
 <AiNewsLayout {...layoutProps}>
   <nav class="breadcrumb">
     <a href={`/${siteSlug}/`}>Home</a>

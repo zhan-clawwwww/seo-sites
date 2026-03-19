@@ -41,8 +41,8 @@ const twitter = {
   image: siteConfig.defaultImage,
 };
 
-const isAiSite = siteSlug === "ai";
-const Layout = isAiSite ? AiNewsLayout : BaseLayout;
+const isNewsStyleSite = siteSlug === "ai" || siteSlug === "apple";
+const Layout = isNewsStyleSite ? AiNewsLayout : BaseLayout;
 const layoutProps = {
   title: `Privacy Policy - ${siteConfig.name}`,
   description: `Privacy Policy for ${siteConfig.name}. Learn how we collect, use, and protect your personal information in compliance with GDPR, CCPA, and other privacy regulations.`,

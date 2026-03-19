@@ -1,0 +1,31 @@
+{
+  "name": "Apple Devices",
+  "description": "Complete specs and reviews for every iPhone and MacBook from 2010 to present. Detailed specifications, design overview, and buying guides for Apple enthusiasts.",
+  "keywords": ["iPhone specs", "MacBook specs", "Apple devices", "iPhone review", "MacBook review", "Apple products"],
+  "baseUrl": "https://wordok.top",
+  "lang": "en",
+  "defaultImage": "https://wordok.top/og-default.png",
+  "contact": {
+    "email": "iwangzhanpeng94@gmail.com",
+    "privacyEmail": "iwangzhanpeng94@gmail.com",
+    "businessEmail": "iwangzhanpeng94@gmail.com"
+  },
+  "social": {
+    "twitter": "",
+    "linkedin": ""
+  },
+  "analytics": {
+    "ga4Id": "G-JWYQZWRTBN",
+    "cfBeacon": ""
+  },
+  "giscus": {
+    "repo": "",
+    "repoId": "",
+    "category": "",
+    "categoryId": ""
+  },
+  "adsense": {
+    "publisherId": "",
+    "adSlot": ""
+  }
+}

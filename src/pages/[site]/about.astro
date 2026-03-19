@@ -74,7 +74,7 @@ const twitter = {
   image: siteConfig.defaultImage,
 };
 
-const isAiSite = siteSlug === "ai";
+const isNewsStyleSite = siteSlug === "ai" || siteSlug === "apple";
 const layoutProps = {
   title: `About Us - ${siteConfig.name}`,
   description: `Learn about ${siteConfig.name}, our mission, methodology, and commitment to providing accurate technical reviews and SEO insights.`,
@@ -91,7 +91,7 @@ const layoutProps = {
 };
 ---
 
-{isAiSite ? (
+{isNewsStyleSite ? (
 <AiNewsLayout {...layoutProps}>
   <article class="section-page">
     <h1>About {siteConfig.name}</h1>

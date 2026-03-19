@@ -93,6 +93,18 @@ export const authors: Record<string, Author> = {
     email: "iwangzhanpeng94@gmail.com",
     website: "https://wordok.top",
   },
+  "apple-editor": {
+    id: "apple-editor",
+    name: "Apple Devices Editorial",
+    bio: "Apple product specialists covering iPhone, MacBook, and the full Apple ecosystem. We provide detailed specs, reviews, and buying guides for every Apple device.",
+    expertise: [
+      "iPhone",
+      "MacBook",
+      "Apple Hardware",
+    ],
+    email: "iwangzhanpeng94@gmail.com",
+    website: "https://wordok.top",
+  },
 };
 
 /**
@@ -122,6 +134,9 @@ export function getDefaultAuthorForSite(siteSlug: string): Author {
   }
   if (siteSlug === "ai") {
     return authors["ai-editor"];
+  }
+  if (siteSlug === "apple") {
+    return authors["apple-editor"];
   }
   // 默认返回tech-team
   return authors["tech-team"];

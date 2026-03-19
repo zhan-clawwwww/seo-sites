@@ -39,10 +39,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build site (vpn-usa + ai)
+      - name: Build site (vpn-usa + ai + apple)
         run: npm run build
         env:
-          ENABLED_SITES: vpn-usa,ai
+          ENABLED_SITES: vpn-usa,ai,apple
           PUBLIC_ROOT_BASE_URL: https://wordok.top
 
       - name: Upload build artifact

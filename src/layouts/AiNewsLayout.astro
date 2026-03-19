@@ -4,6 +4,7 @@ import { getAllSites } from "../lib/site-data";
 const CHANNEL_LABELS: Record<string, string> = {
   "vpn-usa": "VPN",
   ai: "AI News",
+  apple: "Apple",
 };
 
 /**
@@ -493,7 +494,7 @@ const otherChannels = siteSlug
               </a>
             ))}
             <a href={`/${siteSlug}/`}>Home</a>
-            <a href={`/${siteSlug}/posts/`}>News</a>
+            <a href={`/${siteSlug}/posts/`}>{siteSlug === "apple" ? "Products" : "News"}</a>
             <a href={`/${siteSlug}/about/`}>About</a>
             <a href={`/${siteSlug}/contact/`}>Contact</a>
           </nav>
@@ -514,7 +515,7 @@ const otherChannels = siteSlug
               <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
             ))}
             <a href={`/${siteSlug}/`}>Home</a>
-            <a href={`/${siteSlug}/posts/`}>News</a>
+            <a href={`/${siteSlug}/posts/`}>{siteSlug === "apple" ? "Products" : "News"}</a>
             <a href={`/${siteSlug}/about/`}>About</a>
             <a href={`/${siteSlug}/contact/`}>Contact</a>
             <a href={`/${siteSlug}/privacy/`}>Privacy</a>

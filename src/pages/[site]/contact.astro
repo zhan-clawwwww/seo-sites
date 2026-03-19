@@ -68,7 +68,7 @@ const twitter = {
   image: siteConfig.defaultImage,
 };
 
-const isAiSite = siteSlug === "ai";
+const isNewsStyleSite = siteSlug === "ai" || siteSlug === "apple";
 const layoutProps = {
   title: `Contact Us - ${siteConfig.name}`,
   description: `Contact ${siteConfig.name}. We're here to help with your questions, feedback, or inquiries. Get in touch with our team.`,
@@ -85,7 +85,7 @@ const layoutProps = {
 };
 ---
 
-{isAiSite ? (
+{isNewsStyleSite ? (
 <AiNewsLayout {...layoutProps}>
   <article class="section-page">
     <h1>Contact Us</h1>

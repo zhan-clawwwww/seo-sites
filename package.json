@@ -13,7 +13,8 @@
     "vpn:rewrite": "node scripts/rewrite-vpn-english.mjs",
     "vpn:rewrite:dry": "node scripts/rewrite-vpn-english.mjs --dry-run",
     "submit:indexnow": "node scripts/submit-indexnow.mjs",
-    "submit:indexnow:vpn": "node scripts/submit-indexnow.mjs --site vpn-usa"
+    "submit:indexnow:vpn": "node scripts/submit-indexnow.mjs --site vpn-usa",
+    "apple:generate": "node scripts/generate-apple-posts.mjs"
   },
   "dependencies": {
     "astro": "^5.16.5"

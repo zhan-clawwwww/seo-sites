@@ -13,9 +13,9 @@ export function getStaticPaths() {
 
 const siteSlug = Astro.params.site!;
 const siteConfig = requireSiteConfig(siteSlug);
-const isAiSite = siteSlug === "ai";
+const isNewsStyleSite = siteSlug === "ai" || siteSlug === "apple";
 
-const posts = getAllPosts(siteSlug).slice(0, isAiSite ? 12 : 10);
+const posts = getAllPosts(siteSlug).slice(0, isNewsStyleSite ? 12 : 10);
 const aiFrontiersPosts = getPostsByTopic(siteSlug, "ai-frontiers").slice(0, 5);
 const canonical = canonicalFor(siteConfig, `/${siteSlug}/`);
 
@@ -99,7 +99,7 @@ const layoutProps = {
 };
 ---
 
-{isAiSite ? (
+{isNewsStyleSite ? (
 <AiNewsLayout {...layoutProps}>
   <section style="margin-bottom: 32px;">
     <h1 style="font-size: 1.8rem; font-weight: 700; margin: 0 0 8px; color: var(--ai-text);">
@@ -112,7 +112,7 @@ const layoutProps = {
 
   <section>
     <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-      <h2 class="ai-section-title">Latest News</h2>
+      <h2 class="ai-section-title">{siteSlug === "apple" ? "Latest Products" : "Latest News"}</h2>
       <a href={`/${siteSlug}/posts/`} class="ai-section-more">View all &rarr;</a>
     </div>
     {posts.length ? (
