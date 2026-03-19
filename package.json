@@ -14,6 +14,7 @@
     "vpn:rewrite:dry": "node scripts/rewrite-vpn-english.mjs --dry-run",
     "submit:indexnow": "node scripts/submit-indexnow.mjs",
     "submit:indexnow:vpn": "node scripts/submit-indexnow.mjs --site vpn-usa",
+    "submit:sitemap": "node scripts/submit-indexnow.mjs --all",
     "apple:generate": "node scripts/generate-apple-posts.mjs"
   },
   "dependencies": {

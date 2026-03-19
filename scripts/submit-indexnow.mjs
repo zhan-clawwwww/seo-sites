@@ -107,15 +107,36 @@ async function submitToIndexNow(siteSlug) {
   }
 }
 
+// Ping Google Sitemap（sitemap_index 或单站点 sitemap）
+async function pingGoogleSitemap(sitemapUrl) {
+  const url = `https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`;
+  try {
+    const res = await fetch(url);
+    if (res.ok) {
+      console.log(`✅ Google Sitemap Ping 成功: ${sitemapUrl}`);
+    }
+  } catch {
+    console.log(`⚠️  Google Sitemap Ping 失败（可改用 GSC 手动提交）`);
+  }
+}
+
 // ── 主程序 ──────────────────────────────────────────────────
 const args = process.argv.slice(2);
 const siteIdx = args.indexOf("--site");
-const siteSlug = siteIdx >= 0 ? args[siteIdx + 1] : "site-a";
+const useAll = args.includes("--all");
+const siteSlug = siteIdx >= 0 ? args[siteIdx + 1] : null;
 
-if (!siteSlug) {
-  console.error("用法: node scripts/submit-indexnow.mjs --site <site-slug>");
+if (useAll) {
+  const rootBaseUrl = process.env.PUBLIC_ROOT_BASE_URL || "https://wordok.top";
+  const sitemapIndex = `${rootBaseUrl.replace(/\/$/, "")}/sitemap_index.xml`;
+  console.log(`\n🚀 提交全站 Sitemap Index 到 Google\n`);
+  pingGoogleSitemap(sitemapIndex);
+} else if (siteSlug) {
+  console.log(`\n🚀 IndexNow 提交工具 - 站点: ${siteSlug}\n`);
+  submitToIndexNow(siteSlug);
+} else {
+  console.error("用法:");
+  console.error("  node scripts/submit-indexnow.mjs --site <site-slug>  # 单站点 IndexNow + Google Ping");
+  console.error("  node scripts/submit-indexnow.mjs --all              # 仅 Ping Google Sitemap Index");
   process.exit(1);
 }
-
-console.log(`\n🚀 IndexNow 提交工具 - 站点: ${siteSlug}\n`);
-submitToIndexNow(siteSlug);

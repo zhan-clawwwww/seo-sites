@@ -75,96 +75,88 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string }> 
 >
   <div class="portal">
     <h1 class="portal-title">wordok.top</h1>
-    <p class="portal-subtitle">Choose your channel</p>
+    <p class="portal-subtitle">Choose a channel</p>
 
-    <div class="portal-cards">
+    <nav class="portal-cards" aria-label="Channel navigation">
       {sites.map((s) => {
         const meta = columnMeta[s.slug] ?? { label: s.config.name, desc: s.config.description, icon: "📄" };
         return (
           <a href={`/${s.slug}/`} class="portal-card">
-            <span class="portal-card-icon">{meta.icon}</span>
-            <h2 class="portal-card-title">{meta.label}</h2>
-            <p class="portal-card-desc">{meta.desc}</p>
-            <span class="portal-card-cta">Enter channel →</span>
+            <span class="portal-card-icon" aria-hidden="true">{meta.icon}</span>
+            <span class="portal-card-title">{meta.label}</span>
+            <span class="portal-card-desc">{meta.desc}</span>
           </a>
         );
       })}
-    </div>
+    </nav>
   </div>
 
   <style>
     .portal {
-      text-align: center;
-      padding: 48px 24px 64px;
-      min-height: 60vh;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 56px 20px 72px;
+      min-height: 70vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
     }
     .portal-title {
-      font-size: 2.5rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      margin: 0 0 8px;
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 6px;
       color: var(--color-text);
     }
     .portal-subtitle {
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       color: var(--color-text-secondary);
-      margin: 0 0 48px;
+      margin: 0 0 40px;
+      font-weight: 400;
     }
     .portal-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
       width: 100%;
     }
     .portal-card {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      padding: 32px 28px;
+      gap: 16px;
+      padding: 18px 20px;
       background: var(--color-surface);
-      border: 2px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
       text-decoration: none !important;
-      transition: all 0.2s ease;
+      transition: border-color 0.2s, background 0.2s;
     }
     .portal-card:hover {
       border-color: var(--color-primary);
-      box-shadow: var(--shadow-md);
-      transform: translateY(-2px);
-    }
-    .portal-card:hover .portal-card-cta {
-      color: var(--color-primary);
+      background: var(--color-surface-hover);
     }
     .portal-card-icon {
-      font-size: 2.5rem;
-      margin-bottom: 16px;
+      font-size: 1.5rem;
+      flex-shrink: 0;
     }
     .portal-card-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      margin: 0 0 8px;
+      font-size: 1rem;
+      font-weight: 600;
       color: var(--color-text);
     }
     .portal-card-desc {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       color: var(--color-text-secondary);
-      margin: 0 0 16px;
-      line-height: 1.5;
+      margin-left: auto;
+      max-width: 180px;
+      text-align: right;
+      line-height: 1.4;
     }
-    .portal-card-cta {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--color-text-secondary);
-      transition: color 0.2s ease;
-    }
-    @media (max-width: 640px) {
-      .portal-title { font-size: 2rem; }
-      .portal-cards { grid-template-columns: 1fr; }
+    @media (max-width: 480px) {
+      .portal { padding: 40px 16px 56px; }
+      .portal-title { font-size: 1.5rem; }
+      .portal-card-desc { display: none; }
     }
   </style>
 </BaseLayout>

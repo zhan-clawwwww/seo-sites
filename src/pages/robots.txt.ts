@@ -16,12 +16,9 @@ export const GET: APIRoute = () => {
     "User-agent: *",
     "Allow: /",
     "",
-    `Sitemap: ${rootBaseUrl}/sitemap.xml`,
+    "# Sitemap Index - 提交到 Google Search Console 可收录全站文章",
+    `Sitemap: ${rootBaseUrl}/sitemap_index.xml`,
   ];
-
-  for (const s of sites) {
-    lines.push(`Sitemap: ${toCanonical(s.config.baseUrl, `/${s.slug}/sitemap.xml`)}`);
-  }
 
   const body = lines.join("\n") + "\n";
 

@@ -10,11 +10,13 @@ export const GET: APIRoute = () => {
   const rootBaseUrl =
     import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://wordok.top";
 
+  const lastmod = new Date().toISOString().slice(0, 10);
   const body =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     `  <url>\n` +
     `    <loc>${escapeXml(toCanonical(rootBaseUrl, "/"))}</loc>\n` +
+    `    <lastmod>${lastmod}</lastmod>\n` +
     `    <priority>1.0</priority>\n` +
     `    <changefreq>daily</changefreq>\n` +
     `  </url>\n` +
