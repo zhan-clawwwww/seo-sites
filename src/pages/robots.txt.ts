@@ -16,7 +16,7 @@ export const GET: APIRoute = () => {
     "User-agent: *",
     "Allow: /",
     "",
-    "# Sitemap Index - 提交到 Google Search Console 可收录全站文章",
+    "# Sitemap Index",
     `Sitemap: ${rootBaseUrl}/sitemap_index.xml`,
   ];
 

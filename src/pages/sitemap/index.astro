@@ -1,0 +1,123 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getAllPosts, getAllSites, getSiteConfig, toCanonical } from "../../lib/site-data";
+
+const sites = getAllSites();
+const rootBaseUrl =
+  import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://wordok.top";
+
+// 收集所有 URL，供 Google 通过 HTML 页面发现（GitHub Pages XML Content-Type 有 bug 时备用）
+const urlGroups: { name: string; urls: { href: string; label: string }[] }[] = [];
+
+urlGroups.push({
+  name: "首页",
+  urls: [{ href: toCanonical(rootBaseUrl, "/"), label: "wordok.top" }],
+});
+
+for (const s of sites) {
+  const config = getSiteConfig(s.slug)!;
+  const base = config.baseUrl.replace(/\/$/, "");
+  const posts = getAllPosts(s.slug);
+
+  const siteUrls: { href: string; label: string }[] = [
+    { href: `${base}/${s.slug}/`, label: `${s.config.name} 首页` },
+    { href: `${base}/${s.slug}/posts/`, label: "文章列表" },
+    { href: `${base}/${s.slug}/about/`, label: "关于" },
+    { href: `${base}/${s.slug}/contact/`, label: "联系" },
+  ];
+
+  for (const p of posts) {
+    siteUrls.push({
+      href: `${base}/${s.slug}/posts/${p.slug}/`,
+      label: p.frontmatter.title,
+    });
+  }
+
+  urlGroups.push({ name: s.config.name, urls: siteUrls });
+}
+
+const totalUrls = urlGroups.reduce((n, g) => n + g.urls.length, 0);
+---
+
+<BaseLayout
+  title="站点地图 — wordok.top"
+  description="wordok.top 全站页面索引，包含 VPN、AI News、Apple 等频道所有文章"
+  canonical={`${rootBaseUrl}/sitemap/`}
+>
+  <main class="sitemap-page">
+    <h1>站点地图</h1>
+    <p class="sitemap-intro">
+      共 {totalUrls} 个页面 · 最后更新：{new Date().toISOString().slice(0, 10)}
+    </p>
+
+    {urlGroups.map((group) => (
+      <section class="sitemap-section">
+        <h2>{group.name}</h2>
+        <ul>
+          {group.urls.map((u) => (
+            <li>
+              <a href={u.href}>{u.label}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <p class="sitemap-footer">
+      <a href="/">← 返回首页</a> · XML Sitemap: <a href="/sitemap_index.xml">sitemap_index.xml</a>
+    </p>
+  </main>
+
+  <style>
+    .sitemap-page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+    .sitemap-page h1 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+    .sitemap-intro {
+      color: var(--color-text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 32px;
+    }
+    .sitemap-section {
+      margin-bottom: 32px;
+    }
+    .sitemap-section h2 {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: var(--color-text);
+    }
+    .sitemap-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sitemap-section li {
+      margin-bottom: 6px;
+    }
+    .sitemap-section a {
+      font-size: 0.95rem;
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+    .sitemap-section a:hover {
+      text-decoration: underline;
+    }
+    .sitemap-footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--color-border);
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+    }
+    .sitemap-footer a {
+      color: var(--color-primary);
+    }
+  </style>
+</BaseLayout>

@@ -77,6 +77,8 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string }> 
     <h1 class="portal-title">wordok.top</h1>
     <p class="portal-subtitle">Choose a channel</p>
 
+    <a href="/sitemap/" class="portal-sitemap-link">站点地图</a>
+
     <nav class="portal-cards" aria-label="Channel navigation">
       {sites.map((s) => {
         const meta = columnMeta[s.slug] ?? { label: s.config.name, desc: s.config.description, icon: "📄" };
@@ -112,8 +114,17 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string }> 
     .portal-subtitle {
       font-size: 0.95rem;
       color: var(--color-text-secondary);
-      margin: 0 0 40px;
+      margin: 0 0 8px;
       font-weight: 400;
+    }
+    .portal-sitemap-link {
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 32px;
+      text-decoration: none;
+    }
+    .portal-sitemap-link:hover {
+      color: var(--color-primary);
     }
     .portal-cards {
       display: flex;
