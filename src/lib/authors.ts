@@ -81,6 +81,18 @@ export const authors: Record<string, Author> = {
     email: "iwangzhanpeng94@gmail.com",
     website: "https://wordok.top",
   },
+  "ai-editor": {
+    id: "ai-editor",
+    name: "AI News Editorial",
+    bio: "AI and machine learning coverage team. We track breakthroughs, industry trends, and practical guides for developers and enthusiasts.",
+    expertise: [
+      "Artificial Intelligence",
+      "LLMs",
+      "Machine Learning",
+    ],
+    email: "iwangzhanpeng94@gmail.com",
+    website: "https://wordok.top",
+  },
 };
 
 /**
@@ -107,6 +119,9 @@ export function getDefaultAuthorForSite(siteSlug: string): Author {
   }
   if (siteSlug === "vpn-usa") {
     return authors["vpn-expert"];
+  }
+  if (siteSlug === "ai") {
+    return authors["ai-editor"];
   }
   // 默认返回tech-team
   return authors["tech-team"];

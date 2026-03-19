@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import AiNewsLayout from "../../layouts/AiNewsLayout.astro";
 import { getAllPosts, getPostsByTopic, getTwitterHandleFromUrl } from "../../lib/site-data";
 import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../lib/site-routing";
 import { formatReadingTime } from "../../lib/reading-time";
@@ -12,8 +13,9 @@ export function getStaticPaths() {
 
 const siteSlug = Astro.params.site!;
 const siteConfig = requireSiteConfig(siteSlug);
+const isAiSite = siteSlug === "ai";
 
-const posts = getAllPosts(siteSlug).slice(0, 10);
+const posts = getAllPosts(siteSlug).slice(0, isAiSite ? 12 : 10);
 const aiFrontiersPosts = getPostsByTopic(siteSlug, "ai-frontiers").slice(0, 5);
 const canonical = canonicalFor(siteConfig, `/${siteSlug}/`);
 
@@ -79,8 +81,64 @@ const twitter = {
   image: defaultImage,
   ...(twitterHandle ? { site: twitterHandle, creator: twitterHandle } : {}),
 };
+
+const layoutProps = {
+  title: `${siteConfig.name} - Home`,
+  description: siteConfig.description,
+  canonical,
+  keywords: siteConfig.keywords,
+  openGraph,
+  twitter,
+  jsonLd: [organizationJsonLd, websiteJsonLd],
+  siteSlug,
+  siteName: siteConfig.name,
+  siteDescription: siteConfig.description,
+  lang: siteConfig.lang,
+  analytics: siteConfig.analytics,
+  hasAffiliates: (siteConfig.affiliates?.length ?? 0) > 0,
+};
 ---
 
+{isAiSite ? (
+<AiNewsLayout {...layoutProps}>
+  <section style="margin-bottom: 32px;">
+    <h1 style="font-size: 1.8rem; font-weight: 700; margin: 0 0 8px; color: var(--ai-text);">
+      {siteConfig.name}
+    </h1>
+    <p style="font-size: 1rem; color: var(--ai-text-secondary); margin: 0; max-width: 560px; line-height: 1.6;">
+      {siteConfig.description}
+    </p>
+  </section>
+
+  <section>
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+      <h2 class="ai-section-title">Latest News</h2>
+      <a href={`/${siteSlug}/posts/`} class="ai-section-more">View all &rarr;</a>
+    </div>
+    {posts.length ? (
+      <div class="ai-news-grid">
+        {posts.map((p) => (
+          <a href={`/${siteSlug}/posts/${p.slug}/`} class="ai-news-card">
+            <div class="ai-news-card-title">{p.frontmatter.title ?? p.slug}</div>
+            {p.frontmatter.description ? (
+              <div class="ai-news-card-desc">{p.frontmatter.description}</div>
+            ) : null}
+            <div class="ai-news-card-meta">
+              {p.pubDate ? <span>{p.pubDate.toISOString().slice(0, 10)}</span> : null}
+              <span>{formatReadingTime(p.readingTime)}</span>
+              {p.frontmatter.keywords?.[0] ? (
+                <span class="ai-news-card-tag">{p.frontmatter.keywords[0]}</span>
+              ) : null}
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <p style="color: var(--ai-text-secondary);">No articles yet.</p>
+    )}
+  </section>
+</AiNewsLayout>
+) : (
 <BaseLayout
   title={`${siteConfig.name} - Home`}
   description={siteConfig.description}
@@ -156,3 +214,4 @@ const twitter = {
     )}
   </section>
 </BaseLayout>
+)}

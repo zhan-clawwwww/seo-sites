@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import AiNewsLayout from "../../../layouts/AiNewsLayout.astro";
 import { getAllPosts } from "../../../lib/site-data";
 import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../../lib/site-routing";
 import { formatReadingTime } from "../../../lib/reading-time";
@@ -12,6 +13,7 @@ export function getStaticPaths() {
 
 const siteSlug = Astro.params.site!;
 const siteConfig = requireSiteConfig(siteSlug);
+const isAiSite = siteSlug === "ai";
 
 const posts = getAllPosts(siteSlug);
 const canonical = canonicalFor(siteConfig, `/${siteSlug}/posts/`);
@@ -60,8 +62,53 @@ const twitter = {
   description: `Browse all articles and guides from ${siteConfig.name}.`,
   image: siteConfig.defaultImage,
 };
+
+const layoutProps = {
+  title: `All Articles - ${siteConfig.name}`,
+  description: `Browse all articles and guides from ${siteConfig.name}. Expert technical reviews, SEO insights, and web development resources.`,
+  canonical,
+  keywords: siteConfig.keywords,
+  jsonLd: [breadcrumbJsonLd, itemListJsonLd],
+  openGraph,
+  twitter,
+  siteSlug,
+  siteName: siteConfig.name,
+  siteDescription: siteConfig.description,
+  lang: siteConfig.lang,
+  analytics: siteConfig.analytics,
+  hasAffiliates: (siteConfig.affiliates?.length ?? 0) > 0,
+};
 ---
 
+{isAiSite ? (
+<AiNewsLayout {...layoutProps}>
+  <section style="margin-bottom: 32px;">
+    <h1 style="font-size: 1.8rem; font-weight: 700; margin: 0 0 8px; color: var(--ai-text);">All News</h1>
+    <p style="color: var(--ai-text-secondary); margin: 0;">{posts.length} articles published</p>
+  </section>
+  {posts.length ? (
+    <div class="ai-news-grid">
+      {posts.map((p) => (
+        <a href={`/${siteSlug}/posts/${p.slug}/`} class="ai-news-card">
+          <div class="ai-news-card-title">{p.frontmatter.title ?? p.slug}</div>
+          {p.frontmatter.description ? (
+            <div class="ai-news-card-desc">{p.frontmatter.description}</div>
+          ) : null}
+          <div class="ai-news-card-meta">
+            {p.pubDate ? <span>{p.pubDate.toISOString().slice(0, 10)}</span> : null}
+            <span>{formatReadingTime(p.readingTime)}</span>
+            {p.frontmatter.keywords?.[0] ? (
+              <span class="ai-news-card-tag">{p.frontmatter.keywords[0]}</span>
+            ) : null}
+          </div>
+        </a>
+      ))}
+    </div>
+  ) : (
+    <p style="color: var(--ai-text-secondary);">No articles yet.</p>
+  )}
+</AiNewsLayout>
+) : (
 <BaseLayout
   title={`All Articles - ${siteConfig.name}`}
   description={`Browse all articles and guides from ${siteConfig.name}. Expert technical reviews, SEO insights, and web development resources.`}
@@ -117,3 +164,4 @@ const twitter = {
     <p style="color: var(--color-text-secondary);">No articles yet.</p>
   )}
 </BaseLayout>
+)}

@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import AiNewsLayout from "../../layouts/AiNewsLayout.astro";
 import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../lib/site-routing";
 
 export function getStaticPaths() {
@@ -66,8 +67,45 @@ const twitter = {
   description: `Contact ${siteConfig.name}. We're here to help with your questions, feedback, or inquiries.`,
   image: siteConfig.defaultImage,
 };
+
+const isAiSite = siteSlug === "ai";
+const layoutProps = {
+  title: `Contact Us - ${siteConfig.name}`,
+  description: `Contact ${siteConfig.name}. We're here to help with your questions, feedback, or inquiries. Get in touch with our team.`,
+  canonical,
+  keywords: siteConfig.keywords,
+  jsonLd: [contactPageJsonLd, breadcrumbJsonLd],
+  openGraph,
+  twitter,
+  siteSlug,
+  siteName: siteConfig.name,
+  siteDescription: siteConfig.description,
+  lang: siteConfig.lang,
+  analytics: siteConfig.analytics,
+};
 ---
 
+{isAiSite ? (
+<AiNewsLayout {...layoutProps}>
+  <article class="section-page">
+    <h1>Contact Us</h1>
+    <p>
+      We value your feedback, questions, and suggestions. Whether you have a tip, want to
+      report an issue, or simply want to get in touch, we're here to help.
+    </p>
+    <section>
+      <h2>Get in Touch</h2>
+      <div class="info-box">
+        <h3>Email</h3>
+        <p>
+          <strong>General Inquiries:</strong><br />
+          <a href={`mailto:${generalEmail}`}>{generalEmail}</a>
+        </p>
+      </div>
+    </section>
+  </article>
+</AiNewsLayout>
+) : (
 <BaseLayout
   title={`Contact Us - ${siteConfig.name}`}
   description={`Contact ${siteConfig.name}. We're here to help with your questions, feedback, or inquiries. Get in touch with our team.`}
@@ -165,3 +203,4 @@ const twitter = {
     </section>
   </article>
 </BaseLayout>
+)}

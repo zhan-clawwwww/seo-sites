@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import AiNewsLayout from "../../../layouts/AiNewsLayout.astro";
 import { getAllPosts, getPostRawContent, getTwitterHandleFromUrl } from "../../../lib/site-data";
 import { getAuthor, getDefaultAuthorForSite } from "../../../lib/authors";
 import { canonicalFor, getPostStaticPaths, requirePostModule, requireSiteConfig } from "../../../lib/site-routing";
@@ -200,8 +201,97 @@ const faqJsonLd =
     : null;
 
 const allJsonLd = [articleJsonLd, breadcrumbJsonLd, ...(faqJsonLd ? [faqJsonLd] : [])];
+
+const isAiSite = siteSlug === "ai";
+
+const layoutProps = {
+  title,
+  description,
+  canonical,
+  keywords,
+  openGraph,
+  twitter,
+  jsonLd: allJsonLd,
+  siteSlug,
+  siteName: siteConfig.name,
+  siteDescription: siteConfig.description,
+  lang: siteConfig.lang,
+  analytics: siteConfig.analytics,
+  adsense,
+  hasAffiliates: hasAffiliates,
+};
 ---
 
+{isAiSite ? (
+<AiNewsLayout {...layoutProps}>
+  <nav class="breadcrumb">
+    <a href={`/${siteSlug}/`}>Home</a>
+    <span class="sep">/</span>
+    <a href={`/${siteSlug}/posts/`}>News</a>
+    <span class="sep">/</span>
+    <span>{postTitle}</span>
+  </nav>
+
+  <article>
+    <h1>{postTitle}</h1>
+    <div class="article-meta">
+      {pubDate ? (
+        <span>
+          {pubDate}
+          {updatedDate && updatedDate !== pubDate ? ` (updated ${updatedDate})` : ""}
+        </span>
+      ) : null}
+      <span class="divider">|</span>
+      <span>{formatReadingTime(readingTime)}</span>
+      {author ? (
+        <>
+          <span class="divider">|</span>
+          <span>By <strong>{author.name}</strong></span>
+        </>
+      ) : null}
+    </div>
+
+    {toc.length >= 3 ? (
+      <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ul class="toc-list">
+          {toc.map((item) => (
+            <li class={item.depth > 2 ? `depth-${item.depth}` : ""}>
+              <a href={`#${item.slug}`}>{item.text}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ) : null}
+
+    <Content />
+
+    {keywords && keywords.length > 0 ? (
+      <div style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 8px;">
+        {keywords.map((kw) => (
+          <span class="tag">{kw}</span>
+        ))}
+      </div>
+    ) : null}
+  </article>
+
+  {relatedPosts.length > 0 ? (
+    <section class="related-section">
+      <h2>Related Articles</h2>
+      <div class="ai-news-grid">
+        {relatedPosts.map((p) => (
+          <a href={`/${siteSlug}/posts/${p.slug}/`} class="ai-news-card">
+            <div class="ai-news-card-title">{p.frontmatter.title ?? p.slug}</div>
+            {p.frontmatter.description ? (
+              <div class="ai-news-card-desc">{p.frontmatter.description}</div>
+            ) : null}
+          </a>
+        ))}
+      </div>
+    </section>
+  ) : null}
+</AiNewsLayout>
+) : (
 <BaseLayout
   title={title}
   description={description}
@@ -381,3 +471,4 @@ const allJsonLd = [articleJsonLd, breadcrumbJsonLd, ...(faqJsonLd ? [faqJsonLd] 
     </section>
   ) : null}
 </BaseLayout>
+)}

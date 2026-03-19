@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import AiNewsLayout from "../../layouts/AiNewsLayout.astro";
 import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../lib/site-routing";
 
 export function getStaticPaths() {
@@ -39,9 +40,26 @@ const twitter = {
   description: `Terms of Service for ${siteConfig.name}. Please read these terms carefully.`,
   image: siteConfig.defaultImage,
 };
+
+const isAiSite = siteSlug === "ai";
+const Layout = isAiSite ? AiNewsLayout : BaseLayout;
+const layoutProps = {
+  title: `Terms of Service - ${siteConfig.name}`,
+  description: `Terms of Service for ${siteConfig.name}. Please read these terms carefully before using our website.`,
+  canonical,
+  keywords: siteConfig.keywords,
+  jsonLd: breadcrumbJsonLd,
+  openGraph,
+  twitter,
+  siteSlug,
+  siteName: siteConfig.name,
+  siteDescription: siteConfig.description,
+  lang: siteConfig.lang,
+  analytics: siteConfig.analytics,
+};
 ---
 
-<BaseLayout
+<Layout {...layoutProps}>
   title={`Terms of Service - ${siteConfig.name}`}
   description={`Terms of Service for ${siteConfig.name}. Please read these terms carefully before using our website.`}
   canonical={canonical}
@@ -185,4 +203,4 @@ const twitter = {
       </p>
     </section>
   </article>
-</BaseLayout>
+</Layout>

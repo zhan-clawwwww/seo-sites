@@ -1,0 +1,509 @@
+---
+/**
+ * AI News Layout - 36氪风格
+ * 参考：高效、简洁、精致、年轻
+ * 氪星蓝主色、网格布局、卡片式新闻流
+ */
+type Props = {
+  title: string;
+  description?: string;
+  canonical: string;
+  keywords?: string[];
+  openGraph?: {
+    type?: "website" | "article";
+    title?: string;
+    description?: string;
+    url?: string;
+    siteName?: string;
+    image?: string;
+    locale?: string;
+    publishedTime?: string;
+    modifiedTime?: string;
+    tags?: string[];
+  };
+  twitter?: {
+    card?: "summary" | "summary_large_image";
+    title?: string;
+    description?: string;
+    image?: string;
+    site?: string;
+    creator?: string;
+  };
+  jsonLd?: unknown | unknown[];
+  siteSlug?: string;
+  siteName?: string;
+  siteDescription?: string;
+  lang?: string;
+  analytics?: {
+    ga4Id?: string;
+    cfBeacon?: string;
+  };
+};
+
+const {
+  title,
+  description,
+  canonical,
+  keywords,
+  openGraph,
+  twitter,
+  jsonLd,
+  siteSlug,
+  siteName,
+  siteDescription,
+  lang,
+  analytics,
+} = Astro.props;
+
+function toJsonLdArray(v: unknown | unknown[] | undefined): unknown[] {
+  if (!v) return [];
+  return Array.isArray(v) ? v : [v];
+}
+
+function safeJsonStringify(v: unknown): string {
+  return JSON.stringify(v).replace(/<\/script/gi, "<\\/script");
+}
+
+const currentYear = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang={lang || "en"}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    {description ? <meta name="description" content={description} /> : null}
+    {keywords?.length ? (
+      <meta name="keywords" content={keywords.join(",")} />
+    ) : null}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/og-default.png" />
+
+    {siteSlug ? (
+      <link
+        rel="alternate"
+        type="application/rss+xml"
+        title={siteName ? `${siteName} RSS Feed` : "RSS Feed"}
+        href={`/${siteSlug}/rss.xml`}
+      />
+    ) : null}
+
+    {analytics?.ga4Id ? (
+      <link rel="preconnect" href="https://www.googletagmanager.com" />
+    ) : null}
+
+    {openGraph?.title ? <meta property="og:title" content={openGraph.title} /> : null}
+    {openGraph?.description ? (
+      <meta property="og:description" content={openGraph.description} />
+    ) : null}
+    <meta property="og:url" content={openGraph?.url ?? canonical} />
+    <meta property="og:type" content={openGraph?.type ?? "website"} />
+    {openGraph?.siteName ? <meta property="og:site_name" content={openGraph.siteName} /> : null}
+    {openGraph?.locale ? <meta property="og:locale" content={openGraph.locale} /> : null}
+    {openGraph?.image ? (
+      <>
+        <meta property="og:image" content={openGraph.image} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+      </>
+    ) : null}
+
+    {twitter ? <meta name="twitter:card" content={twitter.card ?? "summary"} /> : null}
+    {twitter?.title ? <meta name="twitter:title" content={twitter.title} /> : null}
+    {twitter?.description ? (
+      <meta name="twitter:description" content={twitter.description} />
+    ) : null}
+    {twitter?.image ? <meta name="twitter:image" content={twitter.image} /> : null}
+    {twitter?.site ? <meta name="twitter:site" content={twitter.site} /> : null}
+    {twitter?.creator ? <meta name="twitter:creator" content={twitter.creator} /> : null}
+
+    {toJsonLdArray(jsonLd).map((obj) => (
+      <script type="application/ld+json" set:html={safeJsonStringify(obj)} />
+    ))}
+
+    {analytics?.ga4Id ? (
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analytics.ga4Id}`}></script>
+    ) : null}
+    {analytics?.ga4Id ? (
+      <script define:vars={{ gaId: analytics.ga4Id }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(...args: any[]) { window.dataLayer.push(args); }
+        gtag('js', new Date());
+        gtag('config', gaId);
+      </script>
+    ) : null}
+
+    <style is:global>
+      /* === 36氪风格设计系统 === */
+      :root {
+        --ai-bg: #f7f8fa;
+        --ai-surface: #ffffff;
+        --ai-border: #e8eaed;
+        --ai-text: #1a1a2e;
+        --ai-text-secondary: #6b7280;
+        --ai-primary: #0066ff;
+        --ai-primary-hover: #0052cc;
+        --ai-accent: #00c853;
+        --ai-font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+        --ai-container: 1200px;
+        --ai-radius: 8px;
+        --ai-radius-lg: 12px;
+        --ai-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        --ai-shadow-hover: 0 4px 16px rgba(0,102,255,0.12);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --ai-bg: #0f1117;
+          --ai-surface: #1a1d24;
+          --ai-border: #2d3239;
+          --ai-text: #e8eaed;
+          --ai-text-secondary: #9aa0a6;
+          --ai-primary: #4d9fff;
+          --ai-primary-hover: #80b8ff;
+        }
+      }
+
+      .ai-theme *, .ai-theme *::before, .ai-theme *::after { box-sizing: border-box; margin: 0; }
+      .ai-theme html { scroll-behavior: smooth; }
+
+      .ai-theme body {
+        font-family: var(--ai-font);
+        color: var(--ai-text);
+        background: var(--ai-bg);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .ai-theme a {
+        color: var(--ai-primary);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+      .ai-theme a:hover { color: var(--ai-primary-hover); }
+
+      /* === AI 站点 Header === */
+      .ai-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(255,255,255,0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--ai-border);
+      }
+      @media (prefers-color-scheme: dark) {
+        .ai-header { background: rgba(26,29,36,0.92); }
+      }
+      .ai-header-inner {
+        max-width: var(--ai-container);
+        margin: 0 auto;
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        flex-wrap: wrap;
+      }
+      .ai-logo {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--ai-primary) !important;
+        text-decoration: none !important;
+        letter-spacing: -0.02em;
+      }
+      .ai-nav {
+        display: flex;
+        gap: 24px;
+      }
+      .ai-nav a {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--ai-text-secondary);
+        text-decoration: none;
+        padding: 6px 0;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+      }
+      .ai-nav a:hover {
+        color: var(--ai-primary);
+        border-bottom-color: var(--ai-primary);
+      }
+
+      /* === AI 主内容区 === */
+      .ai-main {
+        flex: 1;
+        max-width: var(--ai-container);
+        margin: 0 auto;
+        padding: 32px 24px;
+        width: 100%;
+      }
+
+      /* === 新闻网格卡片 === */
+      .ai-news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 24px;
+      }
+      .ai-news-card {
+        display: block;
+        background: var(--ai-surface);
+        border: 1px solid var(--ai-border);
+        border-radius: var(--ai-radius-lg);
+        padding: 20px;
+        transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+        text-decoration: none !important;
+        overflow: hidden;
+      }
+      .ai-news-card:hover {
+        box-shadow: var(--ai-shadow-hover);
+        border-color: var(--ai-primary);
+        transform: translateY(-2px);
+      }
+      .ai-news-card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--ai-text);
+        margin: 0 0 8px;
+        line-height: 1.45;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .ai-news-card-desc {
+        font-size: 0.88rem;
+        color: var(--ai-text-secondary);
+        margin: 0;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .ai-news-card-meta {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-top: 12px;
+        font-size: 0.8rem;
+        color: var(--ai-text-secondary);
+      }
+      .ai-news-card-tag {
+        display: inline-block;
+        padding: 2px 8px;
+        background: rgba(0,102,255,0.1);
+        color: var(--ai-primary);
+        border-radius: 4px;
+        font-size: 0.75rem;
+      }
+
+      /* === 列表样式（文章列表页）=== */
+      .ai-list-card {
+        display: block;
+        padding: 20px 24px;
+        background: var(--ai-surface);
+        border: 1px solid var(--ai-border);
+        border-radius: var(--ai-radius-lg);
+        margin-bottom: 16px;
+        transition: box-shadow 0.2s, border-color 0.2s;
+        text-decoration: none !important;
+      }
+      .ai-list-card:hover {
+        box-shadow: var(--ai-shadow);
+        border-color: var(--ai-primary);
+      }
+
+      /* === Section 标题 === */
+      .ai-section-title {
+        font-size: 1.35rem;
+        font-weight: 700;
+        margin: 0 0 20px;
+        color: var(--ai-text);
+      }
+      .ai-section-more {
+        font-size: 0.9rem;
+        color: var(--ai-primary);
+      }
+
+      /* === Footer === */
+      .ai-footer {
+        margin-top: 48px;
+        padding: 28px 0;
+        background: var(--ai-surface);
+        border-top: 1px solid var(--ai-border);
+      }
+      .ai-footer-inner {
+        max-width: var(--ai-container);
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      .ai-footer-links {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .ai-footer-links a {
+        font-size: 0.85rem;
+        color: var(--ai-text-secondary);
+      }
+      .ai-footer-copy {
+        font-size: 0.8rem;
+        color: var(--ai-text-secondary);
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid var(--ai-border);
+      }
+
+      /* === 文章页样式 (ai 站点) === */
+      .ai-theme article h1 {
+        font-size: 1.85rem;
+        font-weight: 700;
+        margin: 0 0 12px;
+        line-height: 1.35;
+        color: var(--ai-text);
+      }
+      .ai-theme article h2 {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin: 1.8em 0 0.6em;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--ai-border);
+      }
+      .ai-theme article h3 { font-size: 1.2rem; margin: 1.4em 0 0.5em; }
+      .ai-theme article p { margin: 1em 0; }
+      .ai-theme article img {
+        border-radius: var(--ai-radius);
+        margin: 1.2em 0;
+      }
+      .ai-theme article pre {
+        background: var(--ai-surface);
+        border: 1px solid var(--ai-border);
+        border-radius: var(--ai-radius);
+        padding: 14px 18px;
+        overflow-x: auto;
+        font-size: 0.88em;
+        margin: 1.2em 0;
+      }
+      .ai-theme article code {
+        background: var(--ai-surface);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.88em;
+      }
+      .ai-theme article blockquote {
+        border-left: 4px solid var(--ai-primary);
+        margin: 1.2em 0;
+        padding: 10px 18px;
+        background: var(--ai-surface);
+        border-radius: 0 var(--ai-radius) var(--ai-radius) 0;
+        color: var(--ai-text-secondary);
+      }
+      .ai-theme .breadcrumb {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        font-size: 0.85rem;
+        color: var(--ai-text-secondary);
+        margin-bottom: 16px;
+      }
+      .ai-theme .article-meta {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-size: 0.85rem;
+        color: var(--ai-text-secondary);
+        margin: 8px 0 20px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--ai-border);
+      }
+      .ai-theme .toc {
+        background: var(--ai-surface);
+        border: 1px solid var(--ai-border);
+        border-radius: var(--ai-radius-lg);
+        padding: 18px 20px;
+        margin: 20px 0;
+      }
+      .ai-theme .tag {
+        display: inline-block;
+        padding: 2px 10px;
+        background: rgba(0,102,255,0.1);
+        border-radius: 99px;
+        font-size: 0.78rem;
+        color: var(--ai-primary);
+      }
+      .ai-theme .related-section h2 {
+        font-size: 1.2rem;
+        margin: 0 0 16px;
+        border: none;
+      }
+      .ai-theme .section-page h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 0 0 12px;
+      }
+      .ai-theme .section-page h2 {
+        font-size: 1.3rem;
+        margin-top: 1.8em;
+      }
+      .ai-theme .section-page h3 {
+        font-size: 1.1rem;
+        margin-top: 1.2em;
+      }
+      .ai-theme .info-box {
+        background: var(--ai-surface);
+        padding: 18px 20px;
+        border-radius: var(--ai-radius-lg);
+        border: 1px solid var(--ai-border);
+        margin-top: 14px;
+      }
+
+      @media (max-width: 640px) {
+        .ai-main { padding: 20px 16px; }
+        .ai-news-grid { grid-template-columns: 1fr; }
+        .ai-header-inner { padding: 12px 16px; gap: 16px; }
+      }
+    </style>
+  </head>
+  <body class="ai-theme">
+    {siteSlug && siteName ? (
+      <header class="ai-header">
+        <div class="ai-header-inner">
+          <a href={`/${siteSlug}/`} class="ai-logo">{siteName}</a>
+          <nav class="ai-nav">
+            <a href={`/${siteSlug}/`}>Home</a>
+            <a href={`/${siteSlug}/posts/`}>News</a>
+            <a href={`/${siteSlug}/about/`}>About</a>
+            <a href={`/${siteSlug}/contact/`}>Contact</a>
+          </nav>
+        </div>
+      </header>
+    ) : null}
+
+    <main class="ai-main">
+      <slot />
+    </main>
+
+    {siteSlug && siteName ? (
+      <footer class="ai-footer">
+        <div class="ai-footer-inner">
+          <div class="ai-footer-links">
+            <a href={`/${siteSlug}/`}>Home</a>
+            <a href={`/${siteSlug}/posts/`}>News</a>
+            <a href={`/${siteSlug}/about/`}>About</a>
+            <a href={`/${siteSlug}/contact/`}>Contact</a>
+            <a href={`/${siteSlug}/privacy/`}>Privacy</a>
+            <a href={`/${siteSlug}/terms/`}>Terms</a>
+            <a href={`/${siteSlug}/rss.xml`}>RSS</a>
+            <a href={`/${siteSlug}/sitemap.xml`}>Sitemap</a>
+          </div>
+          <p class="ai-footer-copy">&copy; {currentYear} {siteName}. All rights reserved.</p>
+        </div>
+      </footer>
+    ) : null}
+  </body>
+</html>
