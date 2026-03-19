@@ -43,6 +43,7 @@ jobs:
         run: npm run build
         env:
           ENABLED_SITES: vpn-usa,ai
+          PUBLIC_ROOT_BASE_URL: https://wordok.top
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3

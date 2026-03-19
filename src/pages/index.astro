@@ -12,28 +12,28 @@ if (sites.length === 1) {
 }
 
 const rootBaseUrl =
-  import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://example.com";
+  import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://wordok.top";
 const canonical = toCanonical(rootBaseUrl, "/");
 
 const openGraph = {
   type: "website" as const,
-  title: "SEO Multi-Site Template (Astro SSG)",
-  description: "A multi-site SEO template built with Astro static site generation.",
+  title: "wordok.top — VPN 评测与 AI 资讯",
+  description: "精选专栏：美国 VPN 评测、AI 新闻与前沿洞察。选择你感兴趣的专栏开始探索。",
   url: canonical,
-  siteName: "SEO Multi-Site",
+  siteName: "wordok.top",
 };
 
 const twitter = {
   card: "summary" as const,
-  title: "SEO Multi-Site Template (Astro SSG)",
-  description: "A multi-site SEO template built with Astro static site generation.",
+  title: "wordok.top — VPN 评测与 AI 资讯",
+  description: "精选专栏：美国 VPN 评测、AI 新闻与前沿洞察。",
 };
 
 const itemListJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": "Active Sites",
-  "description": "List of active sites in this multi-site SEO template",
+  "name": "wordok.top 专栏",
+  "description": "wordok.top 精选内容专栏",
   "numberOfItems": sites.length,
   "itemListElement": sites.map((s, i) => ({
     "@type": "ListItem",
@@ -42,32 +42,123 @@ const itemListJsonLd = {
     "url": toCanonical(rootBaseUrl, `/${s.slug}/`),
   })),
 };
+
+// 专栏展示配置：slug -> 中文名、图标、简短描述
+const columnMeta: Record<string, { label: string; desc: string; icon: string }> = {
+  "vpn-usa": {
+    label: "VPN 专栏",
+    desc: "美国 VPN 评测与选购指南",
+    icon: "🔒",
+  },
+  ai: {
+    label: "AI 专栏",
+    desc: "AI 新闻与前沿洞察",
+    icon: "🤖",
+  },
+};
 ---
 
 <BaseLayout
-  title="SEO Multi-Site Template (Astro SSG)"
-  description="A multi-site SEO template built with Astro static site generation."
+  title="wordok.top — 选择专栏"
+  description="精选专栏：美国 VPN 评测、AI 新闻与前沿洞察。选择你感兴趣的专栏开始探索。"
   canonical={canonical}
-  keywords={["Astro", "SSG", "SEO", "Multi-Site"]}
+  keywords={["wordok", "VPN 评测", "AI 新闻", "美国 VPN", "AI 资讯"]}
   openGraph={openGraph}
   twitter={twitter}
   jsonLd={itemListJsonLd}
 >
-  <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 16px;">SEO Multi-Site Template</h1>
-  <p style="color: var(--color-text-secondary); margin-bottom: 32px;">
-    Active sites detected in <code>sites/</code> directory:
-  </p>
+  <div class="portal">
+    <h1 class="portal-title">wordok.top</h1>
+    <p class="portal-subtitle">选择你感兴趣的专栏</p>
 
-  <div>
-    {sites.map((s) => (
-      <a href={`/${s.slug}/`} class="post-card">
-        <div class="post-card-title">{s.config.name}</div>
-        <div class="post-card-desc">{s.config.description}</div>
-        <div class="post-card-meta">
-          <span>Slug: {s.slug}</span>
-          <span>{s.config.baseUrl}</span>
-        </div>
-      </a>
-    ))}
+    <div class="portal-cards">
+      {sites.map((s) => {
+        const meta = columnMeta[s.slug] ?? { label: s.config.name, desc: s.config.description, icon: "📄" };
+        return (
+          <a href={`/${s.slug}/`} class="portal-card">
+            <span class="portal-card-icon">{meta.icon}</span>
+            <h2 class="portal-card-title">{meta.label}</h2>
+            <p class="portal-card-desc">{meta.desc}</p>
+            <span class="portal-card-cta">进入专栏 →</span>
+          </a>
+        );
+      })}
+    </div>
   </div>
+
+  <style>
+    .portal {
+      text-align: center;
+      padding: 48px 24px 64px;
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .portal-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 0 0 8px;
+      color: var(--color-text);
+    }
+    .portal-subtitle {
+      font-size: 1.1rem;
+      color: var(--color-text-secondary);
+      margin: 0 0 48px;
+    }
+    .portal-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      max-width: 560px;
+      width: 100%;
+    }
+    .portal-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 28px;
+      background: var(--color-surface);
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      text-decoration: none !important;
+      transition: all 0.2s ease;
+    }
+    .portal-card:hover {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .portal-card:hover .portal-card-cta {
+      color: var(--color-primary);
+    }
+    .portal-card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+    .portal-card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 0 0 8px;
+      color: var(--color-text);
+    }
+    .portal-card-desc {
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      margin: 0 0 16px;
+      line-height: 1.5;
+    }
+    .portal-card-cta {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      transition: color 0.2s ease;
+    }
+    @media (max-width: 640px) {
+      .portal-title { font-size: 2rem; }
+      .portal-cards { grid-template-columns: 1fr; }
+    }
+  </style>
 </BaseLayout>
