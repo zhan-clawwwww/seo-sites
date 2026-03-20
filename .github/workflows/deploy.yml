@@ -1,37 +1,37 @@
 name: Deploy to GitHub Pages
 
 on:
-  # 每次推送 main 分支时自动部署
+  # 姣忔柂鎺ㄩ€?main 鍒嗘敮鏃惰嚜鍔ㄩ儴缃?
   push:
     branches: [main]
-  # 允许在 GitHub 网页手动触发
+  # 鍏佽鍦?GitHub 缃戦〉鎵嬪姩瑙﹀彂
   workflow_dispatch:
 
-# 授予写入 GitHub Pages 所需权限
+# 鎺堜簣鍐欏叆 GitHub Pages 鎵€闇€鏉冮檺
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# 同时只允许一个部署任务运行，避免并发冲突
+# 鍚屾椂鍙厑璁镐竴涓儴缃蹭换鍔¤繍琛岋紝閬垮厤骞跺彂鍐茬獊
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
-# 提前使用 Node.js 24，避免 2026 年 6 月后的弃用警告
+# 鎻愬墠浣跨敤 Node.js 24锛岄伩鍏?2026 骞?6 鏈堝悗鐨勫僵鐢ㄨ狖鍛?
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
-  # ── 构建 ─────────────────────────────────────────────────
+  # 鈹€鈹€ 鏋勫缓 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
 
       - name: Setup Node.js 24
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4.3.0
         with:
           node-version: "24"
           cache: "npm"
@@ -46,11 +46,11 @@ jobs:
           PUBLIC_ROOT_BASE_URL: https://wordok.top
 
       - name: Upload build artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: dist
 
-  # ── 部署 ─────────────────────────────────────────────────
+  # 鈹€鈹€ 閮ㄧ讲 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -60,4 +60,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
