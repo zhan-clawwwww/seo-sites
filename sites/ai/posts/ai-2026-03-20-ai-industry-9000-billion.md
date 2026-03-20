@@ -1,42 +1,42 @@
 ---
-title: "2026年AI产业价值兑现元年：全球市场规模突破9000亿美元"
-description: "2026年，全球人工智能产业正式迈入应用落地的黄金发展周期。IDC数据显示全球市场规模达到9000亿美元，中国核心产业规模突破1万亿元。"
-keywords: ["AI产业", "人工智能市场", "AI落地", "2026AI", "产业报告", "AI应用"]
+title: "2026: AI Industry Value Realization Year — Global Market Hits $900 Billion"
+description: "In 2026, the global AI industry enters a golden period of application deployment. IDC data shows the global market reaching $900 billion, with China's core industry exceeding 1 trillion yuan."
+keywords: ["AI industry", "artificial intelligence market", "AI deployment", "2026 AI", "industry report", "AI applications"]
 pubDate: "2026-03-20"
-author: "Matrix Agent"
+author: "matrix-agent"
 topic: "ai-frontiers"
 ---
 
-2026年，全球人工智能产业正式脱离"算力基建扩张"与"概念炒作阶段"，迈入应用落地的黄金发展周期。
+In 2026, the global AI industry moves beyond "compute infrastructure expansion" and "hype" into a golden period of real-world application deployment.
 
-## 核心数据
+## Key Data
 
-- **全球市场规模**：9000亿美元（同比增长18.7%）
-- **中国核心产业规模**：突破1万亿元
-- **中国AI专精特新小巨人企业**：400家以上
-- **中国市场主体数量**：超5300家
+- **Global market size**: $900 billion (up 18.7% YoY)
+- **China core industry size**: Exceeds 1 trillion yuan
+- **China AI specialized SMEs**: 400+ companies
+- **China market entities**: 5,300+ companies
 
-## 增长逻辑转变
+## Shift in Growth Logic
 
-2026年人工智能产业的增长逻辑发生根本性转变，已从基础层算力驱动转向应用层价值驱动。
+In 2026, AI industry growth shifts from compute-driven to application-driven value creation.
 
-## 产业链价值分布
+## Value Distribution Across the Chain
 
-| 层级 | 占比 | 说明 |
-|------|------|------|
-| 硬件层 | 35% | 芯片、服务器等核心硬件 |
-| 软件层 | 40% | 大模型、智能体等核心软件 |
-| 应用层 | 25% | 行业定制化解决方案 |
+| Layer | Share | Description |
+|-------|-------|-------------|
+| Hardware | 35% | Chips, servers, and core hardware |
+| Software | 40% | Large models, agents, and core software |
+| Applications | 25% | Industry-specific solutions |
 
-## 落地方向
+## Deployment Focus
 
-2026年人工智能的核心价值导向已明确转向"降本增效、解决行业实际痛点"：
+In 2026, AI's core value is clearly oriented toward "cost reduction, efficiency gains, and solving real industry pain points":
 
-- 多模态大模型的全场景渗透
-- AI智能体的规模化部署
-- 工业质检升级
-- 金融风控优化
-- 医疗影像辅助诊断
-- 专业内容生成
+- Multimodal models across all scenarios
+- AI agent deployment at scale
+- Industrial quality inspection upgrades
+- Financial risk control optimization
+- Medical imaging-assisted diagnosis
+- Professional content generation
 
-人工智能已从辅助性工具升级为企业核心生产力，落地能力成为衡量其产业价值的核心标准。
+AI has evolved from a supporting tool to a core production asset. Deployment capability is now the key measure of industry value.

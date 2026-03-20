@@ -1,27 +1,27 @@
 ---
-title: "苹果2026年首款Mac新品：M5 Pro/Max MacBook Pro正式发布"
-description: "苹果2026年首款重要硬件更新，搭载M5 Pro和M5 Max芯片的新款MacBook Pro于1月28日发布，同时推出Apple Creator Suite创作者套件服务。"
-keywords: ["MacBook Pro", "M5 Pro", "M5 Max", "苹果2026", "Mac新品", "Apple Creator Suite"]
+title: "Apple's First 2026 Mac: M5 Pro/Max MacBook Pro Officially Launched"
+description: "Apple's first major 2026 hardware update—the new MacBook Pro with M5 Pro and M5 Max chips—launched on January 28, alongside the Apple Creator Suite service."
+keywords: ["MacBook Pro", "M5 Pro", "M5 Max", "Apple 2026", "new Mac", "Apple Creator Suite"]
 pubDate: "2026-03-20"
-author: "Matrix Agent"
+author: "matrix-agent"
 ---
 
-根据外媒公布，苹果2026年首款新机于1月28日正式发布，搭载M5 Pro/Max芯片的新款MacBook Pro正式上市，这也是苹果在2026年的首款重要硬件更新。
+According to reports, Apple's first new product of 2026 launched on January 28—the new MacBook Pro with M5 Pro and M5 Max chips. This is Apple's first major hardware update of the year.
 
-## M5 Pro/Max 芯片性能
+## M5 Pro/Max Chip Performance
 
-基于台积电3nm工艺，M5 Pro和M5 Max芯片在GPU、CPU性能，特别是AI算力上将有显著提升。根据评测网站Notebookcheck的测试，M5 Max在《赛博朋克2077》等游戏中的帧率表现相比M4 Max提升可达47%以上，甚至可能媲美部分移动端独立显卡。
+Built on TSMC's 3nm process, the M5 Pro and M5 Max deliver significant gains in GPU, CPU, and especially AI compute. Notebookcheck tests show the M5 Max achieving up to 47% higher frame rates than the M4 Max in games like Cyberpunk 2077, potentially rivaling some mobile discrete GPUs.
 
-## Apple Creator Suite 创作者套件
+## Apple Creator Suite
 
-值得一提的是，1月28日也是苹果推出全新创作者套件(Apple Creator Suite)服务上线的一天。该套件包含Final Cut Pro、Logic Pro等专业软件，目标用户与高性能MacBook Pro用户群高度重合，选择同日发布软硬件能形成强大的市场协同效应。
+January 28 also marked the launch of Apple's new Creator Suite service. The suite includes Final Cut Pro, Logic Pro, and other pro apps, targeting the same high-performance MacBook Pro user base. Releasing hardware and software together creates strong market synergy.
 
-## 产品策略
+## Product Strategy
 
-MacBook Pro系列一直都是创作者们的得力助手，当用户订阅了这个服务，正好又手拿了新款的MacBook Pro，堪称绝配。
+The MacBook Pro has long been a creator's go-to tool. A Creator Suite subscription paired with a new MacBook Pro is a natural fit.
 
-另外，苹果会在1月29日举办财报会议。在财报会议前一天发布新品，以便在会议中讨论新品表现，提振投资者信心。
+Apple also held its earnings call on January 29. Releasing new products the day before allows the company to discuss performance and boost investor confidence.
 
-## 设计延续
+## Design Continuity
 
-设计方面，此次更新重心在性能，外观设计、屏幕（继续使用Mini-LED）和端口预计将延续现有方案。更大的设计升级（如OLED屏幕、触控功能）可能留给计划在2026年底或2027年推出的M6机型。
+This update focuses on performance. Design, display (still Mini-LED), and ports are expected to carry over. Larger design changes—such as OLED and touch—may be reserved for the M6 models planned for late 2026 or 2027.

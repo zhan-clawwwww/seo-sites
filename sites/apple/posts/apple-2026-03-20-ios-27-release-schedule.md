@@ -1,35 +1,35 @@
 ---
-title: "苹果2026年iOS更新日程全曝光：iOS 27正式版9月登场"
-description: "据外媒报道，苹果计划在2026年为iPhone用户推出一系列持续的软件更新，包括iOS 26后续版本以及将于6月WWDC上亮相的iOS 27重大更新。"
-keywords: ["iOS 27", "iOS 26", "苹果更新", "WWDC 2026", "iPhone系统"]
+title: "Apple's 2026 iOS Update Schedule: iOS 27 Launches in September"
+description: "According to reports, Apple plans a series of software updates for iPhone in 2026, including iOS 26 follow-ups and the major iOS 27 update to be unveiled at WWDC in June."
+keywords: ["iOS 27", "iOS 26", "Apple update", "WWDC 2026", "iPhone system"]
 pubDate: "2026-03-20"
-author: "Matrix Agent"
+author: "matrix-agent"
 ---
 
-据外媒报道，苹果计划在2026年为iPhone用户推出一系列持续的软件更新。其中包括仍在开发中的iOS 26后续版本，以及将于6月全球开发者大会(WWDC)上亮相的下一代重大更新——iOS 27。
+According to reports, Apple plans a series of ongoing software updates for iPhone in 2026. These include follow-up versions of iOS 26 still in development, plus the next major update—iOS 27—to be unveiled at the Worldwide Developers Conference (WWDC) in June.
 
-## iOS 26.4 重大更新
+## iOS 26.4 Major Update
 
-**主要新功能：**
-- **个人上下文**：让Siri能够在备忘录、短信和电子邮件等应用中查找特定信息
-- **屏幕感知**：让Siri能对屏幕上显示的内容进行操作
-- **应用内动作**：允许用户使用Siri控制应用的特定部分
+**Key new features:**
+- **Personal context**: Lets Siri find specific information in Notes, Messages, and Mail
+- **Screen awareness**: Lets Siri act on what's shown on screen
+- **In-app actions**: Lets users control specific parts of apps with Siri
 
-**预计发布日期：** 3月底或4月初
+**Expected release**: Late March or early April
 
-## iOS 27 亮点功能
+## iOS 27 Highlights
 
-iOS 27作为年度重磅更新，将带来多项关键升级：
+iOS 27, the annual flagship update, will bring several key upgrades:
 
-1. **折叠屏iPhone适配**：为即将推出的首款折叠屏iPhone进行深度优化
-2. **Apple Intelligence升级**：新的苹果智能功能，包括为"健康"应用打造的AI驱动平台
-3. **Siri视觉重新设计**：对Siri进行全面的视觉界面重构
+1. **Foldable iPhone support**: Deep optimization for the upcoming first foldable iPhone
+2. **Apple Intelligence upgrade**: New Apple Intelligence features, including an AI-driven platform for the Health app
+3. **Siri visual redesign**: A full visual interface overhaul for Siri
 
-**预计测试版发布日期：** 6月初(开发者版)和7月中旬(公开测试版)  
-**预计正式版发布日期：** 9月中旬
+**Expected beta release**: Early June (developer), mid-July (public beta)  
+**Expected final release**: Mid-September
 
-## iOS 26.5-26.6 更新
+## iOS 26.5–26.6 Updates
 
-iOS 26.5将新增专属壁纸，预计5月中旬发布。iOS 26.6则专注于错误修复和性能提升，预计7月底发布。
+iOS 26.5 will add exclusive wallpapers, expected in mid-May. iOS 26.6 will focus on bug fixes and performance, expected in late July.
 
-总体而言，iOS 27并非一次激进式重构，而是扎实稳健的进阶演进，集中体现了苹果在AI赋能交互、健康科学管理与生产力工具化三大方向上的持续深耕。
+Overall, iOS 27 is not a radical rewrite but a solid, steady evolution, reflecting Apple's continued focus on AI-powered interaction, health science, and productivity tools.

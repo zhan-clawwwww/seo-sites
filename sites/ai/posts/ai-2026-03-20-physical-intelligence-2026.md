@@ -1,38 +1,38 @@
 ---
-title: "2026物理智能元年：AI进入物理世界的新纪元"
-description: "人工智能正迈入全新阶段——模型不仅能理解情景化数据，还能与物理世界进行实时交互。2026年将成为物理智能从概念迈向现实的关键之年。"
-keywords: ["物理智能", "人工智能", "AI机器人", "边缘计算", "AI前沿", "2026技术趋势"]
+title: "2026: The Year of Physical Intelligence — AI Enters the Physical World"
+description: "AI is entering a new phase: models can not only understand contextual data but also interact with the physical world in real time. 2026 will be the year physical intelligence moves from concept to reality."
+keywords: ["physical intelligence", "artificial intelligence", "AI robotics", "edge computing", "AI frontier", "2026 tech trends"]
 pubDate: "2026-03-20"
-author: "Matrix Agent"
+author: "matrix-agent"
 topic: "ai-frontiers"
 ---
 
-人工智能(AI)正迈入一个全新阶段——模型不仅能理解情景化数据，还能与物理世界进行实时交互。这被业界称为"物理智能"，即智能系统能够在运动、声音、空间或其他真实物理场景中实现本地化感知、推理与执行。
+AI is entering a new phase—models can not only understand contextual data but also interact with the physical world in real time. This is called "physical intelligence": systems that can perceive, reason, and act locally in motion, sound, space, or other real-world physical scenarios.
 
-## 2026年五大物理智能预测
+## Five Physical Intelligence Predictions for 2026
 
-### 预测1：AI突破屏幕限制进入物理世界
+### Prediction 1: AI Breaks Out of the Screen Into the Physical World
 
-推动大型推理模型取得成功的规模效应将持续扩展至能够从物理世界固有属性（如振动、声音、磁力与运动等）中学习的模型领域。这些物理推理模型将从数据中心向边缘端迁移，催生出新型自主系统。
+The scale effects that drove large reasoning models will extend to models that learn from physical properties—vibration, sound, magnetism, motion. These physical reasoning models will move from data centers to the edge, enabling new autonomous systems.
 
-例如，工厂机器人仅凭少量示例，就能自主推理并完成意料之外的任务。
+For example, factory robots will infer and complete unexpected tasks from just a few examples.
 
-### 预测2：音频成为主导性AI接口
+### Prediction 2: Audio Becomes the Dominant AI Interface
 
-在空间音频、传感器融合与设备端推理的协同驱动下，消费电子设备将演进为具有情境感知能力的智能伙伴。增强现实眼镜、智能耳机等可听戴设备会悄然解读周围环境。
+Driven by spatial audio, sensor fusion, and on-device inference, consumer devices will evolve into context-aware companions. AR glasses, smart earbuds, and hearables will quietly interpret the environment.
 
-### 预测3：机器人快速学习新任务
+### Prediction 3: Robots Learn New Tasks in Minutes
 
-机器人能在数分钟内学习掌握新任务，数字思维("推理")与物理行动将实现快速融合。
+Robots will learn new tasks in minutes. Digital "reasoning" and physical action will merge quickly.
 
-### 预测4：汽车情景感知信号检测
+### Prediction 4: Automotive Context-Aware Signal Detection
 
-在汽车区域架构中实现情景感知信号检测，提升自动驾驶和安全性能。
+Context-aware signal detection in automotive zonal architectures will improve autonomous driving and safety.
 
-### 预测5：混合世界模型
+### Prediction 5: Hybrid World Models
 
-融合数学与物理推理以及数据驱动传感器融合动态分析的混合"世界模型"，不仅能描述世界，更能主动参与其中并持续学习。
+Hybrid "world models" combining mathematical and physical reasoning with data-driven sensor fusion will not only describe the world but actively participate in it and keep learning.
 
-## 技术基础
+## Technical Foundation
 
-精密传感、混合信号设计及物理边缘计算领域的深厚积淀，正成为所有在物理层面运行的智能系统的基石。
+Precision sensing, mixed-signal design, and physical edge computing are becoming the foundation for all physically deployed intelligent systems.

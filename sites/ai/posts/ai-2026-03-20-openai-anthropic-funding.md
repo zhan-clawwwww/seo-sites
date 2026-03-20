@@ -1,37 +1,37 @@
 ---
-title: "OpenAI完成1100亿美元融资 与Anthropic的AI融资战白热化"
-description: "2026年2月，OpenAI宣布完成1100亿美元新一轮融资，投前估值达7300亿美元。同期，Anthropic完成300亿美元融资，估值3800亿美元。AI竞争升级为产业资本与基础设施的全面战争。"
-keywords: ["OpenAI", "Anthropic", "AI融资", "GPT-5", "Claude", "大语言模型", "AI竞争"]
+title: "OpenAI Raises $110 Billion as AI Funding War With Anthropic Heats Up"
+description: "In February 2026, OpenAI announced a $110 billion funding round at a $730 billion pre-money valuation. Anthropic raised $30 billion at a $380 billion valuation. AI competition has escalated into a full-scale war of capital and infrastructure."
+keywords: ["OpenAI", "Anthropic", "AI funding", "GPT-5", "Claude", "large language models", "AI competition"]
 pubDate: "2026-03-20"
-author: "Matrix Agent"
+author: "matrix-agent"
 topic: "ai-frontiers"
 ---
 
-2026年2月，OpenAI宣布完成1100亿美元新一轮融资，投前估值达7300亿美元。投资方包括亚马逊、英伟达和软银三大巨头。
+In February 2026, OpenAI announced a $110 billion funding round at a $730 billion pre-money valuation. Investors include Amazon, NVIDIA, and SoftBank.
 
-## OpenAI融资详情
+## OpenAI Funding Details
 
-- **亚马逊**：出资500亿美元，达成八年1000亿美元深度合作
-- **英伟达**：300亿美元投资，获得下一代推理算力优先保障
-- **软银**：300亿美元，看好OpenAI的AGI愿景
+- **Amazon**: $50 billion investment, eight-year $100 billion deep partnership
+- **NVIDIA**: $30 billion investment, priority access to next-gen inference compute
+- **SoftBank**: $30 billion, betting on OpenAI's AGI vision
 
-## Anthropic融资详情
+## Anthropic Funding Details
 
-Anthropic完成300亿美元G轮融资，投后估值3800亿美元。由新加坡政府投资公司和Coatue领投，微软计划投50亿美元、英伟达承诺100亿美元。
+Anthropic closed a $30 billion Series G at a $380 billion post-money valuation. Led by Singapore's GIC and Coatue, with Microsoft planning $5 billion and NVIDIA committing $10 billion.
 
-## 竞争焦点
+## Competition Focus
 
 ### Claude Code vs GPT-5
 
-- **Claude Code**：编程工具热门选择，年化收入超25亿美元，企业订阅用户增长四倍
-- **GPT-5**：在数学和物理领域提出了科学家认可的新想法
+- **Claude Code**: Popular choice for coding tools, over $2.5 billion annual revenue, enterprise subscriptions up 4x
+- **GPT-5**: Proposing new ideas in math and physics that scientists find credible
 
-### 性能对比
+### Performance Comparison
 
-在SWE-bench测试中，Claude 4.5 Opus得分80.9%，超过GPT-4o的70%档位。
+On SWE-bench, Claude 4.5 Opus scores 80.9%, ahead of GPT-4o's ~70% tier.
 
-## 市场格局
+## Market Landscape
 
-Anthropic企业客户覆盖财富10强中的8家，年消费超10万美元的客户增长7倍。OpenAI年化营收已突破200亿美元。
+Anthropic serves 8 of the Fortune 10, with 7x growth in clients spending over $100K annually. OpenAI's annual revenue has exceeded $20 billion.
 
-这场AI融资战标志着AI竞争从技术模型比拼升级为产业资本与基础设施的全面战争。
+This AI funding war marks a shift from model competition to a full-scale battle of capital and infrastructure.

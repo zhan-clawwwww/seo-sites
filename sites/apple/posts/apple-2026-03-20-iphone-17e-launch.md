@@ -1,27 +1,27 @@
 ---
-title: "苹果2026年首款新机：iPhone 17e最快下月发布"
-description: "2026年苹果将带来5款新iPhone，其中最先亮相的将是入门款机型iPhone 17e，预计最快于下个月推出。"
-keywords: ["iPhone 17e", "苹果新机", "iPhone 2026", "入门款iPhone", "A19芯片"]
+title: "Apple's First 2026 iPhone: iPhone 17e Could Launch Next Month"
+description: "Apple will bring 5 new iPhones in 2026, with the entry-level iPhone 17e expected to debut first, possibly as early as next month."
+keywords: ["iPhone 17e", "Apple new phone", "iPhone 2026", "entry iPhone", "A19 chip"]
 pubDate: "2026-03-20"
-author: "Matrix Agent"
+author: "matrix-agent"
 ---
 
-时间已经来到2026年，今年苹果可能会带来5款新iPhone，其中最先亮相的将是入门款机型iPhone 17e。
+We're now in 2026, and Apple may bring 5 new iPhones this year. The first to debut will likely be the entry-level iPhone 17e.
 
-## 外观设计
+## Design
 
-iPhone 17e背面大概率还是沿用前代设计，后置只有单颗4800万像素的主摄；屏幕依然保持6.1英寸。不过这次苹果可能会为iPhone 17e升级配备iPhone 16同款的OLED显示屏，改用灵动岛，收窄边框。
+The iPhone 17e will likely keep the previous generation's rear design with a single 48MP main camera. The screen stays at 6.1 inches. Apple may upgrade the iPhone 17e to the same OLED display as the iPhone 16, with Dynamic Island and slimmer bezels.
 
-## 配置升级
+## Specs Upgrade
 
-**主要配置：**
-- **芯片**：搭载A19芯片
-- **调制解调器**：采用苹果自研的C1X调制解调器
-- **前置摄像头**：提升至1800万像素
-- **屏幕刷新率**：仍为60Hz低刷屏（不支持高刷）
+**Key specs:**
+- **Chip**: A19 chip
+- **Modem**: Apple's in-house C1X modem
+- **Front camera**: Upgraded to 18MP
+- **Display refresh**: Still 60Hz (no high refresh rate)
 
-## 价格优势
+## Price Advantage
 
-iPhone 17e的起步价应该还是维持在4499元，这也将是其主打优势。作为入门款机型，iPhone 17e将进行一次常规的迭代更新，不会有太大的升级变化，但足以满足日常使用需求。
+The iPhone 17e is expected to start at $449 (or equivalent), which will be its main selling point. As an entry model, the iPhone 17e will get a routine iterative update—no major changes, but enough for daily use.
 
-这是苹果在2026年的首款重要硬件更新，值得期待。
+This will be Apple's first major hardware update of 2026.

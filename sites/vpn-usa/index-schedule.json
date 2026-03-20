@@ -14,5 +14,5 @@
     "fastest-vpn-usa-server"
   ],
   "releaseSchedule": [],
-  "notes": "strategy=all: 全部88篇文章立即构建上线。文章 pubDate 已覆盖 2025-12 至 2026-03，Google 会按各文章日期处理历史内容。如需控制收录节奏可改为 gradual 或 manual 策略。"
+  "notes": "strategy=all: All 88 articles are built and published immediately. Article pubDates span 2025-12 to 2026-03; Google will index them according to each article's date. To control indexing pace, switch to gradual or manual strategy."
 }
