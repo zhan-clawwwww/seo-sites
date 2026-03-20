@@ -74,9 +74,9 @@ const pubDate = frontmatter.pubDate?.toString?.();
 const updatedDate = frontmatter.updatedDate?.toString?.();
 const faq = normalizeFaq(frontmatter.faq);
 
-// 作者信息
+// 作者信息（若 authorId 不存在于 authors 库则回退到站点默认作者）
 const authorId = frontmatter.author?.toString?.().trim() || null;
-const author = authorId ? getAuthor(authorId) : getDefaultAuthorForSite(siteSlug);
+const author = (authorId ? getAuthor(authorId) : null) ?? getDefaultAuthorForSite(siteSlug);
 
 // 阅读时间
 const rawContent = getPostRawContent(siteSlug, slug);

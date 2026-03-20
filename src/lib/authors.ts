@@ -94,6 +94,14 @@ export const authors: Record<string, Author> = {
     email: "iwangzhanpeng94@gmail.com",
     website: "https://wordok.top",
   },
+  "matrix-agent": {
+    id: "matrix-agent",
+    name: "Matrix Agent",
+    bio: "AI-powered content curation and analysis. We aggregate and summarize the latest news and insights from trusted sources.",
+    expertise: ["AI News", "Tech News", "Content Curation"],
+    email: "iwangzhanpeng94@gmail.com",
+    website: "https://wordok.top",
+  },
   "apple-editor": {
     id: "apple-editor",
     name: "Apple Devices Editorial",
@@ -110,9 +118,15 @@ export const authors: Record<string, Author> = {
 
 /**
  * 根据作者ID获取作者信息
+ * 兼容带空格的 id（如 "Matrix Agent"）映射到 matrix-agent
  */
 export function getAuthor(authorId: string): Author | null {
-  return authors[authorId] || null;
+  const normalized = authorId?.trim();
+  if (!normalized) return null;
+  if (authors[normalized]) return authors[normalized];
+  // 兼容 "Matrix Agent" -> matrix-agent
+  const alias = normalized.replace(/\s+/g, "-").toLowerCase();
+  return authors[alias] || null;
 }
 
 /**
