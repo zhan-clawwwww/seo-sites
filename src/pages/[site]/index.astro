@@ -17,6 +17,7 @@ const isNewsStyleSite = siteSlug === "ai" || siteSlug === "apple";
 
 const posts = getAllPosts(siteSlug).slice(0, isNewsStyleSite ? 12 : 10);
 const aiFrontiersPosts = getPostsByTopic(siteSlug, "ai-frontiers").slice(0, 5);
+const privacySecurityPosts = getPostsByTopic(siteSlug, "privacy-security").slice(0, 5);
 const canonical = canonicalFor(siteConfig, `/${siteSlug}/`);
 
 // Organization 结构化数据
@@ -171,6 +172,29 @@ const layoutProps = {
     </div>
     <div>
       {aiFrontiersPosts.map((p) => (
+        <a href={`/${siteSlug}/posts/${p.slug}/`} class="post-card">
+          <div class="post-card-title">{p.frontmatter.title ?? p.slug}</div>
+          {p.frontmatter.description ? (
+            <div class="post-card-desc">{p.frontmatter.description}</div>
+          ) : null}
+          <div class="post-card-meta">
+            {p.pubDate ? <span>{p.pubDate.toISOString().slice(0, 10)}</span> : null}
+            <span>{formatReadingTime(p.readingTime)}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+) : null}
+
+  {privacySecurityPosts.length > 0 ? (
+  <section style="margin-bottom: 48px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+      <h2 style="font-size: 1.4rem; font-weight: 700; margin: 0; border: none; padding: 0;">Privacy & Security</h2>
+      <a href={`/${siteSlug}/privacy-security/`} style="font-size: 0.9rem;">View all &rarr;</a>
+    </div>
+    <div>
+      {privacySecurityPosts.map((p) => (
         <a href={`/${siteSlug}/posts/${p.slug}/`} class="post-card">
           <div class="post-card-title">{p.frontmatter.title ?? p.slug}</div>
           {p.frontmatter.description ? (

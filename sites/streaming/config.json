@@ -1,0 +1,31 @@
+{
+  "name": "Streaming",
+  "description": "Best VPN for streaming Netflix, Disney+, Hulu, and more. Unblock geo-restricted content with expert-tested VPN guides.",
+  "keywords": ["vpn for netflix", "vpn for streaming", "disney plus vpn", "hulu vpn", "streaming vpn"],
+  "baseUrl": "https://wordok.top",
+  "lang": "en",
+  "defaultImage": "https://wordok.top/og-default.png",
+  "contact": {
+    "email": "iwangzhanpeng94@gmail.com",
+    "privacyEmail": "iwangzhanpeng94@gmail.com",
+    "businessEmail": "iwangzhanpeng94@gmail.com"
+  },
+  "social": {
+    "twitter": "",
+    "linkedin": ""
+  },
+  "analytics": {
+    "ga4Id": "G-JWYQZWRTBN",
+    "cfBeacon": ""
+  },
+  "giscus": {
+    "repo": "",
+    "repoId": "",
+    "category": "",
+    "categoryId": ""
+  },
+  "adsense": {
+    "publisherId": "",
+    "adSlot": ""
+  }
+}

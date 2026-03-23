@@ -27,6 +27,7 @@ export const GET: APIRoute = () => {
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/`), priority: 0.95, changefreq: "daily" });
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/posts/`), priority: 0.9, changefreq: "daily" });
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/ai-frontiers/`), priority: 0.85, changefreq: "weekly" });
+    urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/privacy-security/`), priority: 0.85, changefreq: "weekly" });
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/about/`), priority: 0.6, changefreq: "monthly" });
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/contact/`), priority: 0.6, changefreq: "monthly" });
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/privacy/`), priority: 0.4, changefreq: "yearly" });

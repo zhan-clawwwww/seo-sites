@@ -42,7 +42,7 @@ jobs:
       - name: Build site (vpn-usa + ai + apple)
         run: npm run build
         env:
-          ENABLED_SITES: vpn-usa,ai,apple
+          ENABLED_SITES: vpn-usa,ai,apple,streaming
           PUBLIC_ROOT_BASE_URL: https://wordok.top
 
       - name: Upload build artifact
