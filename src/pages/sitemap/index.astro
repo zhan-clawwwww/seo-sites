@@ -24,6 +24,7 @@ for (const s of sites) {
   const siteUrls: { href: string; label: string }[] = [
     { href: `${base}/${s.slug}/`, label: `${s.config.name} 首页` },
     { href: `${base}/${s.slug}/posts/`, label: "文章列表" },
+    { href: `${base}/${s.slug}/ai-frontiers/`, label: "AI Frontiers" },
     { href: `${base}/${s.slug}/privacy-security/`, label: "Privacy & Security" },
     { href: `${base}/${s.slug}/about/`, label: "关于" },
     { href: `${base}/${s.slug}/contact/`, label: "联系" },
@@ -44,7 +45,7 @@ const totalUrls = urlGroups.reduce((n, g) => n + g.urls.length, 0);
 
 <BaseLayout
   title="站点地图 — wordok.top"
-  description="wordok.top 全站页面索引，包含 VPN、AI News、Apple 等频道所有文章"
+  description="wordok.top 全站页面索引：VPN、AI News、Apple、Streaming 及 AI Frontiers、Privacy & Security 等栏目"
   canonical={`${rootBaseUrl}/sitemap/`}
 >
   <main class="sitemap-page">

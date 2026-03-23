@@ -15,6 +15,7 @@
     "submit:indexnow": "node scripts/submit-indexnow.mjs",
     "submit:indexnow:vpn": "node scripts/submit-indexnow.mjs --site vpn-usa",
     "submit:sitemap": "node scripts/submit-indexnow.mjs --all",
+    "submit:indexnow:all-sites": "node scripts/submit-indexnow.mjs --all-sites",
     "apple:generate": "node scripts/generate-apple-posts.mjs"
   },
   "dependencies": {

@@ -16,6 +16,8 @@ type Props = {
   title: string;
   description?: string;
   canonical: string;
+  /** 默认允许收录；草稿可传 noindex,nofollow */
+  robots?: string;
   keywords?: string[];
   openGraph?: {
     type?: "website" | "article";
@@ -52,6 +54,7 @@ const {
   title,
   description,
   canonical,
+  robots,
   keywords,
   openGraph,
   twitter,
@@ -62,6 +65,10 @@ const {
   lang,
   analytics,
 } = Astro.props;
+
+const robotsContent =
+  robots ??
+  "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 
 function toJsonLdArray(v: unknown | unknown[] | undefined): unknown[] {
   if (!v) return [];
@@ -87,11 +94,14 @@ const otherChannels = siteSlug
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <meta name="robots" content={robotsContent} />
+    <meta name="googlebot" content={robotsContent} />
     {description ? <meta name="description" content={description} /> : null}
     {keywords?.length ? (
       <meta name="keywords" content={keywords.join(",")} />
     ) : null}
     <link rel="canonical" href={canonical} />
+    <link rel="sitemap" type="application/xml" href="/sitemap_index.xml" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/og-default.png" />
 
@@ -364,11 +374,44 @@ const otherChannels = siteSlug
         font-size: 0.85rem;
         color: var(--ai-text-secondary);
       }
+      .ai-footer-hubs {
+        margin-top: 18px;
+        padding-top: 16px;
+        border-top: 1px solid var(--ai-border);
+      }
+      .ai-footer-hub-title {
+        font-size: 0.72rem;
+        font-weight: 600;
+        margin: 0 0 8px;
+        color: var(--ai-text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .ai-footer-hub-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+      }
+      .ai-footer-hub-group {
+        font-size: 0.76rem;
+        line-height: 1.5;
+        color: var(--ai-text-secondary);
+      }
+      .ai-footer-hub-group a {
+        color: var(--ai-primary);
+        text-decoration: none;
+      }
+      .ai-footer-hub-group a:hover {
+        text-decoration: underline;
+      }
+      .ai-footer-hub-sep {
+        color: var(--ai-border);
+      }
       .ai-footer-copy {
         font-size: 0.8rem;
         color: var(--ai-text-secondary);
-        margin-top: 16px;
-        padding-top: 16px;
+        margin-top: 14px;
+        padding-top: 14px;
         border-top: 1px solid var(--ai-border);
       }
 
@@ -496,6 +539,8 @@ const otherChannels = siteSlug
             ))}
             <a href={`/${siteSlug}/`}>Home</a>
             <a href={`/${siteSlug}/posts/`}>{siteSlug === "apple" ? "Products" : "News"}</a>
+            <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
+            <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
             <a href={`/${siteSlug}/about/`}>About</a>
             <a href={`/${siteSlug}/contact/`}>Contact</a>
           </nav>
@@ -517,13 +562,32 @@ const otherChannels = siteSlug
             ))}
             <a href={`/${siteSlug}/`}>Home</a>
             <a href={`/${siteSlug}/posts/`}>{siteSlug === "apple" ? "Products" : "News"}</a>
+            <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
+            <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
             <a href={`/${siteSlug}/about/`}>About</a>
             <a href={`/${siteSlug}/contact/`}>Contact</a>
             <a href={`/${siteSlug}/privacy/`}>Privacy</a>
             <a href={`/${siteSlug}/terms/`}>Terms</a>
+            <a href="/sitemap/">HTML Site Map</a>
             <a href={`/${siteSlug}/rss.xml`}>RSS</a>
             <a href={`/${siteSlug}/sitemap.xml`}>Sitemap</a>
           </div>
+          <nav class="ai-footer-hubs" aria-label="All wordok.top channels">
+            <p class="ai-footer-hub-title">Explore all channels</p>
+            <div class="ai-footer-hub-row">
+              {allSites.map((s) => (
+                <span class="ai-footer-hub-group">
+                  <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
+                  <span class="ai-footer-hub-sep"> · </span>
+                  <a href={`/${s.slug}/posts/`}>Articles</a>
+                  <span class="ai-footer-hub-sep"> · </span>
+                  <a href={`/${s.slug}/ai-frontiers/`}>AI Frontiers</a>
+                  <span class="ai-footer-hub-sep"> · </span>
+                  <a href={`/${s.slug}/privacy-security/`}>Privacy</a>
+                </span>
+              ))}
+            </div>
+          </nav>
           <p class="ai-footer-copy">&copy; {currentYear} {siteName}. All rights reserved.</p>
         </div>
       </footer>

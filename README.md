@@ -31,6 +31,8 @@ npm run dev
 
 Google 会抓取首页，从首页「站点地图」进入 `/sitemap/`，该页列出全站所有链接，Google 可据此发现并收录所有文章。
 
+**抓取与收录（robots、内链、IndexNow 全站脚本）**：见 **[docs/google-search-console-crawl.md](./docs/google-search-console-crawl.md)**。部署后可运行 `npm run submit:indexnow:all-sites`（需已配置 IndexNow 验证文件）。
+
 ## 新文章与站点地图
 
 **站点地图自动生成**，无需手动维护。

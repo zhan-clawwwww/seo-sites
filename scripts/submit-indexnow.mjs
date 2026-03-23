@@ -7,6 +7,7 @@
  * 使用方法：
  *   node scripts/submit-indexnow.mjs --site vpn-usa
  *   node scripts/submit-indexnow.mjs --site site-a
+ *   node scripts/submit-indexnow.mjs --all-sites   # 与 CI 一致的四个频道 + Ping 全站 sitemap
  *
  * 前提：
  *   1. 在网站根目录放置验证文件 /public/<YOUR_API_KEY>.txt，内容为 API Key 本身
@@ -14,7 +15,7 @@
  *   3. 部署后再运行
  */
 
-import { readFileSync, readdirSync } from "fs";
+import { readFileSync, readdirSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -57,6 +58,8 @@ async function submitToIndexNow(siteSlug) {
   const urls = [
     `${baseUrl}/${siteSlug}/`,
     `${baseUrl}/${siteSlug}/posts/`,
+    `${baseUrl}/${siteSlug}/ai-frontiers/`,
+    `${baseUrl}/${siteSlug}/privacy-security/`,
     `${baseUrl}/${siteSlug}/about/`,
     `${baseUrl}/${siteSlug}/contact/`,
     ...slugs.map((s) => `${baseUrl}/${siteSlug}/posts/${s}/`),
@@ -120,13 +123,43 @@ async function pingGoogleSitemap(sitemapUrl) {
   }
 }
 
+/** 与 .github/workflows/deploy.yml 中 ENABLED_SITES 保持一致 */
+const PRODUCTION_SITE_SLUGS = ["vpn-usa", "ai", "apple", "streaming"];
+
+async function submitAllProductionSites() {
+  const rootBaseUrl = process.env.PUBLIC_ROOT_BASE_URL || "https://wordok.top";
+  const sitemapIndex = `${rootBaseUrl.replace(/\/$/, "")}/sitemap_index.xml`;
+
+  console.log(`\n🚀 IndexNow：依次提交 ${PRODUCTION_SITE_SLUGS.length} 个频道\n`);
+
+  for (const slug of PRODUCTION_SITE_SLUGS) {
+    const cfgPath = join(rootDir, "sites", slug, "config.json");
+    if (!existsSync(cfgPath)) {
+      console.warn(`⚠️  跳过（无 config）: ${slug}`);
+      continue;
+    }
+    console.log(`\n── 频道: ${slug} ──`);
+    await submitToIndexNow(slug);
+    await new Promise((r) => setTimeout(r, 800));
+  }
+
+  console.log(`\n🚀 Ping 全站 Sitemap Index\n`);
+  await pingGoogleSitemap(sitemapIndex);
+}
+
 // ── 主程序 ──────────────────────────────────────────────────
 const args = process.argv.slice(2);
 const siteIdx = args.indexOf("--site");
 const useAll = args.includes("--all");
+const useAllSites = args.includes("--all-sites");
 const siteSlug = siteIdx >= 0 ? args[siteIdx + 1] : null;
 
-if (useAll) {
+if (useAllSites) {
+  submitAllProductionSites().catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+} else if (useAll) {
   const rootBaseUrl = process.env.PUBLIC_ROOT_BASE_URL || "https://wordok.top";
   const sitemapIndex = `${rootBaseUrl.replace(/\/$/, "")}/sitemap_index.xml`;
   console.log(`\n🚀 提交全站 Sitemap Index 到 Google\n`);
@@ -138,5 +171,6 @@ if (useAll) {
   console.error("用法:");
   console.error("  node scripts/submit-indexnow.mjs --site <site-slug>  # 单站点 IndexNow + Google Ping");
   console.error("  node scripts/submit-indexnow.mjs --all              # 仅 Ping Google Sitemap Index");
+  console.error("  node scripts/submit-indexnow.mjs --all-sites        # 四频道 IndexNow + Ping sitemap index");
   process.exit(1);
 }

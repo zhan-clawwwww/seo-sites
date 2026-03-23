@@ -18,16 +18,18 @@ const canonical = toCanonical(rootBaseUrl, "/");
 
 const openGraph = {
   type: "website" as const,
-  title: "wordok.top — VPN Reviews & AI News",
-  description: "Expert VPN reviews for the USA and latest AI news. Choose your channel to explore.",
+  title: "wordok.top — VPN, AI News, Apple & Streaming Guides",
+  description:
+    "USA VPN reviews, AI industry news, Apple device specs, and streaming VPN guides. All channels indexed for search.",
   url: canonical,
   siteName: "wordok.top",
 };
 
 const twitter = {
   card: "summary" as const,
-  title: "wordok.top — VPN Reviews & AI News",
-  description: "Expert VPN reviews and AI news. Choose your channel to explore.",
+  title: "wordok.top — VPN, AI News, Apple & Streaming",
+  description:
+    "USA VPN reviews, AI news, Apple specs, Netflix & Disney+ VPN guides — discover every channel.",
 };
 
 const itemListJsonLd = {
@@ -69,10 +71,18 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string }> 
 ---
 
 <BaseLayout
-  title="wordok.top — Choose Your Channel"
-  description="Expert VPN reviews for the USA and latest AI news. Choose your channel to explore."
+  title="wordok.top — VPN, AI News, Apple & Streaming Channels"
+  description="USA VPN reviews, artificial intelligence news, Apple iPhone and Mac guides, and streaming VPN for Netflix and Disney+. Browse all channels and our HTML site map."
   canonical={canonical}
-  keywords={["wordok", "VPN reviews", "AI news", "USA VPN", "AI insights"]}
+  keywords={[
+    "wordok",
+    "VPN reviews USA",
+    "AI news",
+    "Apple iPhone Mac",
+    "streaming VPN",
+    "Netflix VPN",
+    "site map",
+  ]}
   openGraph={openGraph}
   twitter={twitter}
   jsonLd={itemListJsonLd}
@@ -98,6 +108,39 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string }> 
           </a>
         );
       })}
+    </nav>
+
+    <nav class="portal-crawl" aria-label="Crawl-friendly channel entry points">
+      <h2 class="portal-crawl-title">All pages by channel</h2>
+      <p class="portal-crawl-note">
+        Direct links help search engines discover every section.{" "}
+        <a href="/sitemap/">Full HTML site map</a> · <a href="/sitemap.xml">sitemap.xml</a> ·{" "}
+        <a href="/sitemap_index.xml">sitemap index</a>
+      </p>
+      <ul class="portal-crawl-list">
+        {sites.map((s) => {
+          const meta = columnMeta[s.slug] ?? { label: s.config.name, desc: "", icon: "" };
+          return (
+            <li>
+              <strong>{meta.label}</strong>
+              {": "}
+              <a href={`/${s.slug}/`}>Home</a>
+              {" · "}
+              <a href={`/${s.slug}/posts/`}>Articles</a>
+              {" · "}
+              <a href={`/${s.slug}/ai-frontiers/`}>AI Frontiers</a>
+              {" · "}
+              <a href={`/${s.slug}/privacy-security/`}>Privacy &amp; Security</a>
+              {" · "}
+              <a href={`/${s.slug}/about/`}>About</a>
+              {" · "}
+              <a href={`/${s.slug}/contact/`}>Contact</a>
+              {" · "}
+              <a href={`/${s.slug}/rss.xml`}>RSS</a>
+            </li>
+          );
+        })}
+      </ul>
     </nav>
   </div>
 
@@ -175,6 +218,49 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string }> 
       max-width: 180px;
       text-align: right;
       line-height: 1.4;
+    }
+    .portal-crawl {
+      width: 100%;
+      max-width: 560px;
+      margin-top: 40px;
+      padding-top: 28px;
+      border-top: 1px solid var(--color-border);
+      text-align: left;
+    }
+    .portal-crawl-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 0 0 8px;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .portal-crawl-note {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      margin: 0 0 14px;
+      line-height: 1.5;
+    }
+    .portal-crawl-note a {
+      color: var(--color-primary);
+    }
+    .portal-crawl-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: var(--color-text);
+    }
+    .portal-crawl-list li {
+      margin-bottom: 10px;
+    }
+    .portal-crawl-list a {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+    .portal-crawl-list a:hover {
+      text-decoration: underline;
     }
     @media (max-width: 480px) {
       .portal { padding: 40px 16px 56px; }

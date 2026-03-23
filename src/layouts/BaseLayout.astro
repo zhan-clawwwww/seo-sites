@@ -48,6 +48,8 @@ type Props = {
     adSlot?: string;
   };
   hasAffiliates?: boolean;
+  /** 默认 index,follow；草稿页可传 noindex,nofollow */
+  robots?: string;
 };
 
 const {
@@ -65,7 +67,12 @@ const {
   analytics,
   adsense,
   hasAffiliates,
+  robots,
 } = Astro.props;
+
+const robotsContent =
+  robots ??
+  "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 
 function toJsonLdArray(v: unknown | unknown[] | undefined): unknown[] {
   if (!v) return [];
@@ -91,6 +98,8 @@ const otherChannels = siteSlug
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <meta name="robots" content={robotsContent} />
+    <meta name="googlebot" content={robotsContent} />
     {description ? <meta name="description" content={description} /> : null}
     {keywords?.length ? (
       <meta name="keywords" content={keywords.join(",")} />
@@ -624,11 +633,44 @@ const otherChannels = siteSlug
         transition: color var(--transition);
       }
       .footer-links a:hover { color: var(--color-primary); }
+      .footer-channel-hubs {
+        margin-top: 20px;
+        padding-top: 18px;
+        border-top: 1px solid var(--color-border);
+      }
+      .footer-hub-title {
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin: 0 0 10px;
+        color: var(--color-text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .footer-hub-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 18px;
+      }
+      .footer-hub-group {
+        font-size: 0.78rem;
+        line-height: 1.5;
+        color: var(--color-text-secondary);
+      }
+      .footer-hub-group a {
+        color: var(--color-primary);
+        text-decoration: none;
+      }
+      .footer-hub-group a:hover {
+        text-decoration: underline;
+      }
+      .footer-hub-sep {
+        color: var(--color-border);
+      }
       .footer-copy {
         font-size: 0.8rem;
         color: var(--color-text-secondary);
-        margin-top: 24px;
-        padding-top: 16px;
+        margin-top: 18px;
+        padding-top: 14px;
         border-top: 1px solid var(--color-border);
       }
 
@@ -864,6 +906,23 @@ const otherChannels = siteSlug
               <a href={`/${siteSlug}/rss.xml`}>RSS</a>
             </div>
           </div>
+          {/* 全频道关键入口：增强从任意页面到各站首页/列表/栏目的爬取路径 */}
+          <nav class="footer-channel-hubs" aria-label="All wordok.top channels">
+            <p class="footer-hub-title">Explore all channels</p>
+            <div class="footer-hub-row">
+              {allSites.map((s) => (
+                <span class="footer-hub-group">
+                  <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
+                  <span class="footer-hub-sep"> · </span>
+                  <a href={`/${s.slug}/posts/`}>Articles</a>
+                  <span class="footer-hub-sep"> · </span>
+                  <a href={`/${s.slug}/ai-frontiers/`}>AI Frontiers</a>
+                  <span class="footer-hub-sep"> · </span>
+                  <a href={`/${s.slug}/privacy-security/`}>Privacy</a>
+                </span>
+              ))}
+            </div>
+          </nav>
           <p class="footer-copy">&copy; {currentYear} {siteName}. All rights reserved.</p>
         </div>
       </footer>
