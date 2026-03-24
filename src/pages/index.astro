@@ -2,9 +2,14 @@
 export const prerender = true;
 
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getAllSites, getSiteConfig, toCanonical } from "../lib/site-data";
+import { getAllSites, getSiteConfig, getAllPosts, toCanonical } from "../lib/site-data";
 
 const sites = getAllSites();
+const allPosts = getAllPosts();
+const recentPosts = allPosts
+  .sort((a, b) => new Date(b.frontmatter.pubDate || "1970-01-01").getTime() - new Date(a.frontmatter.pubDate || "1970-01-01").getTime())
+  .slice(0, 10);
+
 const firstSite = sites[0];
 const analytics = firstSite ? getSiteConfig(firstSite.slug)?.analytics : undefined;
 
@@ -18,18 +23,18 @@ const canonical = toCanonical(rootBaseUrl, "/");
 
 const openGraph = {
   type: "website" as const,
-  title: "wordok.top — VPN, AI News, Apple & Streaming Guides",
+  title: "wordok.top — VPN, AI News, Apple, Web3 & Streaming Guides",
   description:
-    "USA VPN reviews, AI industry news, Apple device specs, and streaming VPN guides. All channels indexed for search.",
+    "Latest articles on VPN, AI, Apple, Web3, and streaming. Discover trending topics and comprehensive guides across all channels.",
   url: canonical,
   siteName: "wordok.top",
 };
 
 const twitter = {
-  card: "summary" as const,
-  title: "wordok.top — VPN, AI News, Apple & Streaming",
+  card: "summary_large_image" as const,
+  title: "wordok.top — Latest Articles on Tech & Web3",
   description:
-    "USA VPN reviews, AI news, Apple specs, Netflix & Disney+ VPN guides — discover every channel.",
+    "Stay updated with the latest VPN reviews, AI news, Apple specs, Web3 guides, and streaming tips.",
 };
 
 const itemListJsonLd = {
@@ -46,42 +51,59 @@ const itemListJsonLd = {
   })),
 };
 
-const columnMeta: Record<string, { label: string; desc: string; icon: string }> = {
+const columnMeta: Record<string, { label: string; desc: string; icon: string; color: string }> = {
   "vpn-usa": {
     label: "VPN",
-    desc: "Best USA VPN reviews and buying guides",
+    desc: "USA VPN reviews and privacy guides",
     icon: "🔒",
+    color: "#6366f1",
   },
   ai: {
     label: "AI News",
-    desc: "Latest AI news and industry insights",
+    desc: "Artificial intelligence and tech trends",
     icon: "🤖",
+    color: "#10b981",
   },
   apple: {
     label: "Apple",
-    desc: "iPhone & MacBook specs and reviews (2010–present)",
+    desc: "iPhone, MacBook specs and reviews",
     icon: "🍎",
+    color: "#f59e0b",
   },
   streaming: {
     label: "Streaming",
-    desc: "VPN for Netflix, Disney+, Hulu & 4K streaming",
+    desc: "VPN for Netflix, Disney+ and 4K streaming",
     icon: "📺",
+    color: "#ef4444",
+  },
+  web3: {
+    label: "Web3",
+    desc: "Blockchain, DeFi, NFTs and DAOs",
+    icon: "🌐",
+    color: "#8b5cf6",
+  },
+  "site-a": {
+    label: "Tech Guides",
+    desc: "SEO, web development and tech tutorials",
+    icon: "💻",
+    color: "#3b82f6",
   },
 };
 ---
 
 <BaseLayout
-  title="wordok.top — VPN, AI News, Apple & Streaming Channels"
-  description="USA VPN reviews, artificial intelligence news, Apple iPhone and Mac guides, and streaming VPN for Netflix and Disney+. Browse all channels and our HTML site map."
+  title="wordok.top — Latest Tech, Web3 & Streaming Articles"
+  description="Discover trending articles on VPN, AI, Apple, Web3, and streaming. Comprehensive guides and latest news across all technology channels."
   canonical={canonical}
   keywords={[
     "wordok",
-    "VPN reviews USA",
+    "VPN reviews",
     "AI news",
-    "Apple iPhone Mac",
+    "Apple iPhone",
+    "Web3 blockchain",
     "streaming VPN",
-    "Netflix VPN",
-    "site map",
+    "tech articles",
+    "latest updates",
   ]}
   openGraph={openGraph}
   twitter={twitter}
@@ -89,183 +111,581 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string }> 
   analytics={analytics}
 >
   <div class="portal">
-    <h1 class="portal-title">wordok.top</h1>
-    <p class="portal-subtitle">Choose a channel</p>
+    <!-- Header Section -->
+    <header class="portal-header">
+      <h1 class="portal-title">wordok.top</h1>
+      <p class="portal-subtitle">Latest technology articles and comprehensive guides</p>
+      
+      <div class="portal-stats">
+        <div class="stat-item">
+          <span class="stat-number">{sites.length}</span>
+          <span class="stat-label">Channels</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">{allPosts.length}</span>
+          <span class="stat-label">Articles</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">2026</span>
+          <span class="stat-label">Updated</span>
+        </div>
+      </div>
+    </header>
 
-    <div class="portal-sitemap-links">
-      <a href="/sitemap/">站点地图</a>
-      <a href="/sitemap.xml">sitemap.xml</a>
-    </div>
-
-    <nav class="portal-cards" aria-label="Channel navigation">
-      {sites.map((s) => {
-        const meta = columnMeta[s.slug] ?? { label: s.config.name, desc: s.config.description, icon: "📄" };
-        return (
-          <a href={`/${s.slug}/`} class="portal-card">
-            <span class="portal-card-icon" aria-hidden="true">{meta.icon}</span>
-            <span class="portal-card-title">{meta.label}</span>
-            <span class="portal-card-desc">{meta.desc}</span>
-          </a>
-        );
-      })}
-    </nav>
-
-    <nav class="portal-crawl" aria-label="Crawl-friendly channel entry points">
-      <h2 class="portal-crawl-title">All pages by channel</h2>
-      <p class="portal-crawl-note">
-        Direct links help search engines discover every section.{" "}
-        <a href="/sitemap/">Full HTML site map</a> · <a href="/sitemap.xml">sitemap.xml</a> ·{" "}
-        <a href="/sitemap_index.xml">sitemap index</a>
-      </p>
-      <ul class="portal-crawl-list">
-        {sites.map((s) => {
-          const meta = columnMeta[s.slug] ?? { label: s.config.name, desc: "", icon: "" };
+    <!-- Recently Updated Articles -->
+    <section class="recent-articles">
+      <h2 class="section-title">
+        <span class="section-icon">📰</span>
+        Recently Updated Articles
+      </h2>
+      <p class="section-subtitle">Latest publications across all channels</p>
+      
+      <div class="articles-grid">
+        {recentPosts.map((post, index) => {
+          const siteMeta = columnMeta[post.site] ?? { label: post.site, color: "#6b7280", icon: "📄" };
+          const date = post.frontmatter.pubDate ? new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric',
+            year: 'numeric'
+          }) : '';
+          
           return (
-            <li>
-              <strong>{meta.label}</strong>
-              {": "}
-              <a href={`/${s.slug}/`}>Home</a>
-              {" · "}
-              <a href={`/${s.slug}/posts/`}>Articles</a>
-              {" · "}
-              <a href={`/${s.slug}/ai-frontiers/`}>AI Frontiers</a>
-              {" · "}
-              <a href={`/${s.slug}/privacy-security/`}>Privacy &amp; Security</a>
-              {" · "}
-              <a href={`/${s.slug}/about/`}>About</a>
-              {" · "}
-              <a href={`/${s.slug}/contact/`}>Contact</a>
-              {" · "}
-              <a href={`/${s.slug}/rss.xml`}>RSS</a>
-            </li>
+            <a href={`/${post.site}/posts/${post.slug}/`} class="article-card">
+              <div class="article-header">
+                <span class="article-badge" style={`--category-color: ${siteMeta.color}`}>
+                  {siteMeta.icon} {siteMeta.label}
+                </span>
+                <span class="article-date">{date}</span>
+              </div>
+              <h3 class="article-title">{post.frontmatter.title}</h3>
+              <p class="article-desc">{post.frontmatter.description || 'Read more about this topic'}</p>
+              <div class="article-footer">
+                <span class="article-topic">{post.frontmatter.topic || 'general'}</span>
+                <span class="article-read">Read →</span>
+              </div>
+            </a>
           );
         })}
-      </ul>
-    </nav>
+      </div>
+    </section>
+
+    <!-- Channels Grid -->
+    <section class="channels-section">
+      <h2 class="section-title">
+        <span class="section-icon">📁</span>
+        Browse by Channel
+      </h2>
+      <p class="section-subtitle">Explore comprehensive content in each category</p>
+      
+      <div class="channels-grid">
+        {sites.map((s) => {
+          const meta = columnMeta[s.slug] ?? { 
+            label: s.config.name, 
+            desc: s.config.description, 
+            icon: "📄",
+            color: "#6b7280"
+          };
+          const sitePosts = allPosts.filter(p => p.site === s.slug);
+          const latestDate = sitePosts.length > 0 
+            ? new Date(sitePosts[0].frontmatter.pubDate || "1970-01-01").toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric'
+              })
+            : '';
+          
+          return (
+            <a href={`/${s.slug}/`} class="channel-card" style={`--card-color: ${meta.color}`}>
+              <div class="channel-icon">{meta.icon}</div>
+              <div class="channel-content">
+                <h3 class="channel-title">{meta.label}</h3>
+                <p class="channel-desc">{meta.desc}</p>
+                <div class="channel-meta">
+                  <span class="channel-count">{sitePosts.length} articles</span>
+                  {latestDate && <span class="channel-update">Updated {latestDate}</span>}
+                </div>
+              </div>
+              <div class="channel-arrow">→</div>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- Quick Links -->
+    <section class="quick-links">
+      <h2 class="section-title">
+        <span class="section-icon">🔗</span>
+        Quick Navigation
+      </h2>
+      
+      <div class="links-grid">
+        <a href="/sitemap/" class="link-card">
+          <span class="link-icon">🗺️</span>
+          <span class="link-text">Full Site Map</span>
+        </a>
+        <a href="/sitemap.xml" class="link-card">
+          <span class="link-icon">📄</span>
+          <span class="link-text">XML Sitemap</span>
+        </a>
+        <a href="/sitemap_index.xml" class="link-card">
+          <span class="link-icon">📑</span>
+          <span class="link-text">Sitemap Index</span>
+        </a>
+        <div class="link-card rss-feed">
+          <span class="link-icon">📢</span>
+          <span class="link-text">RSS Feeds</span>
+          <div class="rss-links">
+            {sites.slice(0, 3).map(s => (
+              <a href={`/${s.slug}/rss.xml`} class="rss-link">{s.config.name}</a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEO Footer -->
+    <footer class="seo-footer">
+      <p>
+        <strong>wordok.top</strong> provides comprehensive guides and latest news on VPN services, 
+        artificial intelligence, Apple products, Web3 technologies, and streaming optimization. 
+        All content is regularly updated for accuracy and relevance.
+      </p>
+      <div class="footer-links">
+        {sites.map(s => (
+          <a href={`/${s.slug}/`}>{s.config.name}</a>
+        ))}
+      </div>
+    </footer>
   </div>
 
   <style>
+    :root {
+      --color-primary: #3b82f6;
+      --color-primary-light: #eff6ff;
+      --color-surface: #ffffff;
+      --color-surface-hover: #f9fafb;
+      --color-border: #e5e7eb;
+      --color-text: #111827;
+      --color-text-secondary: #6b7280;
+      --color-text-light: #9ca3af;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      --transition: all 0.2s ease;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-surface: #1f2937;
+        --color-surface-hover: #374151;
+        --color-border: #4b5563;
+        --color-text: #f9fafb;
+        --color-text-secondary: #d1d5db;
+        --color-text-light: #9ca3af;
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      }
+    }
+
     .portal {
-      max-width: 480px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 56px 20px 72px;
-      min-height: 70vh;
+      padding: 40px 24px 60px;
+      min-height: 100vh;
+    }
+
+    /* Header Styles */
+    .portal-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .portal-title {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin: 0 0 8px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .portal-subtitle {
+      font-size: 1.125rem;
+      color: var(--color-text-secondary);
+      margin: 0 0 32px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .portal-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 32px;
+    }
+
+    .stat-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
     }
-    .portal-title {
-      font-size: 1.75rem;
+
+    .stat-number {
+      font-size: 1.875rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
-      margin: 0 0 6px;
-      color: var(--color-text);
-    }
-    .portal-subtitle {
-      font-size: 0.95rem;
-      color: var(--color-text-secondary);
-      margin: 0 0 8px;
-      font-weight: 400;
-    }
-    .portal-sitemap-links {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-    .portal-sitemap-links a {
-      font-size: 0.85rem;
-      color: var(--color-text-secondary);
-      text-decoration: none;
-    }
-    .portal-sitemap-links a:hover {
       color: var(--color-primary);
     }
-    .portal-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      margin-top: 4px;
     }
-    .portal-card {
+
+    /* Section Styles */
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 8px;
+      color: var(--color-text);
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 18px 20px;
+      gap: 8px;
+    }
+
+    .section-icon {
+      font-size: 1.25rem;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      margin: 0 0 24px;
+    }
+
+    .recent-articles {
+      margin-bottom: 48px;
+    }
+
+    /* Articles Grid */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .article-card {
       background: var(--color-surface);
       border: 1px solid var(--color-border);
       border-radius: var(--radius);
-      text-decoration: none !important;
-      transition: border-color 0.2s, background 0.2s;
+      padding: 20px;
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
-    .portal-card:hover {
+
+    .article-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
       border-color: var(--color-primary);
-      background: var(--color-surface-hover);
     }
-    .portal-card-icon {
-      font-size: 1.5rem;
-      flex-shrink: 0;
+
+    .article-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
     }
-    .portal-card-title {
-      font-size: 1rem;
+
+    .article-badge {
+      font-size: 0.75rem;
       font-weight: 600;
-      color: var(--color-text);
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: color-mix(in srgb, var(--category-color) 10%, transparent);
+      color: var(--category-color);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
-    .portal-card-desc {
-      font-size: 0.8rem;
-      color: var(--color-text-secondary);
-      margin-left: auto;
-      max-width: 180px;
-      text-align: right;
-      line-height: 1.4;
+
+    .article-date {
+      font-size: 0.75rem;
+      color: var(--color-text-light);
     }
-    .portal-crawl {
-      width: 100%;
-      max-width: 560px;
-      margin-top: 40px;
-      padding-top: 28px;
-      border-top: 1px solid var(--color-border);
-      text-align: left;
-    }
-    .portal-crawl-title {
-      font-size: 0.85rem;
+
+    .article-title {
+      font-size: 1.125rem;
       font-weight: 600;
       margin: 0 0 8px;
-      color: var(--color-text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      color: var(--color-text);
+      line-height: 1.4;
+      flex-grow: 1;
     }
-    .portal-crawl-note {
-      font-size: 0.8rem;
+
+    .article-desc {
+      font-size: 0.875rem;
       color: var(--color-text-secondary);
-      margin: 0 0 14px;
+      margin: 0 0 16px;
       line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
-    .portal-crawl-note a {
+
+    .article-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+
+    .article-topic {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      background: var(--color-surface-hover);
+      border-radius: var(--radius-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .article-read {
+      font-size: 0.875rem;
       color: var(--color-primary);
+      font-weight: 600;
     }
-    .portal-crawl-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      font-size: 0.82rem;
-      line-height: 1.65;
+
+    /* Channels Section */
+    .channels-section {
+      margin-bottom: 48px;
+    }
+
+    .channels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .channel-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .channel-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--color-primary);
+    }
+
+    .channel-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+
+    .channel-content {
+      flex-grow: 1;
+    }
+
+    .channel-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin: 0 0 4px;
       color: var(--color-text);
     }
-    .portal-crawl-list li {
-      margin-bottom: 10px;
+
+    .channel-desc {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      margin: 0 0 8px;
+      line-height: 1.4;
     }
-    .portal-crawl-list a {
+
+    .channel-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 0.75rem;
+    }
+
+    .channel-count {
+      color: var(--color-text-light);
+    }
+
+    .channel-update {
+      color: var(--color-primary);
+    }
+
+    .channel-arrow {
+      font-size: 1.25rem;
+      color: var(--color-text-light);
+      transition: var(--transition);
+    }
+
+    .channel-card:hover .channel-arrow {
+      transform: translateX(4px);
+      color: var(--color-primary);
+    }
+
+    /* Quick Links */
+    .quick-links {
+      margin-bottom: 48px;
+    }
+
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .link-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 16px;
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .link-card:hover {
+      background: var(--color-surface-hover);
+      border-color: var(--color-primary);
+    }
+
+    .link-card.rss-feed {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .link-icon {
+      font-size: 1.25rem;
+    }
+
+    .link-text {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .rss-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .rss-link {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      background: var(--color-surface-hover);
+      border-radius: var(--radius-sm);
+      color: var(--color-text-secondary);
+      text-decoration: none;
+    }
+
+    .rss-link:hover {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    /* SEO Footer */
+    .seo-footer {
+      padding-top: 40px;
+      border-top: 1px solid var(--color-border);
+      text-align: center;
+    }
+
+    .seo-footer p {
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto 24px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .footer-links a {
+      font-size: 0.875rem;
       color: var(--color-primary);
       text-decoration: none;
     }
-    .portal-crawl-list a:hover {
+
+    .footer-links a:hover {
       text-decoration: underline;
     }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .portal {
+        padding: 32px 16px 48px;
+      }
+
+      .portal-title {
+        font-size: 2.5rem;
+      }
+
+      .portal-subtitle {
+        font-size: 1rem;
+      }
+
+      .portal-stats {
+        gap: 24px;
+      }
+
+      .stat-number {
+        font-size: 1.5rem;
+      }
+
+      .articles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .channels-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .links-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     @media (max-width: 480px) {
-      .portal { padding: 40px 16px 56px; }
-      .portal-title { font-size: 1.5rem; }
-      .portal-card-desc { display: none; }
+      .portal-title {
+        font-size: 2rem;
+      }
+
+      .portal-stats {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .links-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </BaseLayout>
