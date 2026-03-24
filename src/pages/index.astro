@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { resolveRootSiteAnalytics } from "../lib/root-analytics";
 import { getAllSites, getSiteConfig, getAllPosts, toCanonical } from "../lib/site-data";
 
 const sites = getAllSites();
@@ -11,7 +12,9 @@ const recentPosts = allPosts
   .slice(0, 10);
 
 const firstSite = sites[0];
-const analytics = firstSite ? getSiteConfig(firstSite.slug)?.analytics : undefined;
+const analytics = resolveRootSiteAnalytics(
+  firstSite ? getSiteConfig(firstSite.slug)?.analytics : undefined,
+);
 
 if (sites.length === 1) {
   return Astro.redirect(`/${sites[0].slug}/`, 301);
