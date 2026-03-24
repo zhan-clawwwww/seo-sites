@@ -132,44 +132,7 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
       </div>
     </header>
 
-    <!-- Recently Updated Articles -->
-    <section class="recent-articles">
-      <h2 class="section-title">
-        <span class="section-icon">📰</span>
-        Recently Updated Articles
-      </h2>
-      <p class="section-subtitle">Latest publications across all channels</p>
-      
-      <div class="articles-grid">
-        {recentPosts.map((post, index) => {
-          const siteMeta = columnMeta[post.site] ?? { label: post.site, color: "#6b7280", icon: "📄" };
-          const date = post.frontmatter.pubDate ? new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', { 
-            month: 'short', 
-            day: 'numeric',
-            year: 'numeric'
-          }) : '';
-          
-          return (
-            <a href={`/${post.site}/posts/${post.slug}/`} class="article-card">
-              <div class="article-header">
-                <span class="article-badge" style={`--category-color: ${siteMeta.color}`}>
-                  {siteMeta.icon} {siteMeta.label}
-                </span>
-                <span class="article-date">{date}</span>
-              </div>
-              <h3 class="article-title">{post.frontmatter.title}</h3>
-              <p class="article-desc">{post.frontmatter.description || 'Read more about this topic'}</p>
-              <div class="article-footer">
-                <span class="article-topic">{post.frontmatter.topic || 'general'}</span>
-                <span class="article-read">Read →</span>
-              </div>
-            </a>
-          );
-        })}
-      </div>
-    </section>
-
-    <!-- Channels Grid -->
+    <!-- Channels Grid (primary entry: browse by column first) -->
     <section class="channels-section">
       <h2 class="section-title">
         <span class="section-icon">📁</span>
@@ -205,6 +168,43 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
                 </div>
               </div>
               <div class="channel-arrow">→</div>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- Recently Updated Articles -->
+    <section class="recent-articles">
+      <h2 class="section-title">
+        <span class="section-icon">📰</span>
+        Recently Updated Articles
+      </h2>
+      <p class="section-subtitle">Latest publications across all channels</p>
+      
+      <div class="articles-grid">
+        {recentPosts.map((post, index) => {
+          const siteMeta = columnMeta[post.site] ?? { label: post.site, color: "#6b7280", icon: "📄" };
+          const date = post.frontmatter.pubDate ? new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric',
+            year: 'numeric'
+          }) : '';
+          
+          return (
+            <a href={`/${post.site}/posts/${post.slug}/`} class="article-card">
+              <div class="article-header">
+                <span class="article-badge" style={`--category-color: ${siteMeta.color}`}>
+                  {siteMeta.icon} {siteMeta.label}
+                </span>
+                <span class="article-date">{date}</span>
+              </div>
+              <h3 class="article-title">{post.frontmatter.title}</h3>
+              <p class="article-desc">{post.frontmatter.description || 'Read more about this topic'}</p>
+              <div class="article-footer">
+                <span class="article-topic">{post.frontmatter.topic || 'general'}</span>
+                <span class="article-read">Read →</span>
+              </div>
             </a>
           );
         })}
