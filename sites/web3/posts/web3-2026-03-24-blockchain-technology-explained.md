@@ -251,6 +251,35 @@ Custom blockchains for specific use cases:
 2. **Testing Strategies**: Unit tests, integration tests, fuzzing
 3. **Monitoring Tools**: Blockchain explorers, analytics platforms
 
+## Finality, Confirmations, and Reorgs
+
+When a wallet says “confirmed,” it usually means your transaction is in a block. **Finality** means the economic and protocol rules make reversal impractical.
+
+- **Probabilistic finality** (common in PoW-style thinking): More blocks on top mean exponentially harder reversal.
+- **Epoch/committee finality** (many PoS designs): After a checkpoint, rules explicitly treat blocks as finalized subject to social consensus in extreme scenarios.
+- **Reorgs**: Sometimes a competing chain tip wins briefly; small reorgs can happen on busy networks. Exchanges often require **N confirmations** to reduce reversal risk.
+
+For high-value transfers, follow recipient/exchange guidance on **confirmation counts**, not just the first inclusion.
+
+## Data Availability and Modular Stacks (Why It Matters)
+
+Modern designs split responsibilities:
+
+- **Execution**: Running transactions and smart contracts.
+- **Settlement**: Anchoring truth and dispute resolution.
+- **Data availability**: Ensuring block data is published so others can reconstruct state—critical for rollups and honest exits.
+
+If execution scales without DA guarantees, users may lose the ability to **challenge** or **withdraw** safely. When evaluating an L2 or app-chain, ask: **where is the data, and who can censor it?**
+
+## How to Read a Block Explorer (Practical Walkthrough)
+
+1. Paste your **transaction hash** into a reputable explorer for that chain.
+2. Check **status** (success/fail), **gas paid**, and **internal transactions** if the protocol uses contracts behind the scenes.
+3. Open **contract addresses** you interacted with—are they verified source, recently deployed, or proxies?
+4. For token transfers, confirm **log events** match the asset and amount you expected.
+
+This habit catches **wrong chain**, **wrong token**, and **malicious approvals** before they become expensive lessons.
+
 ## Future Outlook
 
 ### 2026 Milestones
