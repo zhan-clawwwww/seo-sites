@@ -74,6 +74,12 @@ const pubDate = frontmatter.pubDate?.toString?.();
 const updatedDate = frontmatter.updatedDate?.toString?.();
 const faq = normalizeFaq(frontmatter.faq);
 
+const draftRaw = frontmatter.draft;
+const isDraft =
+  draftRaw === true || String(draftRaw ?? "").toLowerCase() === "true";
+const robotsFromFm = frontmatter.robots?.toString?.().trim?.() || undefined;
+const pageRobots = isDraft ? "noindex, nofollow" : robotsFromFm || undefined;
+
 // 作者信息（若 authorId 不存在于 authors 库则回退到站点默认作者）
 const authorId = frontmatter.author?.toString?.().trim() || null;
 const author = (authorId ? getAuthor(authorId) : null) ?? getDefaultAuthorForSite(siteSlug);
@@ -219,6 +225,7 @@ const layoutProps = {
   analytics: siteConfig.analytics,
   adsense,
   hasAffiliates: hasAffiliates,
+  ...(pageRobots ? { robots: pageRobots } : {}),
 };
 ---
 

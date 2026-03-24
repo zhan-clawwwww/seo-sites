@@ -1,5 +1,6 @@
 ---
 import { getAllSites } from "../lib/site-data";
+import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
 
 // Short labels for cross-channel nav
 const CHANNEL_LABELS: Record<string, string> = {
@@ -72,9 +73,8 @@ const {
   robots,
 } = Astro.props;
 
-const robotsContent =
-  robots ??
-  "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
+const robotsContent = robots ?? DEFAULT_HTML_ROBOTS;
+const hrefLang = lang || "en";
 
 function toJsonLdArray(v: unknown | unknown[] | undefined): unknown[] {
   if (!v) return [];
@@ -104,14 +104,16 @@ const otherChannels = siteSlug
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0c0a12" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <!-- 默认允许收录；仅草稿或 frontmatter.robots 覆盖时为 noindex -->
     <meta name="robots" content={robotsContent} />
-    <meta name="googlebot" content={robotsContent} />
+    <title>{title}</title>
     {description ? <meta name="description" content={description} /> : null}
     {keywords?.length ? (
       <meta name="keywords" content={keywords.join(",")} />
     ) : null}
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={hrefLang} href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
     <link rel="sitemap" type="application/xml" href="/sitemap_index.xml" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/og-default.png" />

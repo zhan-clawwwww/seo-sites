@@ -51,6 +51,20 @@ const itemListJsonLd = {
   })),
 };
 
+const webSiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "wordok.top",
+  url: canonical,
+  description: openGraph.description,
+  inLanguage: "en",
+  publisher: {
+    "@type": "Organization",
+    name: "wordok.top",
+    url: canonical,
+  },
+};
+
 const columnMeta: Record<string, { label: string; desc: string; icon: string; color: string }> = {
   "vpn-usa": {
     label: "VPN",
@@ -107,7 +121,7 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
   ]}
   openGraph={openGraph}
   twitter={twitter}
-  jsonLd={itemListJsonLd}
+  jsonLd={[itemListJsonLd, webSiteJsonLd]}
   analytics={analytics}
 >
   <div class="portal">
