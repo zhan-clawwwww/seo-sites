@@ -97,7 +97,12 @@ const otherChannels = siteSlug
 <html lang={lang || "en"}>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0c0a12" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="robots" content={robotsContent} />
@@ -244,7 +249,11 @@ const otherChannels = siteSlug
       }
 
       *, *::before, *::after { box-sizing: border-box; margin: 0; }
-      html { scroll-behavior: smooth; }
+      html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
 
       body {
         font-family: var(--font-sans);
@@ -254,8 +263,11 @@ const otherChannels = siteSlug
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         min-height: 100vh;
+        min-height: 100dvh;
         display: flex;
         flex-direction: column;
+        padding-left: env(safe-area-inset-left, 0px);
+        padding-right: env(safe-area-inset-right, 0px);
       }
 
       a {
@@ -280,6 +292,7 @@ const otherChannels = siteSlug
         -webkit-backdrop-filter: blur(12px);
         border-bottom: 1px solid var(--color-border);
         padding: 0;
+        padding-top: env(safe-area-inset-top, 0px);
       }
       @media (prefers-color-scheme: dark) {
         .site-header {
@@ -443,6 +456,22 @@ const otherChannels = siteSlug
       article th {
         background: var(--color-surface);
         font-weight: 600;
+      }
+      @media (max-width: 640px) {
+        article {
+          overflow-wrap: anywhere;
+          word-break: break-word;
+        }
+        article table {
+          display: block;
+          width: 100%;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          font-size: 0.82rem;
+        }
+        article th, article td {
+          padding: 8px 10px;
+        }
       }
 
       /* === Post Card === */
@@ -696,6 +725,39 @@ const otherChannels = siteSlug
         --pagefind-ui-font: var(--font-sans);
       }
 
+      @media (max-width: 720px) {
+        .header-inner {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 12px;
+        }
+        .header-search {
+          margin-left: 0;
+          width: 100%;
+          order: 3;
+        }
+        .header-search .pagefind-ui__search-input {
+          max-width: none;
+          width: 100%;
+        }
+        .site-nav {
+          width: 100%;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          gap: 14px;
+          padding-bottom: 6px;
+          scrollbar-width: thin;
+        }
+        .site-nav a {
+          flex-shrink: 0;
+          min-height: 44px;
+          display: inline-flex;
+          align-items: center;
+          touch-action: manipulation;
+        }
+      }
+
       /* === Responsive === */
       @media (max-width: 640px) {
         .main-content { padding: 20px 16px; }
@@ -706,6 +768,9 @@ const otherChannels = siteSlug
         .footer-top { flex-direction: column; }
         .footer-links { gap: 12px; }
         .post-card { padding: 16px; }
+        .site-footer {
+          padding-bottom: max(32px, env(safe-area-inset-bottom, 0px));
+        }
       }
 
       /* === Affiliate Box === */

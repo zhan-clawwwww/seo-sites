@@ -1,6 +1,13 @@
 import type { APIRoute } from "astro";
 import { getAllPosts } from "../../lib/site-data";
-import { asYyyyMmDd, canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../lib/site-routing";
+import {
+  asYyyyMmDd,
+  buildStampYyyyMmDd,
+  canonicalFor,
+  getSiteStaticPaths,
+  latestPostLastmodYyyyMmDd,
+  requireSiteConfig,
+} from "../../lib/site-routing";
 
 export const prerender = true;
 
@@ -22,16 +29,28 @@ export const GET: APIRoute = ({ params }) => {
   const siteConfig = requireSiteConfig(siteSlug);
 
   const posts = getAllPosts(siteSlug);
+  const buildDay = buildStampYyyyMmDd();
+  const hubLastmod = latestPostLastmodYyyyMmDd(posts) ?? buildDay;
 
   type UrlEntry = { loc: string; lastmod?: string; priority?: number; changefreq?: string };
 
   const urls: UrlEntry[] = [
-    { loc: canonicalFor(siteConfig, `/${siteSlug}/`), priority: 1.0, changefreq: "daily" },
-    { loc: canonicalFor(siteConfig, `/${siteSlug}/posts/`), priority: 0.9, changefreq: "daily" },
-    { loc: canonicalFor(siteConfig, `/${siteSlug}/ai-frontiers/`), priority: 0.85, changefreq: "weekly" },
-    { loc: canonicalFor(siteConfig, `/${siteSlug}/privacy-security/`), priority: 0.85, changefreq: "weekly" },
-    { loc: canonicalFor(siteConfig, `/${siteSlug}/about/`), priority: 0.6, changefreq: "monthly" },
-    { loc: canonicalFor(siteConfig, `/${siteSlug}/contact/`), priority: 0.6, changefreq: "monthly" },
+    { loc: canonicalFor(siteConfig, `/${siteSlug}/`), lastmod: hubLastmod, priority: 1.0, changefreq: "daily" },
+    { loc: canonicalFor(siteConfig, `/${siteSlug}/posts/`), lastmod: hubLastmod, priority: 0.9, changefreq: "daily" },
+    {
+      loc: canonicalFor(siteConfig, `/${siteSlug}/ai-frontiers/`),
+      lastmod: hubLastmod,
+      priority: 0.85,
+      changefreq: "weekly",
+    },
+    {
+      loc: canonicalFor(siteConfig, `/${siteSlug}/privacy-security/`),
+      lastmod: hubLastmod,
+      priority: 0.85,
+      changefreq: "weekly",
+    },
+    { loc: canonicalFor(siteConfig, `/${siteSlug}/about/`), lastmod: hubLastmod, priority: 0.6, changefreq: "monthly" },
+    { loc: canonicalFor(siteConfig, `/${siteSlug}/contact/`), lastmod: hubLastmod, priority: 0.6, changefreq: "monthly" },
     { loc: canonicalFor(siteConfig, `/${siteSlug}/privacy/`), priority: 0.4, changefreq: "yearly" },
     { loc: canonicalFor(siteConfig, `/${siteSlug}/terms/`), priority: 0.4, changefreq: "yearly" },
     { loc: canonicalFor(siteConfig, `/${siteSlug}/disclosure/`), priority: 0.4, changefreq: "yearly" },

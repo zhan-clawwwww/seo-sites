@@ -1,6 +1,12 @@
 import type { APIRoute } from "astro";
 import { getAllPosts, getAllSites, toCanonical } from "../lib/site-data";
-import { asYyyyMmDd, canonicalFor, requireSiteConfig } from "../lib/site-routing";
+import {
+  asYyyyMmDd,
+  buildStampYyyyMmDd,
+  canonicalFor,
+  latestPostLastmodYyyyMmDd,
+  requireSiteConfig,
+} from "../lib/site-routing";
 
 export const prerender = true;
 
@@ -12,24 +18,58 @@ export const GET: APIRoute = () => {
   const rootBaseUrl =
     import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://wordok.top";
   const sites = getAllSites();
+  const buildDay = buildStampYyyyMmDd();
+  const allPostsGlobal = getAllPosts();
+  const rootLastmod = latestPostLastmodYyyyMmDd(allPostsGlobal) ?? buildDay;
 
   type UrlEntry = { loc: string; lastmod?: string; priority?: number; changefreq?: string };
 
   const urls: UrlEntry[] = [
-    { loc: toCanonical(rootBaseUrl, "/"), lastmod: new Date().toISOString().slice(0, 10), priority: 1.0, changefreq: "daily" },
-    { loc: toCanonical(rootBaseUrl, "/sitemap/"), lastmod: new Date().toISOString().slice(0, 10), priority: 0.9, changefreq: "daily" },
+    { loc: toCanonical(rootBaseUrl, "/"), lastmod: rootLastmod, priority: 1.0, changefreq: "daily" },
+    { loc: toCanonical(rootBaseUrl, "/sitemap/"), lastmod: rootLastmod, priority: 0.9, changefreq: "daily" },
   ];
 
   for (const s of sites) {
     const siteConfig = requireSiteConfig(s.slug);
     const posts = getAllPosts(s.slug);
+    const siteHubLastmod = latestPostLastmodYyyyMmDd(posts) ?? buildDay;
 
-    urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/`), priority: 0.95, changefreq: "daily" });
-    urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/posts/`), priority: 0.9, changefreq: "daily" });
-    urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/ai-frontiers/`), priority: 0.85, changefreq: "weekly" });
-    urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/privacy-security/`), priority: 0.85, changefreq: "weekly" });
-    urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/about/`), priority: 0.6, changefreq: "monthly" });
-    urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/contact/`), priority: 0.6, changefreq: "monthly" });
+    urls.push({
+      loc: canonicalFor(siteConfig, `/${s.slug}/`),
+      lastmod: siteHubLastmod,
+      priority: 0.95,
+      changefreq: "daily",
+    });
+    urls.push({
+      loc: canonicalFor(siteConfig, `/${s.slug}/posts/`),
+      lastmod: siteHubLastmod,
+      priority: 0.9,
+      changefreq: "daily",
+    });
+    urls.push({
+      loc: canonicalFor(siteConfig, `/${s.slug}/ai-frontiers/`),
+      lastmod: siteHubLastmod,
+      priority: 0.85,
+      changefreq: "weekly",
+    });
+    urls.push({
+      loc: canonicalFor(siteConfig, `/${s.slug}/privacy-security/`),
+      lastmod: siteHubLastmod,
+      priority: 0.85,
+      changefreq: "weekly",
+    });
+    urls.push({
+      loc: canonicalFor(siteConfig, `/${s.slug}/about/`),
+      lastmod: siteHubLastmod,
+      priority: 0.6,
+      changefreq: "monthly",
+    });
+    urls.push({
+      loc: canonicalFor(siteConfig, `/${s.slug}/contact/`),
+      lastmod: siteHubLastmod,
+      priority: 0.6,
+      changefreq: "monthly",
+    });
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/privacy/`), priority: 0.4, changefreq: "yearly" });
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/terms/`), priority: 0.4, changefreq: "yearly" });
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/disclosure/`), priority: 0.4, changefreq: "yearly" });

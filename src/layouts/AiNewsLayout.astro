@@ -6,6 +6,8 @@ const CHANNEL_LABELS: Record<string, string> = {
   ai: "AI News",
   apple: "Apple",
   streaming: "Streaming",
+  web3: "Web3",
+  "site-a": "Tech Guides",
 };
 
 /**
@@ -91,7 +93,12 @@ const otherChannels = siteSlug
 <html lang={lang || "en"}>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f8fa" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f1117" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="robots" content={robotsContent} />
@@ -191,7 +198,11 @@ const otherChannels = siteSlug
       }
 
       .ai-theme *, .ai-theme *::before, .ai-theme *::after { box-sizing: border-box; margin: 0; }
-      .ai-theme html { scroll-behavior: smooth; }
+      .ai-theme html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
 
       .ai-theme body {
         font-family: var(--ai-font);
@@ -200,8 +211,11 @@ const otherChannels = siteSlug
         line-height: 1.6;
         -webkit-font-smoothing: antialiased;
         min-height: 100vh;
+        min-height: 100dvh;
         display: flex;
         flex-direction: column;
+        padding-left: env(safe-area-inset-left, 0px);
+        padding-right: env(safe-area-inset-right, 0px);
       }
 
       .ai-theme a {
@@ -219,6 +233,7 @@ const otherChannels = siteSlug
         background: rgba(255,255,255,0.92);
         backdrop-filter: blur(12px);
         border-bottom: 1px solid var(--ai-border);
+        padding-top: env(safe-area-inset-top, 0px);
       }
       @media (prefers-color-scheme: dark) {
         .ai-header { background: rgba(26,29,36,0.92); }
@@ -242,6 +257,7 @@ const otherChannels = siteSlug
       .ai-nav {
         display: flex;
         gap: 24px;
+        flex-wrap: wrap;
       }
       .ai-nav a {
         font-size: 0.9rem;
@@ -251,6 +267,7 @@ const otherChannels = siteSlug
         padding: 6px 0;
         border-bottom: 2px solid transparent;
         transition: all 0.2s;
+        touch-action: manipulation;
       }
       .ai-nav a:hover {
         color: var(--ai-primary);
@@ -269,7 +286,7 @@ const otherChannels = siteSlug
       /* === 新闻网格卡片 === */
       .ai-news-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
         gap: 24px;
       }
       .ai-news-card {
@@ -518,10 +535,43 @@ const otherChannels = siteSlug
         margin-top: 14px;
       }
 
+      @media (max-width: 720px) {
+        .ai-header-inner {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 12px;
+        }
+        .ai-nav {
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          gap: 16px;
+          padding-bottom: 6px;
+          scrollbar-width: thin;
+        }
+        .ai-nav a {
+          flex-shrink: 0;
+          min-height: 44px;
+          display: inline-flex;
+          align-items: center;
+        }
+      }
+
       @media (max-width: 640px) {
-        .ai-main { padding: 20px 16px; }
+        .ai-main {
+          padding: 20px max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom))
+            max(16px, env(safe-area-inset-left));
+        }
         .ai-news-grid { grid-template-columns: 1fr; }
-        .ai-header-inner { padding: 12px 16px; gap: 16px; }
+        .ai-header-inner { padding: 12px max(16px, env(safe-area-inset-right)) 12px max(16px, env(safe-area-inset-left)); gap: 16px; }
+        .ai-theme article {
+          overflow-wrap: anywhere;
+          word-break: break-word;
+        }
+        .ai-footer-inner {
+          padding: 0 max(16px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom))
+            max(16px, env(safe-area-inset-left));
+        }
       }
     </style>
   </head>
