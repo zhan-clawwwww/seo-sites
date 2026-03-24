@@ -1,0 +1,31 @@
+{
+  "name": "Web3 Insights",
+  "description": "Comprehensive coverage of Web3, blockchain, DeFi, NFTs, and decentralized technologies. Stay informed about the future of the internet and digital ownership.",
+  "keywords": ["web3", "blockchain", "cryptocurrency", "defi", "nft", "dao", "smart contracts", "decentralized finance", "metaverse", "crypto news"],
+  "baseUrl": "https://wordok.top",
+  "lang": "en",
+  "defaultImage": "https://wordok.top/og-default.png",
+  "contact": {
+    "email": "iwangzhanpeng94@gmail.com",
+    "privacyEmail": "iwangzhanpeng94@gmail.com",
+    "businessEmail": "iwangzhanpeng94@gmail.com"
+  },
+  "social": {
+    "twitter": "",
+    "linkedin": ""
+  },
+  "analytics": {
+    "ga4Id": "G-JWYQZWRTBN",
+    "cfBeacon": ""
+  },
+  "giscus": {
+    "repo": "",
+    "repoId": "",
+    "category": "",
+    "categoryId": ""
+  },
+  "adsense": {
+    "publisherId": "",
+    "adSlot": ""
+  }
+}

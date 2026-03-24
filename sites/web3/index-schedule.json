@@ -1,0 +1,12 @@
+{
+  "strategy": "all",
+  "launchDate": "2026-03-24T00:00:00Z",
+  "releaseIntervalHours": 72,
+  "postsPerRelease": {
+    "min": 2,
+    "max": 4
+  },
+  "initialPosts": [],
+  "releaseSchedule": [],
+  "notes": "Web3 insights site - all posts built immediately. Add articles to sites/web3/posts/"
+}
