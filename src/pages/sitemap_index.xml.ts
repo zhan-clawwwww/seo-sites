@@ -11,11 +11,13 @@ export const GET: APIRoute = () => {
   const rootBaseUrl =
     import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://wordok.top";
   const sites = getAllSites();
+  const lastmod = new Date().toISOString().slice(0, 10);
 
   const sitemaps = [
-    { loc: toCanonical(rootBaseUrl, "/sitemap.xml") },
+    { loc: toCanonical(rootBaseUrl, "/sitemap.xml"), lastmod },
     ...sites.map((s) => ({
       loc: toCanonical(s.config.baseUrl, `/${s.slug}/sitemap.xml`),
+      lastmod,
     })),
   ];
 
@@ -27,6 +29,7 @@ export const GET: APIRoute = () => {
         (s) =>
           `  <sitemap>\n` +
           `    <loc>${escapeXml(s.loc)}</loc>\n` +
+          `    <lastmod>${escapeXml(s.lastmod)}</lastmod>\n` +
           `  </sitemap>\n`
       )
       .join("") +

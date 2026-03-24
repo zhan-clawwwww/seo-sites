@@ -7,7 +7,7 @@
  * 使用方法：
  *   node scripts/submit-indexnow.mjs --site vpn-usa
  *   node scripts/submit-indexnow.mjs --site site-a
- *   node scripts/submit-indexnow.mjs --all-sites   # 与 CI 一致的四个频道 + Ping 全站 sitemap
+ *   node scripts/submit-indexnow.mjs --all-sites   # 与 CI 一致的各频道 + Ping 全站 sitemap
  *
  * 前提：
  *   1. 在网站根目录放置验证文件 /public/<YOUR_API_KEY>.txt，内容为 API Key 本身
@@ -124,7 +124,7 @@ async function pingGoogleSitemap(sitemapUrl) {
 }
 
 /** 与 .github/workflows/deploy.yml 中 ENABLED_SITES 保持一致 */
-const PRODUCTION_SITE_SLUGS = ["vpn-usa", "ai", "apple", "streaming"];
+const PRODUCTION_SITE_SLUGS = ["vpn-usa", "ai", "apple", "streaming", "web3"];
 
 async function submitAllProductionSites() {
   const rootBaseUrl = process.env.PUBLIC_ROOT_BASE_URL || "https://wordok.top";
@@ -171,6 +171,6 @@ if (useAllSites) {
   console.error("用法:");
   console.error("  node scripts/submit-indexnow.mjs --site <site-slug>  # 单站点 IndexNow + Google Ping");
   console.error("  node scripts/submit-indexnow.mjs --all              # 仅 Ping Google Sitemap Index");
-  console.error("  node scripts/submit-indexnow.mjs --all-sites        # 四频道 IndexNow + Ping sitemap index");
+  console.error("  node scripts/submit-indexnow.mjs --all-sites        # 各启用频道 IndexNow + Ping sitemap index");
   process.exit(1);
 }

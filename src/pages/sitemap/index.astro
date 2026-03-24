@@ -2,9 +2,14 @@
 export const prerender = true;
 
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { resolveRootSiteAnalytics } from "../../lib/root-analytics";
 import { getAllPosts, getAllSites, getSiteConfig, toCanonical } from "../../lib/site-data";
 
 const sites = getAllSites();
+const firstSite = sites[0];
+const rootAnalytics = resolveRootSiteAnalytics(
+  firstSite ? getSiteConfig(firstSite.slug)?.analytics : undefined,
+);
 const rootBaseUrl =
   import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://wordok.top";
 
@@ -45,8 +50,9 @@ const totalUrls = urlGroups.reduce((n, g) => n + g.urls.length, 0);
 
 <BaseLayout
   title="站点地图 — wordok.top"
-  description="wordok.top 全站页面索引：VPN、AI News、Apple、Streaming 及 AI Frontiers、Privacy & Security 等栏目"
+  description="wordok.top 全站页面索引：VPN、AI News、Apple、Streaming、Web3 及 AI Frontiers、Privacy & Security 等栏目"
   canonical={`${rootBaseUrl}/sitemap/`}
+  analytics={rootAnalytics}
 >
   <main class="sitemap-page">
     <h1>站点地图</h1>

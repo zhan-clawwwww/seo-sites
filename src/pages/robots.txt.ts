@@ -16,8 +16,9 @@ export const GET: APIRoute = () => {
     "User-agent: *",
     "Allow: /",
     "",
-    "# Sitemap Index",
-    `Sitemap: ${rootBaseUrl}/sitemap_index.xml`,
+    "# Sitemaps (index + full urlset — both valid for Google Search Console)",
+    `Sitemap: ${toCanonical(rootBaseUrl, "/sitemap_index.xml")}`,
+    `Sitemap: ${toCanonical(rootBaseUrl, "/sitemap.xml")}`,
   ];
 
   const body = lines.join("\n") + "\n";

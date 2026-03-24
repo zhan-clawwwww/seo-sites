@@ -149,6 +149,51 @@ Financial services without traditional intermediaries:
 - **Discord/Twitter**: Connect with Web3 communities
 - **Events**: Virtual and in-person Web3 conferences
 
+## Digital Identity: From Usernames to Wallets
+
+Web2 identity is usually **rented**: your account lives inside a company’s database. Web3 identity starts with a **public address** and cryptographic keys you control.
+
+- **Sign-In with Ethereum (SIWE)** and similar standards let you prove you control an address without sharing a password with every app.
+- **Verifiable credentials** and on-chain attestations are maturing in 2026—useful for reputation, compliance-friendly KYC, and professional licenses—while still aiming to minimize unnecessary data exposure.
+- **Privacy tradeoff**: On-chain activity is often public by default. Newer tools (stealth addresses, account abstraction with privacy pools where available) exist, but you should assume **every transaction is visible** unless you deliberately use privacy tech.
+
+Practical habit: treat your main wallet like a **public profile** and use fresh addresses or compartmentalized wallets when experimenting.
+
+## Interoperability: Many Chains, One Idea
+
+“Web3” is not a single network. You may hold assets on Ethereum, use low-fee chains for gaming, and bridge to rollups for DeFi. That creates opportunity—and **bridge risk**.
+
+- **Tokens are not automatically portable**: moving value between chains often means locking assets on one side and minting a representation on another, each with its own trust assumptions.
+- **Standards matter**: ERC-20 (fungible), ERC-721/1155 (NFTs), and account abstraction (e.g. ERC-4337) shape how apps behave across wallets.
+- **User experience is converging**: chain abstraction, better wallet UIs, and clearer transaction previews are making multi-chain usage more mainstream in 2026 than five years ago.
+
+## Myths vs. Reality (A Quick Reality Check)
+
+| Myth | Reality |
+|------|---------|
+| “Web3 has no rules” | Law and tax still apply; protocols are global, but users live in jurisdictions. |
+| “It’s anonymous” | Pseudonymous at best; analytics and exchanges can link activity. |
+| “Code is always law” | Exploits, governance votes, and legal pressure can change outcomes. |
+| “NFTs always mean IP ownership” | You own a token; **license terms** determine what you can do with the art. |
+
+## Mini Glossary
+
+- **Gas / fees**: Payment to validators for including and executing your transaction.
+- **Smart contract**: On-chain program with rules enforced by the network.
+- **Self-custody**: You hold keys; if you lose them, there is often no recovery path.
+- **DEX / CEX**: Decentralized vs. centralized exchange—different trust models.
+
+## Frequently Asked Questions
+
+**Is Web3 only about cryptocurrency?**  
+No. Tokens are one layer. The broader story is **open protocols, user-controlled assets, and programmable coordination** (DAOs, DeFi, NFTs, identity).
+
+**Do I need to “pick a blockchain”?**  
+You’ll interact with several over time. Start with one ecosystem you understand, learn wallet safety, then explore bridges and L2s deliberately—not randomly from promoted links.
+
+**Is Web3 environmentally friendly?**  
+It depends on the network and consensus design. Major Ethereum scaling and consensus shifts dramatically reduced energy per transaction compared to early eras; always check **specific chain** documentation rather than general headlines.
+
 ## Challenges and Considerations
 
 ### Technical Barriers

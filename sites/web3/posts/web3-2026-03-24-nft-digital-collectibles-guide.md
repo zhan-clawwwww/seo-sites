@@ -322,6 +322,32 @@ Tokens that change or evolve:
 4. **Due Diligence**: Investigate teams, technology, and communities
 5. **Exit Planning**: Have strategy for when to sell or hold
 
+## Creator Royalties and On-Chain Enforcement
+
+Royalties changed the narrative for digital creators—but **enforcement is not automatic**. Marketplaces, contract standards, and optional royalty modules evolved quickly through 2024–2026.
+
+- **Off-chain vs. on-chain**: A royalty percentage in metadata is not the same as a rule the chain enforces on every sale. Some marketplaces honor royalties; others compete on zero-royalty trading.
+- **Contract-level hooks**: Newer standards and marketplace policies may route fees differently. Always read **creator terms** and the **smart contract** if you are launching a collection.
+- **Collector perspective**: Lower fees can mean more liquidity; zero royalties can also mean **less long-term funding** for the team that maintains the project.
+
+If you are a creator, plan revenue as if royalties are **nice-to-have**, not guaranteed—treasury, grants, and direct patronage still matter.
+
+## Floor Prices, Volume, and Wash Trading Literacy
+
+NFT markets are thin and emotional. **Floor price** is easy to quote and easy to manipulate.
+
+- **Wash trading**: The same group of wallets may trade back and forth to inflate volume or create a false sense of demand. Use multiple data sources and on-chain tools; be skeptical of sudden spikes with no community growth.
+- **Listing depth**: A “high floor” with one absurd listing is not the same as a **deep market** with many bids around a similar level.
+- **Royalties and fees**: Net proceeds differ by marketplace; compare **what sellers actually receive**.
+
+### Collector Due-Diligence Checklist (Before You Buy)
+
+1. **Team identity and history**—pseudonymous teams are common, but track record still matters.
+2. **License and commercial rights**—what can you do with the artwork?
+3. **Contract verification**—is the collection on a known standard and verified on a block explorer?
+4. **Liquidity and royalty policy**—where will you likely exit, and on what terms?
+5. **Wallet security**—mint from a **burner** wallet if the site is new; avoid unlimited token approvals.
+
 ## Challenges and Opportunities
 
 ### Current Challenges

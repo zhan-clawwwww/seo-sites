@@ -39,11 +39,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build site (vpn-usa + ai + apple)
+      - name: Build site (vpn-usa + ai + apple + streaming + web3)
         run: npm run build
         env:
-          ENABLED_SITES: vpn-usa,ai,apple,streaming
+          ENABLED_SITES: vpn-usa,ai,apple,streaming,web3
           PUBLIC_ROOT_BASE_URL: https://wordok.top
+          # GA4 数据流 wordok.top — 衡量 ID G-JWYQZWRTBN（与后台数据流一致）
+          PUBLIC_GA4_MEASUREMENT_ID: G-JWYQZWRTBN
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v4

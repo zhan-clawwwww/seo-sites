@@ -272,6 +272,38 @@ Improving user experience through smart contract wallets:
 - Join community discussions (Discord, Twitter)
 - Participate in governance when ready
 
+## Impermanent Loss: What Liquidity Providers Actually Risk
+
+When you deposit paired tokens into an AMM pool, your share tracks a **mathematical curve**, not the spot prices you would have had if you simply held the assets.
+
+- **Impermanent loss (IL)** is the difference in value between **holding** the tokens and **being in the pool**, assuming prices diverge.
+- IL can be **partially offset** by trading fees and incentive rewards—but during violent trends, IL can dominate.
+- **Stable pairs** (e.g., USDC/DAI) have minimal IL from price ratio moves; **volatile pairs** carry more.
+
+Before providing liquidity, model **worst-case divergence** and compare net APY after rewards to a simple hold strategy.
+
+## Lending Health Factors: Good Debt vs. Liquidation Risk
+
+Borrowing against crypto collateral sounds simple until markets move overnight.
+
+- **Health factor / collateral ratio**: Know the protocol’s liquidation threshold and **buffer** you want above it.
+- **Oracles**: Prices come from feeds; extreme volatility or manipulation history matters—especially on newer assets.
+- **Liquidation penalty**: You may lose more than the minimum needed to restore the loan; read docs carefully.
+
+Rule of thumb: if you need the loan for **essential life expenses**, DeFi margin is usually the wrong tool. Treat leveraged positions as **high-risk trading**, not banking.
+
+## MEV and “Toxic Flow” (A User-Level View)
+
+Maximal extractable value (MEV) is often discussed by developers, but users feel it as **worse execution**: sandwich attacks, unfavorable ordering, or failed transactions during volatility.
+
+Mitigations in 2026 include **private mempools**, **intent-based trading**, and wallets that simulate outcomes—none are perfect.
+
+Practical tips:
+
+- Split very large swaps; use **time-invariant** strategies when possible.
+- Avoid trading during chaotic events unless you understand slippage settings.
+- Prefer **established aggregators** with clear routing and refund behavior.
+
 ## Challenges and Opportunities
 
 ### Current Challenges

@@ -323,6 +323,33 @@ Combining multiple functions:
 - **Execution Capability**: Turning decisions into results
 - **Continuous Improvement**: Learning and adapting over time
 
+## SubDAOs, Working Groups, and Scaling Governance
+
+Large DAOs rarely vote on every invoice. They **delegate** operational authority to smaller groups while keeping treasury and constitutional changes at the token-voter level.
+
+- **SubDAOs / workstreams**: Focused teams (grants, marketing, protocol engineering) with budgets and KPIs approved by the wider DAO.
+- **Mandates and sunsets**: Strong charters include **scope**, **spending caps**, and **review dates** so power does not drift silently.
+- **Transparency**: Regular public reports (Notion, Discourse, on-chain reports) align contributors without drowning everyone in noise.
+
+When joining a DAO, look for **clear mandates**—not just a Discord with endless discussion.
+
+## Delegation Playbook for Token Holders
+
+You do not need to vote on every proposal to participate well.
+
+1. **Pick delegates** with visible reasoning, conflict disclosures, and domain expertise—not only popularity.
+2. **Re-delegate** when your delegate goes inactive or misaligns with your values.
+3. **Use signaling tools** (forums, Snapshot polls) to influence proposals **before** on-chain votes, when changes are cheaper to make.
+
+## Common Failure Modes (What Breaks DAOs)
+
+- **Low quorum + rushed votes**: Critical upgrades pass with minimal participation.
+- **Treasury drift**: No diversification or runway planning during bear markets.
+- **Legal ambiguity**: Contributors assume “code is law” while regulators see a company-like entity.
+- **Capture**: Whales coordinate off-chain; on-chain vote is theater.
+
+Healthy DAOs combine **technical safeguards** (timelocks, audits) with **social processes** (deliberation norms, delegate accountability).
+
 ## Challenges in DAO Operations
 
 ### 1. Participation Inequality
