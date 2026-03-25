@@ -21,116 +21,208 @@ const __dirname = dirname(__filename);
 const rootDir = join(__dirname, "..");
 
 // ============================================
-// 增强配置
+// 增强配置生成器 - 动态支持任意数量专栏
 // ============================================
 
-const ENHANCED_SITES_CONFIG = {
-  ai: {
-    name: "AI News",
-    searchQueries: [
-      "AI technology breakthroughs 2026 latest news",
-      "machine learning research advancements today",
-      "OpenAI Google Anthropic AI updates"
-    ],
-    author: "ai-researcher",
-    articleRequirements: {
-      minLength: 1200,
-      sections: ["技术突破", "行业影响", "未来趋势", "引用来源"],
-      includeMedia: true,
-      citationStyle: "学术引用"
+/**
+ * 获取所有启用的站点列表
+ */
+function getEnabledSites() {
+  try {
+    // 读取环境变量中的站点配置
+    const envContent = readFileSync(join(rootDir, ".env"), "utf-8");
+    const match = envContent.match(/ENABLED_SITES=([^\n]+)/);
+    
+    if (!match) {
+      log("找不到ENABLED_SITES配置，使用默认站点列表", "warning");
+      return ["ai", "apple", "site-a", "streaming", "vpn-usa", "web3", "tesla"];
     }
-  },
-  apple: {
-    name: "Apple Devices",
-    searchQueries: [
-      "Apple iPhone latest features and reviews 2026",
-      "MacBook technology updates today",
-      "Apple silicon and software advancements"
-    ],
-    author: "apple-analyst",
-    articleRequirements: {
-      minLength: 1100,
-      sections: ["产品特性", "性能评测", "用户反馈", "引用来源"],
-      includeMedia: true,
-      citationStyle: "产品评测"
-    }
-  },
-  streaming: {
-    name: "Streaming Services",
-    searchQueries: [
-      "Netflix Disney Plus streaming content updates 2026",
-      "streaming technology and platform features",
-      "content licensing and original productions"
-    ],
-    author: "streaming-critic",
-    articleRequirements: {
-      minLength: 1000,
-      sections: ["内容更新", "技术特性", "用户体验", "引用来源"],
-      includeMedia: true,
-      citationStyle: "娱乐报道"
-    }
-  },
-  tesla: {
-    name: "Tesla News",
-    searchQueries: [
-      "Tesla electric vehicle technology updates 2026",
-      "Elon Musk Tesla company developments",
-      "EV battery and charging advancements"
-    ],
-    author: "ev-expert",
-    articleRequirements: {
-      minLength: 1300,
-      sections: ["技术更新", "市场动态", "行业分析", "引用来源"],
-      includeMedia: true,
-      citationStyle: "科技报道"
-    }
-  },
-  "vpn-usa": {
-    name: "VPN Services",
-    searchQueries: [
-      "VPN security and privacy technology 2026",
-      "online privacy protection latest solutions",
-      "internet security tools and services"
-    ],
-    author: "security-analyst",
-    articleRequirements: {
-      minLength: 1050,
-      sections: ["安全特性", "性能测试", "使用建议", "引用来源"],
-      includeMedia: true,
-      citationStyle: "安全指南"
-    }
-  },
-  web3: {
-    name: "Web3 Technology",
-    searchQueries: [
-      "blockchain technology developments 2026",
-      "cryptocurrency and DeFi updates",
-      "decentralized applications and platforms"
-    ],
-    author: "blockchain-expert",
-    articleRequirements: {
-      minLength: 1150,
-      sections: ["技术进展", "应用场景", "风险评估", "引用来源"],
-      includeMedia: true,
-      citationStyle: "技术分析"
-    }
-  },
-  "site-a": {
-    name: "SEO Technology",
-    searchQueries: [
-      "SEO and digital marketing trends 2026",
-      "search engine optimization techniques",
-      "website analytics and performance"
-    ],
-    author: "seo-specialist",
-    articleRequirements: {
-      minLength: 1000,
-      sections: ["策略分析", "实施方法", "效果评估", "引用来源"],
-      includeMedia: true,
-      citationStyle: "专业指南"
-    }
+    
+    const enabledSites = match[1].split(',').map(s => s.trim()).filter(s => s);
+    log(`从.env读取到 ${enabledSites.length} 个启用的站点`, "success");
+    return enabledSites;
+  } catch (error) {
+    log(`读取ENABLED_SITES失败: ${error.message}，使用默认站点列表`, "error");
+    return ["ai", "apple", "site-a", "streaming", "vpn-usa", "web3", "tesla"];
   }
-};
+}
+
+/**
+ * 为每个站点生成增强配置
+ */
+function generateEnhancedConfigForSite(siteSlug) {
+  // 基础配置模板
+  const baseConfigs = {
+    ai: {
+      name: "AI News",
+      searchQueries: [
+        "AI technology breakthroughs 2026 latest news",
+        "machine learning research advancements today",
+        "OpenAI Google Anthropic AI updates"
+      ],
+      author: "ai-researcher",
+      articleRequirements: {
+        minLength: 1200,
+        sections: ["技术突破", "行业影响", "未来趋势", "引用来源"],
+        includeMedia: true,
+        citationStyle: "学术引用"
+      }
+    },
+    apple: {
+      name: "Apple Devices",
+      searchQueries: [
+        "Apple iPhone latest features and reviews 2026",
+        "MacBook technology updates today",
+        "Apple silicon and software advancements"
+      ],
+      author: "apple-analyst",
+      articleRequirements: {
+        minLength: 1100,
+        sections: ["产品特性", "性能评测", "用户反馈", "引用来源"],
+        includeMedia: true,
+        citationStyle: "产品评测"
+      }
+    },
+    streaming: {
+      name: "Streaming Services",
+      searchQueries: [
+        "Netflix Disney Plus streaming content updates 2026",
+        "streaming technology and platform features",
+        "content licensing and original productions"
+      ],
+      author: "streaming-critic",
+      articleRequirements: {
+        minLength: 1000,
+        sections: ["内容更新", "技术特性", "用户体验", "引用来源"],
+        includeMedia: true,
+        citationStyle: "娱乐报道"
+      }
+    },
+    tesla: {
+      name: "Tesla News",
+      searchQueries: [
+        "Tesla electric vehicle technology updates 2026",
+        "Elon Musk Tesla company developments",
+        "EV battery and charging advancements"
+      ],
+      author: "ev-expert",
+      articleRequirements: {
+        minLength: 1300,
+        sections: ["技术更新", "市场动态", "行业分析", "引用来源"],
+        includeMedia: true,
+        citationStyle: "科技报道"
+      }
+    },
+    "vpn-usa": {
+      name: "VPN Services",
+      searchQueries: [
+        "VPN security and privacy technology 2026",
+        "online privacy protection latest solutions",
+        "internet security tools and services"
+      ],
+      author: "security-analyst",
+      articleRequirements: {
+        minLength: 1050,
+        sections: ["安全特性", "性能测试", "使用建议", "引用来源"],
+        includeMedia: true,
+        citationStyle: "安全指南"
+      }
+    },
+    web3: {
+      name: "Web3 Technology",
+      searchQueries: [
+        "blockchain technology developments 2026",
+        "cryptocurrency and DeFi updates",
+        "decentralized applications and platforms"
+      ],
+      author: "blockchain-expert",
+      articleRequirements: {
+        minLength: 1150,
+        sections: ["技术进展", "应用场景", "风险评估", "引用来源"],
+        includeMedia: true,
+        citationStyle: "技术分析"
+      }
+    },
+    "site-a": {
+      name: "SEO Technology",
+      searchQueries: [
+        "SEO and digital marketing trends 2026",
+        "search engine optimization techniques",
+        "website analytics and performance"
+      ],
+      author: "seo-specialist",
+      articleRequirements: {
+        minLength: 1000,
+        sections: ["策略分析", "实施方法", "效果评估", "引用来源"],
+        includeMedia: true,
+        citationStyle: "专业指南"
+      }
+    }
+  };
+
+  // 如果站点有预定义配置，返回它
+  if (baseConfigs[siteSlug]) {
+    return baseConfigs[siteSlug];
+  }
+
+  // 为未知站点生成默认配置
+  log(`站点 ${siteSlug} 没有预定义配置，使用默认配置`, "warning");
+  
+  // 尝试从网站首页配置中获取显示名称
+  let siteName = siteSlug;
+  try {
+    const indexPath = join(rootDir, "src", "pages", "index.astro");
+    const indexContent = readFileSync(indexPath, "utf-8");
+    
+    // 查找站点在columnMeta中的配置
+    const sitePattern = new RegExp(`${siteSlug.replace(/-/g, "\\-")}:\\s*{[^}]*label:\\s*"([^"]+)"`, "i");
+    const match = indexContent.match(sitePattern);
+    
+    if (match && match[1]) {
+      siteName = match[1];
+      log(`从index.astro获取到站点 ${siteSlug} 的显示名称: ${siteName}`, "info");
+    }
+  } catch (error) {
+    // 忽略错误，使用默认名称
+  }
+
+  // 为新站点生成智能配置
+  const newSiteConfig = {
+    name: siteName,
+    searchQueries: [
+      `${siteName} latest developments and news 2026`,
+      `${siteName} technology updates today`,
+      `${siteName} industry trends and analysis`
+    ],
+    author: `${siteSlug}-expert`,
+    articleRequirements: {
+      minLength: 1000,
+      sections: ["最新动态", "技术分析", "行业影响", "引用来源"],
+      includeMedia: true,
+      citationStyle: "技术报道"
+    }
+  };
+
+  return newSiteConfig;
+}
+
+/**
+ * 生成动态的增强配置
+ */
+function generateDynamicEnhancedConfig() {
+  const enabledSites = getEnabledSites();
+  const config = {};
+  
+  enabledSites.forEach(siteSlug => {
+    config[siteSlug] = generateEnhancedConfigForSite(siteSlug);
+  });
+  
+  log(`为 ${enabledSites.length} 个站点生成增强配置`, "success");
+  return config;
+}
+
+// 动态生成配置
+const ENHANCED_SITES_CONFIG = generateDynamicEnhancedConfig();
 
 // ============================================
 // 文章模板
@@ -235,17 +327,25 @@ function generateEnhancedTaskReport() {
     searchQueries: [],
     expectedArticles: 0,
     qualityRequirements: {},
-    nextSteps: []
+    nextSteps: [],
+    dynamicInfo: {
+      totalSites: 0,
+      sitesList: [],
+      autoAdaptive: true
+    }
   };
   
-  // 生成每个专栏的配置
+  // 动态生成每个专栏的配置
+  const siteCount = Object.keys(ENHANCED_SITES_CONFIG).length;
+  
   for (const [siteSlug, config] of Object.entries(ENHANCED_SITES_CONFIG)) {
     report.sites[siteSlug] = {
       name: config.name,
       searchQueries: config.searchQueries,
       expectedArticles: 3, // 每个专栏3篇文章
       author: config.author,
-      requirements: config.articleRequirements
+      requirements: config.articleRequirements,
+      isDynamic: !["ai", "apple", "site-a", "streaming", "vpn-usa", "web3", "tesla"].includes(siteSlug)
     };
     
     report.expectedArticles += 3;
@@ -266,22 +366,44 @@ function generateEnhancedTaskReport() {
     requiredSections: ["内容分析", "技术细节", "行业影响", "引用来源"],
     citationRequired: true,
     mediaInclusion: "推荐",
-    originality: "基于多源信息的原创总结"
+    originality: "基于多源信息的原创总结",
+    adaptiveToNewSites: true
   };
   
-  // 详细的下一步操作
-  report.nextSteps = [
-    "1. 使用 web_search 工具搜索每个查询的最新信息",
-    "2. 基于搜索结果进行深度分析和合并总结",
-    "3. 创作每篇至少1000字的原创文章",
-    "4. 文章必须包含：内容分析、技术细节、行业影响等章节",
-    "5. 在文章结尾处准确标明所有引用来源的URL",
-    "6. 适当添加相关的图片和视频引用（如适用）",
-    "7. 保存文章到对应站点的 posts 目录",
-    "8. 运行编译检查: npm run build",
-    "9. 提交更改: git add -A && git commit -m 'Daily update'",
-    "10. 等待飞书确认后推送: git push origin main"
+  // 动态信息
+  report.dynamicInfo = {
+    totalSites: siteCount,
+    sitesList: Object.keys(ENHANCED_SITES_CONFIG),
+    autoAdaptive: true,
+    articlesPerSite: 3,
+    totalArticles: siteCount * 3,
+    configSource: "动态从.env文件读取"
+  };
+  
+  // 智能的下一步操作（根据站点数量调整）
+  const baseSteps = [
+    `1. 检测到 ${siteCount} 个启用的专栏，将为每个专栏创作3篇文章`,
+    "2. 使用 web_search 工具搜索每个查询的最新信息",
+    "3. 基于搜索结果进行深度分析和合并总结",
+    "4. 创作每篇至少1000字的原创文章",
+    "5. 文章必须包含：内容分析、技术细节、行业影响等章节",
+    "6. 在文章结尾处准确标明所有引用来源的URL",
+    "7. 适当添加相关的图片和视频引用（如适用）",
+    "8. 保存文章到对应站点的 posts 目录"
   ];
+  
+  const afterSteps = [
+    "9. 运行编译检查: npm run build",
+    "10. 提交更改: git add -A && git commit -m 'Daily update'",
+    "11. 等待飞书确认后推送: git push origin main"
+  ];
+  
+  // 添加动态提示
+  if (siteCount > 7) {
+    baseSteps.unshift(`📈 检测到新增专栏！当前共有 ${siteCount} 个专栏，将自动为所有专栏创建文章`);
+  }
+  
+  report.nextSteps = [...baseSteps, ...afterSteps];
   
   return report;
 }
@@ -397,9 +519,10 @@ async function main() {
   
   console.log("\n🎯 任务概览:");
   console.log(`   日期: ${report.date}`);
-  console.log(`   专栏数量: ${Object.keys(report.sites).length}`);
-  console.log(`   预期文章: ${report.expectedArticles} 篇`);
+  console.log(`   专栏数量: ${Object.keys(report.sites).length} (动态检测)`);
+  console.log(`   预期文章: ${report.expectedArticles} 篇 (每个专栏3篇)`);
   console.log(`   质量要求: 每篇≥${report.qualityRequirements.minArticleLength}字`);
+  console.log(`   动态适应: ✅ 自动支持新增专栏`);
   
   console.log("\n🔍 需要搜索的深度查询:");
   report.searchQueries.forEach((item, index) => {
@@ -462,21 +585,23 @@ async function main() {
 
 ## 任务信息
 - **日期**: ${report.date}
-- **专栏数量**: ${Object.keys(report.sites).length}
-- **预期文章**: ${report.expectedArticles} 篇
+- **专栏数量**: ${Object.keys(report.sites).length} (动态检测)
+- **预期文章**: ${report.expectedArticles} 篇 (每个专栏3篇)
 - **质量要求**: 每篇至少${report.qualityRequirements.minArticleLength}字
 - **Git状态**: ${gitStatus.changed ? '有未提交更改' : '干净'}
+- **动态适应**: ✅ 自动支持新增专栏
 
 ## 各专栏详情
 
 ${Object.entries(report.sites).map(([slug, info]) => `
-### ${info.name} (${slug})
+### ${info.name} (${slug}) ${info.isDynamic ? '🆕' : ''}
 - **文章数量**: 3篇/天
 - **作者**: ${info.author}
 - **最低字数**: ${info.requirements.minLength}
 - **必须章节**: ${info.requirements.sections.join('、')}
 - **引用风格**: ${info.requirements.citationStyle}
 - **媒体内容**: ${info.requirements.includeMedia ? '推荐添加' : '可选'}
+- **配置类型**: ${info.isDynamic ? '动态生成' : '预定义'}
 
 **搜索查询**:
 ${info.searchQueries.map((q, i) => `${i + 1}. ${q}`).join('\n')}
@@ -487,6 +612,7 @@ ${info.searchQueries.map((q, i) => `${i + 1}. ${q}`).join('\n')}
 - **引用要求**: 必须标明所有引用来源URL
 - **文章结构**: 必须包含指定章节
 - **媒体内容**: 适当添加图片和视频引用
+- **动态适应**: 自动为新专栏生成配置
 
 ## 操作步骤
 
@@ -494,7 +620,11 @@ ${report.nextSteps.map((step, i) => `${i + 1}. ${step}`).join('\n')}
 
 ---
 
-**重要提示**: 所有文章必须是基于搜索结果的原创总结，不能直接复制。编译通过后才能提交，推送前需要飞书确认。`;
+**重要提示**:
+1. 所有文章必须是基于搜索结果的原创总结，不能直接复制
+2. 脚本会自动检测.env文件中的ENABLED_SITES配置
+3. 新增专栏无需修改脚本，自动为其生成文章
+4. 编译通过后才能提交，推送前需要飞书确认`;
 
   // 保存报告到文件
   const reportDir = join(rootDir, "reports");
