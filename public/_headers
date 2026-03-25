@@ -1,0 +1,9 @@
+# Netlify / Cloudflare Pages: correct XML type for Google (GitHub Pages ignores this file)
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+
+/sitemap_index.xml
+  Content-Type: application/xml; charset=utf-8
+
+/*/sitemap.xml
+  Content-Type: application/xml; charset=utf-8

@@ -1,7 +1,16 @@
 ---
-import { getAllSites } from "../lib/site-data";
-import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
 import { CHANNEL_LABELS, postsHubLabel, postsNavLabel } from "../lib/channel-nav";
+import { getPublicRootBaseUrl } from "../lib/root-base-url";
+import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
+import { getAllSites, toCanonical } from "../lib/site-data";
+
+const rootSeo = getPublicRootBaseUrl();
+const sitemapIndexHref = import.meta.env.DEV
+  ? "/sitemap_index.xml"
+  : toCanonical(rootSeo, "/sitemap_index.xml");
+const sitemapUrlsetHref = import.meta.env.DEV
+  ? "/sitemap.xml"
+  : toCanonical(rootSeo, "/sitemap.xml");
 
 /**
  * AI News Layout - 36Kr style
@@ -98,7 +107,8 @@ const allSites = getAllSites();
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang={hrefLang} href={canonical} />
     <link rel="alternate" hreflang="x-default" href={canonical} />
-    <link rel="sitemap" type="application/xml" href="/sitemap_index.xml" />
+    <link rel="sitemap" type="application/xml" title="Sitemap index" href={sitemapIndexHref} />
+    <link rel="sitemap" type="application/xml" title="Full sitemap" href={sitemapUrlsetHref} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/og-default.png" />
 

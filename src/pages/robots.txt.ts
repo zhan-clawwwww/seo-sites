@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { getPublicRootBaseUrl } from "../lib/root-base-url";
 import { getAllSites, toCanonical } from "../lib/site-data";
 
 export const prerender = true;
@@ -8,8 +9,7 @@ export const prerender = true;
  * 允许 Googlebot 抓取全站，并列出所有启用站点的 sitemap
  */
 export const GET: APIRoute = () => {
-  const rootBaseUrl =
-    import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://wordok.top";
+  const rootBaseUrl = getPublicRootBaseUrl();
   const sites = getAllSites();
 
   const lines: string[] = [

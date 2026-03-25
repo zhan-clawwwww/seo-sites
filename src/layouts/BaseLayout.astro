@@ -1,7 +1,18 @@
 ---
-import { getAllSites } from "../lib/site-data";
-import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
 import { CHANNEL_LABELS, postsHubLabel, postsNavLabel } from "../lib/channel-nav";
+import { getPublicRootBaseUrl } from "../lib/root-base-url";
+import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
+import { getAllSites, toCanonical } from "../lib/site-data";
+
+const rootSeo = getPublicRootBaseUrl();
+const sitemapIndexHref = import.meta.env.DEV
+  ? "/sitemap_index.xml"
+  : toCanonical(rootSeo, "/sitemap_index.xml");
+const sitemapUrlsetHref = import.meta.env.DEV
+  ? "/sitemap.xml"
+  : toCanonical(rootSeo, "/sitemap.xml");
+const htmlSitemapHref = import.meta.env.DEV ? "/sitemap/" : toCanonical(rootSeo, "/sitemap/");
+const robotsTxtHref = import.meta.env.DEV ? "/robots.txt" : toCanonical(rootSeo, "/robots.txt");
 
 type Props = {
   title: string;
@@ -102,7 +113,8 @@ const allSites = getAllSites();
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang={hrefLang} href={canonical} />
     <link rel="alternate" hreflang="x-default" href={canonical} />
-    <link rel="sitemap" type="application/xml" href="/sitemap_index.xml" />
+    <link rel="sitemap" type="application/xml" title="Sitemap index" href={sitemapIndexHref} />
+    <link rel="sitemap" type="application/xml" title="Full sitemap" href={sitemapUrlsetHref} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/og-default.png" />
 
@@ -944,8 +956,34 @@ const allSites = getAllSites();
       }
 
       /* === Print === */
+      .root-discovery-footer {
+        margin-top: auto;
+        padding: 16px 24px max(24px, env(safe-area-inset-bottom));
+        max-width: var(--container-max);
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        border-top: 1px solid var(--color-border);
+      }
+      .root-discovery-footer p {
+        margin: 0;
+        font-size: 0.78rem;
+        color: var(--color-text-secondary);
+        text-align: center;
+        line-height: 1.55;
+      }
+      .root-discovery-footer a {
+        color: var(--color-primary);
+        text-decoration: none;
+      }
+      .root-discovery-footer a:hover {
+        text-decoration: underline;
+      }
+
       @media print {
-        .site-header, .site-footer, .header-search, .giscus-container { display: none; }
+        .site-header, .site-footer, .header-search, .giscus-container, .root-discovery-footer {
+          display: none;
+        }
         body { background: white; color: black; }
         a { color: inherit; text-decoration: underline; }
       }
@@ -987,6 +1025,20 @@ const allSites = getAllSites();
     <main class="main-content">
       <slot />
     </main>
+
+    {!siteSlug ? (
+      <footer class="root-discovery-footer" aria-label="XML sitemaps and robots">
+        <p>
+          <a href={sitemapIndexHref}>Sitemap index (XML)</a>
+          <span aria-hidden="true"> · </span>
+          <a href={sitemapUrlsetHref}>Full URL list (XML)</a>
+          <span aria-hidden="true"> · </span>
+          <a href={htmlSitemapHref}>HTML site map</a>
+          <span aria-hidden="true"> · </span>
+          <a href={robotsTxtHref}>robots.txt</a>
+        </p>
+      </footer>
+    ) : null}
 
     {/* Site Footer */}
     {siteSlug && siteName ? (

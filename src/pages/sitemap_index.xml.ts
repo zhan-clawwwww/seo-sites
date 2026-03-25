@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { getPublicRootBaseUrl } from "../lib/root-base-url";
 import { getAllPosts, getAllSites, toCanonical } from "../lib/site-data";
 import { buildStampYyyyMmDd, latestPostLastmodYyyyMmDd } from "../lib/site-routing";
 
@@ -9,8 +10,7 @@ export const prerender = true;
  * 提交此 URL 到 Google Search Console 即可收录全站
  */
 export const GET: APIRoute = () => {
-  const rootBaseUrl =
-    import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://wordok.top";
+  const rootBaseUrl = getPublicRootBaseUrl();
   const sites = getAllSites();
   const buildDay = buildStampYyyyMmDd();
   const allPosts = getAllPosts();

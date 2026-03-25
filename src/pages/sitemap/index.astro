@@ -4,6 +4,7 @@ export const prerender = true;
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { resolveRootSiteAnalytics } from "../../lib/root-analytics";
 import { postsHubLabel } from "../../lib/channel-nav";
+import { getPublicRootBaseUrl } from "../../lib/root-base-url";
 import { getAllPosts, getAllSites, getSiteConfig, toCanonical } from "../../lib/site-data";
 
 const sites = getAllSites();
@@ -11,8 +12,9 @@ const firstSite = sites[0];
 const rootAnalytics = resolveRootSiteAnalytics(
   firstSite ? getSiteConfig(firstSite.slug)?.analytics : undefined,
 );
-const rootBaseUrl =
-  import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://wordok.top";
+const rootBaseUrl = getPublicRootBaseUrl();
+const absPath = (pathname: string) =>
+  import.meta.env.DEV ? pathname : toCanonical(rootBaseUrl, pathname);
 
 // 收集所有 URL，供 Google 通过 HTML 页面发现（GitHub Pages XML Content-Type 有 bug 时备用）
 const urlGroups: { name: string; urls: { href: string; label: string }[] }[] = [];
@@ -52,7 +54,7 @@ const totalUrls = urlGroups.reduce((n, g) => n + g.urls.length, 0);
 <BaseLayout
   title="站点地图 — wordok.top"
   description="wordok.top 全站页面索引：VPN、AI News、Apple、Streaming、Web3、OpenClaw 及 AI Frontiers、Privacy & Security 等栏目"
-  canonical={`${rootBaseUrl}/sitemap/`}
+  canonical={toCanonical(rootBaseUrl, "/sitemap/")}
   analytics={rootAnalytics}
 >
   <main class="sitemap-page">
@@ -60,8 +62,9 @@ const totalUrls = urlGroups.reduce((n, g) => n + g.urls.length, 0);
     <p class="sitemap-intro">
       共 {totalUrls} 个页面 · 最后更新：{new Date().toISOString().slice(0, 10)}
       · 搜索引擎请优先使用{" "}
-      <a href="/sitemap_index.xml">sitemap_index.xml</a>（子站 sitemap 索引）与{" "}
-      <a href="/sitemap.xml">sitemap.xml</a>（全量 URL）；<code>robots.txt</code> 亦列出各专栏的 <code>/…/sitemap.xml</code>。
+      <a href={absPath("/sitemap_index.xml")}>sitemap_index.xml</a>（子站 sitemap 索引）与{" "}
+      <a href={absPath("/sitemap.xml")}>sitemap.xml</a>（全量 URL）；{" "}
+      <a href={absPath("/robots.txt")}>robots.txt</a> 亦列出各专栏的 <code>/…/sitemap.xml</code>。
     </p>
 
     {urlGroups.map((group) => (
@@ -78,7 +81,8 @@ const totalUrls = urlGroups.reduce((n, g) => n + g.urls.length, 0);
     ))}
 
     <p class="sitemap-footer">
-      <a href="/">← 返回首页</a> · XML: <a href="/sitemap.xml">sitemap.xml</a>（全站 URL） · <a href="/sitemap_index.xml">sitemap_index.xml</a>（索引）
+      <a href="/">← 返回首页</a> · XML: <a href={absPath("/sitemap.xml")}>sitemap.xml</a>（全站 URL） ·{" "}
+      <a href={absPath("/sitemap_index.xml")}>sitemap_index.xml</a>（索引）
     </p>
   </main>
 

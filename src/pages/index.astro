@@ -5,6 +5,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ChannelGlyph from "../components/ChannelGlyph.astro";
 import PortalGlyph from "../components/PortalGlyph.astro";
 import { resolveRootSiteAnalytics } from "../lib/root-analytics";
+import { getPublicRootBaseUrl } from "../lib/root-base-url";
 import { getAllSites, getSiteConfig, getAllPosts, toCanonical } from "../lib/site-data";
 import { latestPostLastmodYyyyMmDd } from "../lib/site-routing";
 
@@ -23,9 +24,10 @@ if (sites.length === 1) {
   return Astro.redirect(`/${sites[0].slug}/`, 301);
 }
 
-const rootBaseUrl =
-  import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://wordok.top";
-const canonical = toCanonical(rootBaseUrl, "/");
+const rootSeo = getPublicRootBaseUrl();
+const canonical = toCanonical(rootSeo, "/");
+const absPath = (pathname: string) =>
+  import.meta.env.DEV ? pathname : toCanonical(rootSeo, pathname);
 
 const latestContentDate = latestPostLastmodYyyyMmDd(allPosts);
 /** Human-readable full date matching the ISO calendar day (UTC, no TZ skew). */
@@ -65,13 +67,14 @@ const itemListJsonLd = {
     "@type": "ListItem",
     "position": i + 1,
     "name": s.config.name,
-    "url": toCanonical(rootBaseUrl, `/${s.slug}/`),
+    "url": toCanonical(rootSeo, `/${s.slug}/`),
   })),
 };
 
 const webSiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": `${canonical}#website`,
   name: "wordok.top",
   url: canonical,
   description: openGraph.description,
@@ -270,19 +273,19 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
       </h2>
       
       <div class="links-grid">
-        <a href="/sitemap/" class="link-card">
+        <a href={absPath("/sitemap/")} class="link-card">
           <span class="link-icon" aria-hidden="true">
             <PortalGlyph variant="map" size={22} />
           </span>
           <span class="link-text">Full Site Map</span>
         </a>
-        <a href="/sitemap.xml" class="link-card">
+        <a href={absPath("/sitemap.xml")} class="link-card">
           <span class="link-icon" aria-hidden="true">
             <PortalGlyph variant="file" size={22} />
           </span>
           <span class="link-text">XML Sitemap</span>
         </a>
-        <a href="/sitemap_index.xml" class="link-card">
+        <a href={absPath("/sitemap_index.xml")} class="link-card">
           <span class="link-icon" aria-hidden="true">
             <PortalGlyph variant="stack" size={22} />
           </span>
