@@ -640,8 +640,11 @@ async function main() {
     const newArticles = [];
     const existingSlugs = getExistingSlugs(siteSlug);
     
+    // 特斯拉专栏特殊处理：10篇文章，其他专栏5篇
+    const articlesPerSite = siteSlug === "tesla" ? 10 : ARTICLE_CONFIG.articlesPerSite;
+    
     // 为每个关键词搜索新闻
-    for (let i = 0; i < ARTICLE_CONFIG.articlesPerSite; i++) {
+    for (let i = 0; i < articlesPerSite; i++) {
       const keywordIndex = i % siteConfig.keywords.length;
       const keyword = siteConfig.keywords[keywordIndex];
       
@@ -682,7 +685,7 @@ async function main() {
     siteStats[siteSlug] = newArticles.length;
     allNewArticles.push(...newArticles);
     
-    log(`  ✅ 完成: ${newArticles.length}/${ARTICLE_CONFIG.articlesPerSite} 篇文章`);
+    log(`  ✅ 完成: ${newArticles.length}/${articlesPerSite} 篇文章`);
   }
   
   // 统计信息
@@ -691,12 +694,16 @@ async function main() {
   log("========================================");
   
   let totalArticles = 0;
+  let totalExpected = 0;
+  
   for (const [siteSlug, count] of Object.entries(siteStats)) {
-    log(`${SITES_CONFIG[siteSlug].name}: ${count} 篇文章`);
+    const expected = siteSlug === "tesla" ? 10 : 5;
+    totalExpected += expected;
+    log(`${SITES_CONFIG[siteSlug].name}: ${count}/${expected} 篇文章`);
     totalArticles += count;
   }
   
-  log(`总计: ${totalArticles} 篇新文章`);
+  log(`总计: ${totalArticles}/${totalExpected} 篇新文章`);
   
   if (allNewArticles.length > 0) {
     log("\n新增文章列表:");

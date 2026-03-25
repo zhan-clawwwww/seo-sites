@@ -60,8 +60,14 @@ const SITES_CONFIG = {
       "Elon Musk updates today",
       "electric vehicle technology news",
       "Tesla battery developments",
-      "Autopilot software updates"
+      "Autopilot software updates",
+      "Tesla Model 3 Model Y updates",
+      "Tesla charging network expansion",
+      "Tesla stock financial news",
+      "Tesla energy storage technology",
+      "Tesla Full Self-Driving progress"
     ],
+    expectedArticles: 10,  // 特斯拉专栏每天10篇文章
     author: "tesla-agent"
   },
   "vpn-usa": {
@@ -151,32 +157,44 @@ function getGitStatus() {
 
 function generateTaskReport() {
   const today = new Date().toISOString().slice(0, 10);
+  let totalExpectedArticles = 0;
   const report = {
     date: today,
     sites: {},
     searchQueries: [],
-    expectedArticles: 35, // 7 sites × 5 articles
+    expectedArticles: 0,
     nextSteps: []
   };
   
   // 生成搜索查询列表
   for (const [siteSlug, config] of Object.entries(SITES_CONFIG)) {
+    // 特斯拉专栏特殊处理：10篇文章，其他专栏5篇
+    const expectedArticles = config.expectedArticles || 5;
+    const queriesToShow = siteSlug === "tesla" ? 5 : 3; // 特斯拉显示5个查询，其他显示3个
+    
     report.sites[siteSlug] = {
       name: config.name,
-      searchQueries: config.searchQueries.slice(0, 3), // 每个站点前3个查询
-      expectedArticles: 5
+      searchQueries: config.searchQueries.slice(0, queriesToShow),
+      expectedArticles: expectedArticles,
+      isTesla: siteSlug === "tesla"
     };
     
+    totalExpectedArticles += expectedArticles;
+    
     // 添加搜索查询到总列表
-    config.searchQueries.slice(0, 3).forEach(query => {
+    config.searchQueries.slice(0, queriesToShow).forEach(query => {
       report.searchQueries.push(`${config.name}: ${query}`);
     });
   }
   
+  report.expectedArticles = totalExpectedArticles;
+  
   // 生成下一步指示
   report.nextSteps = [
     "1. 使用 OpenClaw 的 web_search 工具搜索每个查询",
-    "2. 基于搜索结果创作原创总结文章（每个专栏5篇）",
+    "2. 基于搜索结果创作原创总结文章",
+    "   - 特斯拉专栏: 10篇文章",
+    "   - 其他专栏: 各5篇文章",
     "3. 保存文章到对应站点的 posts 目录",
     "4. 运行编译检查: npm run build",
     "5. 提交更改: git add -A && git commit -m 'Daily update'",
