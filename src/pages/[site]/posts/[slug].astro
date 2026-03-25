@@ -8,6 +8,7 @@ import { getAuthor, getDefaultAuthorForSite } from "../../../lib/authors";
 import { canonicalFor, getPostStaticPaths, requirePostModule, requireSiteConfig } from "../../../lib/site-routing";
 import { estimateReadingTime, formatReadingTime } from "../../../lib/reading-time";
 import { getRelatedPosts } from "../../../lib/related-posts";
+import { isNewsStyleSite, newsPostsNavLabel } from "../../../lib/news-style-sites";
 
 export function getStaticPaths() {
   return getPostStaticPaths();
@@ -208,7 +209,7 @@ const faqJsonLd =
 
 const allJsonLd = [articleJsonLd, breadcrumbJsonLd, ...(faqJsonLd ? [faqJsonLd] : [])];
 
-const isNewsStyleSite = siteSlug === "ai" || siteSlug === "apple";
+const useNewsLayout = isNewsStyleSite(siteSlug);
 
 const layoutProps = {
   title,
@@ -229,12 +230,12 @@ const layoutProps = {
 };
 ---
 
-{isNewsStyleSite ? (
+{useNewsLayout ? (
 <AiNewsLayout {...layoutProps}>
   <nav class="breadcrumb">
     <a href={`/${siteSlug}/`}>Home</a>
     <span class="sep">/</span>
-    <a href={`/${siteSlug}/posts/`}>News</a>
+    <a href={`/${siteSlug}/posts/`}>{newsPostsNavLabel(siteSlug)}</a>
     <span class="sep">/</span>
     <span>{postTitle}</span>
   </nav>

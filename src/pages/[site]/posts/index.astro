@@ -6,6 +6,7 @@ import AiNewsLayout from "../../../layouts/AiNewsLayout.astro";
 import { getAllPosts } from "../../../lib/site-data";
 import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../../lib/site-routing";
 import { formatReadingTime } from "../../../lib/reading-time";
+import { isNewsStyleSite, newsPostsListHeadline } from "../../../lib/news-style-sites";
 
 export function getStaticPaths() {
   return getSiteStaticPaths();
@@ -13,7 +14,7 @@ export function getStaticPaths() {
 
 const siteSlug = Astro.params.site!;
 const siteConfig = requireSiteConfig(siteSlug);
-const isNewsStyleSite = siteSlug === "ai" || siteSlug === "apple";
+const useNewsLayout = isNewsStyleSite(siteSlug);
 
 const posts = getAllPosts(siteSlug);
 const canonical = canonicalFor(siteConfig, `/${siteSlug}/posts/`);
@@ -28,15 +29,25 @@ const breadcrumbJsonLd = {
   "@type": "BreadcrumbList",
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Home", "item": canonicalFor(siteConfig, `/${siteSlug}/`) },
-    { "@type": "ListItem", "position": 2, "name": "Articles", "item": canonical },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": siteSlug === "openclaw" ? "Guides" : "Articles",
+      "item": canonical,
+    },
   ],
 };
+
+const listPageLabel = siteSlug === "openclaw" ? "All Guides" : "All Articles";
 
 const itemListJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": `All Articles - ${siteConfig.name}`,
-  "description": `Browse all articles and guides from ${siteConfig.name}`,
+  "name": `${listPageLabel} - ${siteConfig.name}`,
+  "description":
+    siteSlug === "openclaw"
+      ? `Browse OpenClaw gateway guides from ${siteConfig.name}.`
+      : `Browse all articles and guides from ${siteConfig.name}`,
   "numberOfItems": posts.length,
   "itemListElement": posts.slice(0, 20).map((p, i) => ({
     "@type": "ListItem",
@@ -48,8 +59,11 @@ const itemListJsonLd = {
 
 const openGraph = {
   type: "website" as const,
-  title: `All Articles - ${siteConfig.name}`,
-  description: `Browse all articles and guides from ${siteConfig.name}. Expert technical reviews, SEO insights, and web development resources.`,
+  title: `${listPageLabel} - ${siteConfig.name}`,
+  description:
+    siteSlug === "openclaw"
+      ? `Browse all OpenClaw gateway guides from ${siteConfig.name}.`
+      : `Browse all articles and guides from ${siteConfig.name}. Expert technical reviews, SEO insights, and web development resources.`,
   url: canonical,
   siteName: siteConfig.name,
   image: siteConfig.defaultImage,
@@ -58,14 +72,20 @@ const openGraph = {
 
 const twitter = {
   card: siteConfig.defaultImage ? ("summary_large_image" as const) : ("summary" as const),
-  title: `All Articles - ${siteConfig.name}`,
-  description: `Browse all articles and guides from ${siteConfig.name}.`,
+  title: `${siteSlug === "openclaw" ? "All Guides" : "All Articles"} - ${siteConfig.name}`,
+  description:
+    siteSlug === "openclaw"
+      ? `Browse all OpenClaw guides from ${siteConfig.name}.`
+      : `Browse all articles and guides from ${siteConfig.name}.`,
   image: siteConfig.defaultImage,
 };
 
 const layoutProps = {
-  title: `All Articles - ${siteConfig.name}`,
-  description: `Browse all articles and guides from ${siteConfig.name}. Expert technical reviews, SEO insights, and web development resources.`,
+  title: `${listPageLabel} - ${siteConfig.name}`,
+  description:
+    siteSlug === "openclaw"
+      ? `Browse all OpenClaw gateway guides from ${siteConfig.name}.`
+      : `Browse all articles and guides from ${siteConfig.name}. Expert technical reviews, SEO insights, and web development resources.`,
   canonical,
   keywords: siteConfig.keywords,
   jsonLd: [breadcrumbJsonLd, itemListJsonLd],
@@ -80,11 +100,22 @@ const layoutProps = {
 };
 ---
 
-{isNewsStyleSite ? (
+{useNewsLayout ? (
 <AiNewsLayout {...layoutProps}>
   <section style="margin-bottom: 32px;">
-    <h1 style="font-size: 1.8rem; font-weight: 700; margin: 0 0 8px; color: var(--ai-text);">{siteSlug === "apple" ? "All Products" : "All News"}</h1>
-    <p style="color: var(--ai-text-secondary); margin: 0;">{posts.length} articles published</p>
+    <h1 style="font-size: 1.8rem; font-weight: 700; margin: 0 0 8px; color: var(--ai-text);">
+      {newsPostsListHeadline(siteSlug)}
+    </h1>
+    {siteSlug === "openclaw" ? (
+      <p
+        style="font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ai-accent); margin: 0 0 8px;"
+      >
+        Dedicated OpenClaw channel
+      </p>
+    ) : null}
+    <p style="color: var(--ai-text-secondary); margin: 0;">
+      {posts.length} {siteSlug === "openclaw" ? "guides" : "articles"} published
+    </p>
   </section>
   {posts.length ? (
     <div class="ai-news-grid">
