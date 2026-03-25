@@ -1,0 +1,89 @@
+---
+/**
+ * 首页区块 / 快捷入口用线性图标
+ */
+interface Props {
+  variant: "folder" | "newspaper" | "link" | "map" | "file" | "stack" | "broadcast";
+  class?: string;
+  size?: number;
+}
+
+const { variant, class: className = "", size = 22 } = Astro.props as Props;
+
+const common = {
+  width: size,
+  height: size,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  "stroke-width": 1.75,
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round",
+} as const;
+---
+
+<svg
+  class={`portal-glyph ${className}`}
+  {...common}
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  stroke="currentColor"
+>
+  {
+    variant === "folder" && (
+      <>
+        <path d="M4.5 6.5h5.2l1.8 2h8v11H4.5V6.5z" />
+        <path d="M4.5 8.5h15.5" />
+      </>
+    )
+  }
+  {
+    variant === "newspaper" && (
+      <>
+        <path d="M6.5 4.5h11a2 2 0 0 1 2 2v13H6.5a2 2 0 0 0-2 2v-15a2 2 0 0 1 2-2z" />
+        <path d="M9.5 8.5h6M9.5 12h8M9.5 15.5h5" />
+      </>
+    )
+  }
+  {
+    variant === "link" && (
+      <>
+        <path d="M10.5 13.5a4 4 0 0 1 0-5.7l1.1-1.1a4 4 0 1 1 5.7 5.7l-.9.9" />
+        <path d="M13.5 10.5a4 4 0 0 1 0 5.7l-1.1 1.1a4 4 0 1 1-5.7-5.7l.9-.9" />
+      </>
+    )
+  }
+  {
+    variant === "map" && (
+      <>
+        <path d="M9.5 3.5 4.5 5.5v13l5-2 5 2 5-2v-13l-5 2-5-2z" />
+        <path d="M9.5 3.5v13M14.5 5.5v13" />
+      </>
+    )
+  }
+  {
+    variant === "file" && (
+      <>
+        <path d="M14.5 3.5H7.5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V8.5l-5-5z" />
+        <path d="M14.5 3.5v5h5" />
+        <path d="M9.5 13.5h5M9.5 17h7" />
+      </>
+    )
+  }
+  {
+    variant === "stack" && (
+      <>
+        <path d="M12 3.5 4.5 7 12 10.5 19.5 7 12 3.5z" />
+        <path d="M4.5 12 12 15.5 19.5 12M4.5 17 12 20.5 19.5 17" />
+      </>
+    )
+  }
+  {
+    variant === "broadcast" && (
+      <>
+        <path d="M12 14.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
+        <path d="M8.5 8.5a5.5 5.5 0 0 0 0 7M15.5 8.5a5.5 5.5 0 0 1 0 7" />
+        <path d="M6 6a8.5 8.5 0 0 0 0 12M18 6a8.5 8.5 0 0 1 0 12" />
+      </>
+    )
+  }
+</svg>
