@@ -1,0 +1,31 @@
+{
+  "name": "Tesla News",
+  "description": "Latest Tesla news, vehicle reviews, technology breakthroughs, and industry insights. Stay updated on Tesla's electric vehicles, Autopilot, battery technology, and Elon Musk's vision for sustainable transportation.",
+  "keywords": ["Tesla news", "Tesla vehicles", "Tesla Model", "Tesla technology", "Elon Musk", "electric vehicles", "EV news", "Tesla Autopilot", "Tesla battery"],
+  "baseUrl": "https://wordok.top",
+  "lang": "en",
+  "defaultImage": "https://wordok.top/og-default.png",
+  "contact": {
+    "email": "iwangzhanpeng94@gmail.com",
+    "privacyEmail": "iwangzhanpeng94@gmail.com",
+    "businessEmail": "iwangzhanpeng94@gmail.com"
+  },
+  "social": {
+    "twitter": "",
+    "linkedin": ""
+  },
+  "analytics": {
+    "ga4Id": "G-JWYQZWRTBN",
+    "cfBeacon": ""
+  },
+  "giscus": {
+    "repo": "",
+    "repoId": "",
+    "category": "",
+    "categoryId": ""
+  },
+  "adsense": {
+    "publisherId": "",
+    "adSlot": ""
+  }
+}
