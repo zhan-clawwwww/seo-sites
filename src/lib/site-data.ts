@@ -232,6 +232,19 @@ const ENABLED_SITES = enabledSitesEnv
   ? enabledSitesEnv.split(",").map((s: string) => s.trim()).filter(Boolean)
   : DISCOVERED_SITE_SLUGS;
 
+/** 门户等处的频道顺序：其余按 slug 字母序，streaming / vpn-usa 固定置底 */
+function comparePortalSiteOrder(slugA: string, slugB: string): number {
+  const tailRank = (slug: string) => {
+    if (slug === "streaming") return 1;
+    if (slug === "vpn-usa") return 2;
+    return 0;
+  };
+  const ra = tailRank(slugA);
+  const rb = tailRank(slugB);
+  if (ra !== rb) return ra - rb;
+  return slugA.localeCompare(slugB);
+}
+
 export function getAllSites() {
   return Object.entries(configModules)
     .map(([path, raw]) => {
@@ -242,7 +255,7 @@ export function getAllSites() {
       return { slug, config };
     })
     .filter((x): x is { slug: string; config: SiteConfig } => Boolean(x))
-    .sort((a, b) => a.slug.localeCompare(b.slug));
+    .sort((a, b) => comparePortalSiteOrder(a.slug, b.slug));
 }
 
 export function getSiteConfig(siteSlug: string) {
