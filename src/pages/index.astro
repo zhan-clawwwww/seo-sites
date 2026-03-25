@@ -26,18 +26,18 @@ const canonical = toCanonical(rootBaseUrl, "/");
 
 const openGraph = {
   type: "website" as const,
-  title: "wordok.top — VPN, AI News, Apple, Web3 & Streaming Guides",
+  title: "wordok.top — VPN, AI News, Apple, Tesla, Web3 & Streaming Guides",
   description:
-    "Latest articles on VPN, AI, Apple, Web3, and streaming. Discover trending topics and comprehensive guides across all channels.",
+    "Latest articles on VPN, AI, Apple, Tesla, Web3, and streaming. Discover trending topics and comprehensive guides across all channels.",
   url: canonical,
   siteName: "wordok.top",
 };
 
 const twitter = {
   card: "summary_large_image" as const,
-  title: "wordok.top — Latest Articles on Tech & Web3",
+  title: "wordok.top — Latest Articles on Tech, Tesla & Web3",
   description:
-    "Stay updated with the latest VPN reviews, AI news, Apple specs, Web3 guides, and streaming tips.",
+    "Stay updated with the latest VPN reviews, AI news, Apple specs, Tesla updates, Web3 guides, and streaming tips.",
 };
 
 const itemListJsonLd = {
@@ -104,6 +104,12 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
     desc: "SEO, web development and tech tutorials",
     icon: "💻",
     color: "#3b82f6",
+  },
+  tesla: {
+    label: "Tesla",
+    desc: "Tesla vehicles, EV technology and Elon Musk updates",
+    icon: "⚡",
+    color: "#22c55e",
   },
 };
 ---
@@ -264,7 +270,7 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
     <footer class="seo-footer">
       <p>
         <strong>wordok.top</strong> provides comprehensive guides and latest news on VPN services, 
-        artificial intelligence, Apple products, Web3 technologies, and streaming optimization. 
+        artificial intelligence, Apple products, Tesla vehicles, Web3 technologies, and streaming optimization. 
         All content is regularly updated for accuracy and relevance.
       </p>
       <div class="footer-links">
