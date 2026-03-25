@@ -6,6 +6,7 @@ import ChannelGlyph from "../components/ChannelGlyph.astro";
 import PortalGlyph from "../components/PortalGlyph.astro";
 import { resolveRootSiteAnalytics } from "../lib/root-analytics";
 import { getAllSites, getSiteConfig, getAllPosts, toCanonical } from "../lib/site-data";
+import { latestPostLastmodYyyyMmDd } from "../lib/site-routing";
 
 const sites = getAllSites();
 const allPosts = getAllPosts();
@@ -25,6 +26,18 @@ if (sites.length === 1) {
 const rootBaseUrl =
   import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://wordok.top";
 const canonical = toCanonical(rootBaseUrl, "/");
+
+const latestContentDate = latestPostLastmodYyyyMmDd(allPosts);
+/** 最近更新：展示完整日历日期（与 ISO 同一天，避免时区偏移） */
+const latestContentDateDisplay =
+  latestContentDate != null
+    ? new Date(`${latestContentDate}T12:00:00.000Z`).toLocaleDateString("zh-CN", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        timeZone: "UTC",
+      })
+    : null;
 
 const openGraph = {
   type: "website" as const,
@@ -139,21 +152,27 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     <header class="portal-header">
       <h1 class="portal-title">wordok.top</h1>
       <p class="portal-subtitle">Latest technology articles and comprehensive guides</p>
-      
-      <div class="portal-stats">
-        <div class="stat-item">
-          <span class="stat-number">{sites.length}</span>
-          <span class="stat-label">Channels</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">{allPosts.length}</span>
-          <span class="stat-label">Articles</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">2026</span>
-          <span class="stat-label">Updated</span>
-        </div>
-      </div>
+
+      <p class="portal-stats" role="status" aria-label="Site summary">
+        <span class="portal-stats-part">
+          <strong>{sites.length}</strong> channels
+        </span>
+        <span class="portal-stats-sep" aria-hidden="true">·</span>
+        <span class="portal-stats-part">
+          <strong>{allPosts.length}</strong> articles
+        </span>
+        {latestContentDate && latestContentDateDisplay ? (
+          <>
+            <span class="portal-stats-sep" aria-hidden="true">·</span>
+            <span class="portal-stats-part">
+              最近更新{" "}
+              <time datetime={latestContentDate} title={latestContentDate}>
+                {latestContentDateDisplay}
+              </time>
+            </span>
+          </>
+        ) : null}
+      </p>
     </header>
 
     <!-- Channels Grid (primary entry: browse by column first) -->
@@ -343,7 +362,7 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     /* Header Styles */
     .portal-header {
       text-align: center;
-      margin-bottom: 48px;
+      margin-bottom: 40px;
     }
 
     .portal-title {
@@ -361,7 +380,7 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     .portal-subtitle {
       font-size: 1.125rem;
       color: var(--color-text-secondary);
-      margin: 0 0 32px;
+      margin: 0 0 10px;
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
@@ -370,27 +389,26 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
 
     .portal-stats {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
-      gap: 32px;
-      margin-top: 32px;
+      align-items: baseline;
+      gap: 0.35em 0.55em;
+      margin: 0 auto;
+      max-width: 640px;
+      font-size: 0.8125rem;
+      line-height: 1.4;
+      color: var(--color-text-light);
     }
 
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .stat-number {
-      font-size: 1.875rem;
-      font-weight: 700;
-      color: var(--color-primary);
-    }
-
-    .stat-label {
-      font-size: 0.875rem;
+    .portal-stats strong,
+    .portal-stats time {
+      font-weight: 600;
       color: var(--color-text-secondary);
-      margin-top: 4px;
+    }
+
+    .portal-stats-sep {
+      color: var(--color-border);
+      user-select: none;
     }
 
     /* Section Styles */
@@ -733,14 +751,6 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
         font-size: 1rem;
       }
 
-      .portal-stats {
-        gap: 24px;
-      }
-
-      .stat-number {
-        font-size: 1.5rem;
-      }
-
       .articles-grid {
         grid-template-columns: 1fr;
       }
@@ -757,11 +767,6 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     @media (max-width: 480px) {
       .portal-title {
         font-size: 2rem;
-      }
-
-      .portal-stats {
-        flex-direction: column;
-        gap: 16px;
       }
 
       .links-grid {
