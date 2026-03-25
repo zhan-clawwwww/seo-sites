@@ -2,6 +2,8 @@
 export const prerender = true;
 
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ChannelGlyph from "../components/ChannelGlyph.astro";
+import PortalGlyph from "../components/PortalGlyph.astro";
 import { resolveRootSiteAnalytics } from "../lib/root-analytics";
 import { getAllSites, getSiteConfig, getAllPosts, toCanonical } from "../lib/site-data";
 
@@ -68,47 +70,40 @@ const webSiteJsonLd = {
   },
 };
 
-const columnMeta: Record<string, { label: string; desc: string; icon: string; color: string }> = {
+const columnMeta: Record<string, { label: string; desc: string; color: string }> = {
   "vpn-usa": {
     label: "VPN",
     desc: "USA VPN reviews and privacy guides",
-    icon: "🔒",
     color: "#06b6d4",
   },
   ai: {
     label: "AI News",
     desc: "Artificial intelligence and tech trends",
-    icon: "🤖",
     color: "#8b5cf6",
   },
   apple: {
     label: "Apple",
     desc: "iPhone, MacBook specs and reviews",
-    icon: "🍎",
     color: "#f59e0b",
   },
   streaming: {
     label: "Streaming",
     desc: "VPN for Netflix, Disney+ and 4K streaming",
-    icon: "📺",
     color: "#ef4444",
   },
   web3: {
     label: "Web3",
     desc: "Blockchain, DeFi, NFTs and DAOs",
-    icon: "🌐",
     color: "#7c3aed",
   },
   "site-a": {
     label: "Tech Guides",
     desc: "SEO, web development and tech tutorials",
-    icon: "💻",
     color: "#3b82f6",
   },
   tesla: {
     label: "Tesla",
     desc: "Tesla vehicles, EV technology and Elon Musk updates",
-    icon: "⚡",
     color: "#22c55e",
   },
 };
@@ -158,18 +153,19 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
     <!-- Channels Grid (primary entry: browse by column first) -->
     <section class="channels-section">
       <h2 class="section-title">
-        <span class="section-icon">📁</span>
+        <span class="section-icon" aria-hidden="true">
+          <PortalGlyph variant="folder" size={22} />
+        </span>
         Browse by Channel
       </h2>
       <p class="section-subtitle">Explore comprehensive content in each category</p>
       
       <div class="channels-grid">
         {sites.map((s) => {
-          const meta = columnMeta[s.slug] ?? { 
-            label: s.config.name, 
-            desc: s.config.description, 
-            icon: "📄",
-            color: "#6b7280"
+          const meta = columnMeta[s.slug] ?? {
+            label: s.config.name,
+            desc: s.config.description,
+            color: "#6b7280",
           };
           const sitePosts = allPosts.filter(p => p.site === s.slug);
           const latestDate = sitePosts.length > 0 
@@ -181,7 +177,9 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
           
           return (
             <a href={`/${s.slug}/`} class="channel-card" style={`--card-color: ${meta.color}`}>
-              <div class="channel-icon">{meta.icon}</div>
+              <div class="channel-icon">
+                <ChannelGlyph slug={s.slug} size={26} />
+              </div>
               <div class="channel-content">
                 <h3 class="channel-title">{meta.label}</h3>
                 <p class="channel-desc">{meta.desc}</p>
@@ -200,14 +198,16 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
     <!-- Recently Updated Articles -->
     <section class="recent-articles">
       <h2 class="section-title">
-        <span class="section-icon">📰</span>
+        <span class="section-icon" aria-hidden="true">
+          <PortalGlyph variant="newspaper" size={22} />
+        </span>
         Recently Updated Articles
       </h2>
       <p class="section-subtitle">Latest publications across all channels</p>
       
       <div class="articles-grid">
         {recentPosts.map((post, index) => {
-          const siteMeta = columnMeta[post.site] ?? { label: post.site, color: "#6b7280", icon: "📄" };
+          const siteMeta = columnMeta[post.site] ?? { label: post.site, color: "#6b7280" };
           const date = post.frontmatter.pubDate ? new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', { 
             month: 'short', 
             day: 'numeric',
@@ -218,7 +218,8 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
             <a href={`/${post.site}/posts/${post.slug}/`} class="article-card">
               <div class="article-header">
                 <span class="article-badge" style={`--category-color: ${siteMeta.color}`}>
-                  {siteMeta.icon} {siteMeta.label}
+                  <ChannelGlyph slug={post.site} size={15} class="article-badge-glyph" />
+                  {siteMeta.label}
                 </span>
                 <span class="article-date">{date}</span>
               </div>
@@ -237,26 +238,38 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
     <!-- Quick Links -->
     <section class="quick-links">
       <h2 class="section-title">
-        <span class="section-icon">🔗</span>
+        <span class="section-icon" aria-hidden="true">
+          <PortalGlyph variant="link" size={22} />
+        </span>
         Quick Navigation
       </h2>
       
       <div class="links-grid">
         <a href="/sitemap/" class="link-card">
-          <span class="link-icon">🗺️</span>
+          <span class="link-icon" aria-hidden="true">
+            <PortalGlyph variant="map" size={22} />
+          </span>
           <span class="link-text">Full Site Map</span>
         </a>
         <a href="/sitemap.xml" class="link-card">
-          <span class="link-icon">📄</span>
+          <span class="link-icon" aria-hidden="true">
+            <PortalGlyph variant="file" size={22} />
+          </span>
           <span class="link-text">XML Sitemap</span>
         </a>
         <a href="/sitemap_index.xml" class="link-card">
-          <span class="link-icon">📑</span>
+          <span class="link-icon" aria-hidden="true">
+            <PortalGlyph variant="stack" size={22} />
+          </span>
           <span class="link-text">Sitemap Index</span>
         </a>
         <div class="link-card rss-feed">
-          <span class="link-icon">📢</span>
-          <span class="link-text">RSS Feeds</span>
+          <div class="rss-feed-row">
+            <span class="link-icon" aria-hidden="true">
+              <PortalGlyph variant="broadcast" size={22} />
+            </span>
+            <span class="link-text">RSS Feeds</span>
+          </div>
           <div class="rss-links">
             {sites.map((s) => (
               <a href={`/${s.slug}/rss.xml`} class="rss-link">{s.config.name}</a>
@@ -386,7 +399,10 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
     }
 
     .section-icon {
-      font-size: 1.25rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
     }
 
     .section-subtitle {
@@ -444,7 +460,12 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
       color: var(--category-color);
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
+    }
+
+    .article-badge-glyph {
+      flex-shrink: 0;
+      display: block;
     }
 
     .article-date {
@@ -525,8 +546,15 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
     }
 
     .channel-icon {
-      font-size: 2rem;
       flex-shrink: 0;
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--card-color) 16%, transparent);
+      color: var(--card-color);
     }
 
     .channel-content {
@@ -608,8 +636,22 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
       gap: 12px;
     }
 
+    .rss-feed-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
     .link-icon {
-      font-size: 1.25rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--color-text-secondary);
+    }
+
+    .link-card:hover .link-icon {
+      color: var(--color-primary);
     }
 
     .link-text {

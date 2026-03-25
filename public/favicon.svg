@@ -1,10 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="wordok">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#2563eb"/>
-      <stop offset="100%" style="stop-color:#1d4ed8"/>
+    <linearGradient id="wk" x1="8%" y1="10%" x2="92%" y2="92%">
+      <stop offset="0%" stop-color="#5b21b6"/>
+      <stop offset="45%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#0891b2"/>
     </linearGradient>
   </defs>
-  <rect width="128" height="128" rx="24" fill="url(#bg)"/>
-  <text x="64" y="82" font-family="system-ui,-apple-system,sans-serif" font-size="56" font-weight="700" fill="white" text-anchor="middle">TR</text>
+  <rect width="128" height="128" rx="30" fill="url(#wk)"/>
+  <!-- W monogram: crisp at 16–128px -->
+  <path
+    fill="#f8fafc"
+    d="M34 36h12l10 30 10-30h12v56H66V66L54 92 42 66v26H34V36z"
+  />
 </svg>
