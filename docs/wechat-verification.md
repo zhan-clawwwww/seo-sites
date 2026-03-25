@@ -1,17 +1,24 @@
 # 微信部署验证文件管理
 
-## 验证文件信息
+## 当前验证文件信息 (2026-03-25更新)
 
 ### 文件详情
-- **文件名**: `by687dm0txw1ovfinrpkhg2z5q3jeasu.txt`
-- **文件内容**: `by687dm0txw1ovfinrpkhg2z5q3jeasu`
-- **文件大小**: 34字节
-- **创建时间**: 2026-03-19
-- **文件路径**: `public/by687dm0txw1ovfinrpkhg2z5q3jeasu.txt`
+- **文件名**: `d4e020feafa7d5274ed5dbc8eb191e7b.txt`
+- **文件内容**: `d28d618cfc9f4e4623c412d59055608891e6b42c`
+- **文件大小**: 40字节
+- **更新时间**: 2026-03-25
+- **文件路径**: `public/d4e020feafa7d5274ed5dbc8eb191e7b.txt`
 
 ### 访问地址
-- **验证URL**: `https://wordok.top/by687dm0txw1ovfinrpkhg2z5q3jeasu.txt`
-- **预期内容**: `by687dm0txw1ovfinrpkhg2z5q3jeasu`
+- **验证URL**: `https://wordok.top/d4e020feafa7d5274ed5dbc8eb191e7b.txt`
+- **预期内容**: `d28d618cfc9f4e4623c412d59055608891e6b42c`
+
+## 历史验证文件
+
+### 旧文件 (已弃用)
+- **文件名**: `by687dm0txw1ovfinrpkhg2z5q3jeasu.txt`
+- **内容**: `by687dm0txw1ovfinrpkhg2z5q3jeasu`
+- **状态**: 已删除，微信平台已重新生成新验证文件
 
 ## 验证目的
 此文件用于微信平台（微信公众号/小程序）的域名所有权验证。微信会尝试访问此文件来验证你对 `wordok.top` 域名的控制权。
@@ -39,10 +46,13 @@
 ### 文件管理
 ```bash
 # 源文件位置
-public/by687dm0txw1ovfinrpkhg2z5q3jeasu.txt
+public/d4e020feafa7d5274ed5dbc8eb191e7b.txt
 
 # 构建后位置  
-dist/by687dm0txw1ovfinrpkhg2z5q3jeasu.txt
+dist/d4e020feafa7d5274ed5dbc8eb191e7b.txt
+
+# 旧文件 (已删除)
+# public/by687dm0txw1ovfinrpkhg2z5q3jeasu.txt
 ```
 
 ## 维护指南
@@ -78,8 +88,9 @@ curl https://wordok.top/by687dm0txw1ovfinrpkhg2z5q3jeasu.txt
 每次 `npm run build` 时，文件会自动从 `public/` 复制到 `dist/`。
 
 ## 历史记录
-- **2026-03-19**: 文件首次添加，用于微信平台验证
+- **2026-03-19**: 初始验证文件 `by687dm0txw1ovfinrpkhg2z5q3jeasu.txt` 添加
 - **2026-03-25**: 创建此文档，记录验证文件管理信息
+- **2026-03-25**: 微信平台重新生成验证文件，更新为 `d4e020feafa7d5274ed5dbc8eb191e7b.txt`，删除旧文件
 
 ---
 **重要**: 此文件是微信平台验证的关键，请勿随意修改或删除。
