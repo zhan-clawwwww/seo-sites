@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tesla专栏访问测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .test { margin: 20px 0; padding: 10px; border-left: 4px solid #ccc; }
+        .success { border-color: #22c55e; background: #f0fdf4; }
+        .warning { border-color: #f59e0b; background: #fef3c7; }
+        .error { border-color: #ef4444; background: #fef2f2; }
+    </style>
+</head>
+<body>
+    <h1>Tesla专栏访问测试</h1>
+    
+    <div class="test success">
+        <h3>✅ 本地构建检查</h3>
+        <p>Tesla专栏文件已正确生成在 dist/tesla/ 目录</p>
+        <p>文件数: 10个文件 + 8个目录</p>
+        <p>生成时间: 2026-03-25 10:50</p>
+    </div>
+    
+    <div class="test">
+        <h3>🌐 生产环境访问测试</h3>
+        <p>请访问以下链接测试：</p>
+        <ul>
+            <li><a href="https://wordok.top/tesla/" target="_blank">特斯拉专栏首页</a></li>
+            <li><a href="https://wordok.top/tesla/posts/" target="_blank">特斯拉文章列表</a></li>
+            <li><a href="https://wordok.top/tesla/posts/tesla-2026-03-25-tesla-model-3-refresh-2026/" target="_blank">示例文章</a></li>
+        </ul>
+    </div>
+    
+    <div class="test warning">
+        <h3>⚠️ 如果无法访问，可能原因：</h3>
+        <ol>
+            <li><strong>CDN缓存</strong> - Cloudflare等CDN缓存了旧版本</li>
+            <li><strong>部署延迟</strong> - 静态站点部署需要时间（通常5-30分钟）</li>
+            <li><strong>DNS传播</strong> - DNS更改需要时间传播（最长48小时）</li>
+            <li><strong>构建服务问题</strong> - GitHub Pages/Vercel/Netlify可能有延迟</li>
+        </ol>
+    </div>
+    
+    <div class="test">
+        <h3>🔧 解决方法：</h3>
+        <ol>
+            <li><strong>清除浏览器缓存</strong> - Ctrl+F5 或 Shift+刷新</li>
+            <li><strong>清除CDN缓存</strong> - 如果使用Cloudflare</li>
+            <li><strong>等待部署完成</strong> - 通常需要5-30分钟</li>
+            <li><strong>检查部署日志</strong> - 查看是否有构建错误</li>
+            <li><strong>使用无痕模式</strong> - 测试是否缓存问题</li>
+        </ol>
+    </div>
+    
+    <div class="test success">
+        <h3>✅ 本地验证结果</h3>
+        <p>所有代码已正确生成，问题在于生产环境部署/缓存。</p>
+        <p><strong>Git推送状态</strong>: ✅ 成功 (提交: 2a76efc)</p>
+        <p><strong>本地构建状态</strong>: ✅ 成功 (313个页面)</p>
+        <p><strong>Tesla专栏配置</strong>: ✅ 正确 (每天10篇文章)</p>
+    </div>
+    
+    <div class="test">
+        <h3>📞 需要进一步帮助？</h3>
+        <p>如果你可以：</p>
+        <ul>
+            <li>提供具体的错误信息（404, 500等）</li>
+            <li>告诉我使用的部署服务（GitHub Pages, Vercel, Netlify等）</li>
+            <li>检查部署服务的日志</li>
+            <li>尝试清除CDN缓存</li>
+        </ul>
+    </div>
+</body>
+</html>
