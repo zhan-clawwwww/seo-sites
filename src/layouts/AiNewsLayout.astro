@@ -1,6 +1,7 @@
 ---
 import { getAllSites } from "../lib/site-data";
 import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
+import { newsPostsNavLabel } from "../lib/news-style-sites";
 
 const CHANNEL_LABELS: Record<string, string> = {
   "vpn-usa": "VPN",
@@ -10,6 +11,7 @@ const CHANNEL_LABELS: Record<string, string> = {
   web3: "Web3",
   "site-a": "Tech Guides",
   tesla: "Tesla",
+  openclaw: "OpenClaw",
 };
 
 /**
@@ -88,6 +90,8 @@ const allSites = getAllSites();
 const otherChannels = siteSlug
   ? allSites.filter((s) => s.slug !== siteSlug)
   : [];
+/** OpenClaw 由顶栏固定入口展示，不在「其它频道 →」里重复 */
+const switchChannels = otherChannels.filter((s) => s.slug !== "openclaw");
 ---
 
 <!doctype html>
@@ -249,12 +253,35 @@ const otherChannels = siteSlug
         gap: 32px;
         flex-wrap: wrap;
       }
+      .ai-brand-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        min-width: 0;
+      }
       .ai-logo {
         font-size: 1.25rem;
         font-weight: 700;
         color: var(--ai-primary) !important;
         text-decoration: none !important;
         letter-spacing: -0.02em;
+      }
+      .ai-dedicated-channel-tag {
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ai-accent);
+        border: 1px solid color-mix(in srgb, var(--ai-accent) 40%, var(--ai-border));
+        padding: 4px 9px;
+        border-radius: 999px;
+        white-space: nowrap;
+      }
+      .ai-nav a.ai-openclaw-pillar.current {
+        color: var(--ai-primary);
+        border-bottom-color: var(--ai-primary);
+        font-weight: 600;
       }
       .ai-nav {
         display: flex;
@@ -581,18 +608,33 @@ const otherChannels = siteSlug
     {siteSlug && siteName ? (
       <header class="ai-header">
         <div class="ai-header-inner">
-          <a href={`/${siteSlug}/`} class="ai-logo">{siteName}</a>
+          <div class="ai-brand-row">
+            <a href={`/${siteSlug}/`} class="ai-logo">{siteName}</a>
+            {siteSlug === "openclaw" ? (
+              <span class="ai-dedicated-channel-tag">Dedicated channel</span>
+            ) : null}
+          </div>
           <nav class="ai-nav">
             <a href="/">All Channels</a>
-            {otherChannels.map((s) => (
+            <a
+              href="/openclaw/"
+              class:list={["ai-openclaw-pillar", { current: siteSlug === "openclaw" }]}
+            >
+              OpenClaw
+            </a>
+            {switchChannels.map((s) => (
               <a href={`/${s.slug}/`} class="channel-switch">
                 {CHANNEL_LABELS[s.slug] ?? s.config.name} →
               </a>
             ))}
             <a href={`/${siteSlug}/`}>Home</a>
-            <a href={`/${siteSlug}/posts/`}>{siteSlug === "apple" ? "Products" : "News"}</a>
-            <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
-            <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
+            <a href={`/${siteSlug}/posts/`}>{newsPostsNavLabel(siteSlug)}</a>
+            {siteSlug !== "openclaw" ? (
+              <>
+                <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
+                <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
+              </>
+            ) : null}
             <a href={`/${siteSlug}/about/`}>About</a>
             <a href={`/${siteSlug}/contact/`}>Contact</a>
           </nav>
@@ -609,13 +651,18 @@ const otherChannels = siteSlug
         <div class="ai-footer-inner">
           <div class="ai-footer-links">
             <a href="/">All Channels</a>
-            {otherChannels.map((s) => (
+            <a href="/openclaw/">OpenClaw</a>
+            {switchChannels.map((s) => (
               <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
             ))}
             <a href={`/${siteSlug}/`}>Home</a>
-            <a href={`/${siteSlug}/posts/`}>{siteSlug === "apple" ? "Products" : "News"}</a>
-            <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
-            <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
+            <a href={`/${siteSlug}/posts/`}>{newsPostsNavLabel(siteSlug)}</a>
+            {siteSlug !== "openclaw" ? (
+              <>
+                <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
+                <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
+              </>
+            ) : null}
             <a href={`/${siteSlug}/about/`}>About</a>
             <a href={`/${siteSlug}/contact/`}>Contact</a>
             <a href={`/${siteSlug}/privacy/`}>Privacy</a>
@@ -631,11 +678,15 @@ const otherChannels = siteSlug
                 <span class="ai-footer-hub-group">
                   <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
                   <span class="ai-footer-hub-sep"> · </span>
-                  <a href={`/${s.slug}/posts/`}>Articles</a>
-                  <span class="ai-footer-hub-sep"> · </span>
-                  <a href={`/${s.slug}/ai-frontiers/`}>AI Frontiers</a>
-                  <span class="ai-footer-hub-sep"> · </span>
-                  <a href={`/${s.slug}/privacy-security/`}>Privacy</a>
+                  <a href={`/${s.slug}/posts/`}>{s.slug === "openclaw" ? "Guides" : "Articles"}</a>
+                  {s.slug !== "openclaw" ? (
+                    <>
+                      <span class="ai-footer-hub-sep"> · </span>
+                      <a href={`/${s.slug}/ai-frontiers/`}>AI Frontiers</a>
+                      <span class="ai-footer-hub-sep"> · </span>
+                      <a href={`/${s.slug}/privacy-security/`}>Privacy</a>
+                    </>
+                  ) : null}
                 </span>
               ))}
             </div>

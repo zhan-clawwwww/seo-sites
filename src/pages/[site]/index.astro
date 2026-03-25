@@ -6,6 +6,7 @@ import AiNewsLayout from "../../layouts/AiNewsLayout.astro";
 import { getAllPosts, getPostsByTopic, getTwitterHandleFromUrl } from "../../lib/site-data";
 import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../lib/site-routing";
 import { formatReadingTime } from "../../lib/reading-time";
+import { isNewsStyleSite, newsHomeSectionTitle } from "../../lib/news-style-sites";
 
 export function getStaticPaths() {
   return getSiteStaticPaths();
@@ -13,9 +14,9 @@ export function getStaticPaths() {
 
 const siteSlug = Astro.params.site!;
 const siteConfig = requireSiteConfig(siteSlug);
-const isNewsStyleSite = siteSlug === "ai" || siteSlug === "apple";
+const useNewsLayout = isNewsStyleSite(siteSlug);
 
-const posts = getAllPosts(siteSlug).slice(0, isNewsStyleSite ? 12 : 10);
+const posts = getAllPosts(siteSlug).slice(0, useNewsLayout ? 12 : 10);
 const aiFrontiersPosts = getPostsByTopic(siteSlug, "ai-frontiers").slice(0, 5);
 const privacySecurityPosts = getPostsByTopic(siteSlug, "privacy-security").slice(0, 5);
 const canonical = canonicalFor(siteConfig, `/${siteSlug}/`);
@@ -100,12 +101,19 @@ const layoutProps = {
 };
 ---
 
-{isNewsStyleSite ? (
+{useNewsLayout ? (
 <AiNewsLayout {...layoutProps}>
   <section style="margin-bottom: 32px;">
     <h1 style="font-size: 1.8rem; font-weight: 700; margin: 0 0 8px; color: var(--ai-text);">
       {siteConfig.name}
     </h1>
+    {siteSlug === "openclaw" ? (
+      <p
+        style="font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ai-accent); margin: 0 0 10px;"
+      >
+        Dedicated OpenClaw channel
+      </p>
+    ) : null}
     <p style="font-size: 1rem; color: var(--ai-text-secondary); margin: 0; max-width: 560px; line-height: 1.6;">
       {siteConfig.description}
     </p>
@@ -113,7 +121,7 @@ const layoutProps = {
 
   <section>
     <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-      <h2 class="ai-section-title">{siteSlug === "apple" ? "Latest Products" : "Latest News"}</h2>
+      <h2 class="ai-section-title">{newsHomeSectionTitle(siteSlug)}</h2>
       <a href={`/${siteSlug}/posts/`} class="ai-section-more">View all &rarr;</a>
     </div>
     {posts.length ? (

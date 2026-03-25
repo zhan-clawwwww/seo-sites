@@ -28,18 +28,18 @@ const canonical = toCanonical(rootBaseUrl, "/");
 
 const openGraph = {
   type: "website" as const,
-  title: "wordok.top — VPN, AI News, Apple, Tesla, Web3 & Streaming Guides",
+  title: "wordok.top — VPN, AI, Apple, Tesla, Web3, OpenClaw & Streaming Guides",
   description:
-    "Latest articles on VPN, AI, Apple, Tesla, Web3, and streaming. Discover trending topics and comprehensive guides across all channels.",
+    "Latest articles on VPN, AI, Apple, Tesla, Web3, OpenClaw, and streaming. Discover trending topics and comprehensive guides across all channels.",
   url: canonical,
   siteName: "wordok.top",
 };
 
 const twitter = {
   card: "summary_large_image" as const,
-  title: "wordok.top — Latest Articles on Tech, Tesla & Web3",
+  title: "wordok.top — Tech, Tesla, Web3 & OpenClaw",
   description:
-    "Stay updated with the latest VPN reviews, AI news, Apple specs, Tesla updates, Web3 guides, and streaming tips.",
+    "Stay updated with VPN reviews, AI news, Apple and Tesla coverage, Web3 guides, OpenClaw gateway tutorials, and streaming tips.",
 };
 
 const itemListJsonLd = {
@@ -106,12 +106,17 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     desc: "Tesla vehicles, EV technology and Elon Musk updates",
     color: "#22c55e",
   },
+  openclaw: {
+    label: "OpenClaw",
+    desc: "OpenClaw gateway: AI agents, channels, config, and security",
+    color: "#0ea5e9",
+  },
 };
 ---
 
 <BaseLayout
-  title="wordok.top — Latest Tech, Web3 & Streaming Articles"
-  description="Discover trending articles on VPN, AI, Apple, Web3, and streaming. Comprehensive guides and latest news across all technology channels."
+  title="wordok.top — Latest Tech, Web3, OpenClaw & Streaming Articles"
+  description="Discover trending articles on VPN, AI, Apple, Web3, OpenClaw, and streaming. Comprehensive guides and latest news across all technology channels."
   canonical={canonical}
   keywords={[
     "wordok",
@@ -119,6 +124,7 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     "AI news",
     "Apple iPhone",
     "Web3 blockchain",
+    "OpenClaw gateway",
     "streaming VPN",
     "tech articles",
     "latest updates",
@@ -283,7 +289,7 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     <footer class="seo-footer">
       <p>
         <strong>wordok.top</strong> provides comprehensive guides and latest news on VPN services, 
-        artificial intelligence, Apple products, Tesla vehicles, Web3 technologies, and streaming optimization. 
+        artificial intelligence, Apple products, Tesla vehicles, Web3 technologies, OpenClaw AI gateway topics, and streaming optimization. 
         All content is regularly updated for accuracy and relevance.
       </p>
       <div class="footer-links">
