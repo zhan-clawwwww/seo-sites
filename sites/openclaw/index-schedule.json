@@ -1,0 +1,12 @@
+{
+  "strategy": "all",
+  "launchDate": "2026-03-26T00:00:00Z",
+  "releaseIntervalHours": 72,
+  "postsPerRelease": {
+    "min": 2,
+    "max": 4
+  },
+  "initialPosts": [],
+  "releaseSchedule": [],
+  "notes": "OpenClaw column — all posts built immediately. Add articles to sites/openclaw/posts/"
+}

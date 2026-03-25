@@ -1,0 +1,31 @@
+{
+  "name": "OpenClaw Guides",
+  "description": "Practical guides for OpenClaw: the AI agent gateway, messaging channels, configuration, tools, sessions, and secure operations. Learn setup, onboarding, and day‑two tuning from curated summaries of official documentation.",
+  "keywords": ["OpenClaw", "OpenClaw gateway", "AI agent", "OpenClaw configuration", "openclaw.json", "Telegram bot", "WhatsApp bot", "Discord bot", "agent tools", "LLM automation"],
+  "baseUrl": "https://wordok.top",
+  "lang": "en",
+  "defaultImage": "https://wordok.top/og-default.png",
+  "contact": {
+    "email": "iwangzhanpeng94@gmail.com",
+    "privacyEmail": "iwangzhanpeng94@gmail.com",
+    "businessEmail": "iwangzhanpeng94@gmail.com"
+  },
+  "social": {
+    "twitter": "",
+    "linkedin": ""
+  },
+  "analytics": {
+    "ga4Id": "G-JWYQZWRTBN",
+    "cfBeacon": ""
+  },
+  "giscus": {
+    "repo": "",
+    "repoId": "",
+    "category": "",
+    "categoryId": ""
+  },
+  "adsense": {
+    "publisherId": "",
+    "adSlot": ""
+  }
+}
