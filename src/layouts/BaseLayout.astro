@@ -1,18 +1,7 @@
 ---
 import { getAllSites } from "../lib/site-data";
 import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
-
-// Short labels for cross-channel nav
-const CHANNEL_LABELS: Record<string, string> = {
-  "vpn-usa": "VPN",
-  ai: "AI News",
-  apple: "Apple",
-  streaming: "Streaming",
-  web3: "Web3",
-  "site-a": "Tech Guides",
-  tesla: "Tesla",
-  openclaw: "OpenClaw",
-};
+import { CHANNEL_LABELS, postsHubLabel, postsNavLabel } from "../lib/channel-nav";
 
 type Props = {
   title: string;
@@ -90,9 +79,6 @@ function safeJsonStringify(v: unknown): string {
 const currentYear = new Date().getFullYear();
 
 const allSites = getAllSites();
-const otherChannels = siteSlug
-  ? allSites.filter((s) => s.slug !== siteSlug)
-  : allSites;
 ---
 
 <!doctype html>
@@ -312,6 +298,38 @@ const otherChannels = siteSlug
         gap: 24px;
         flex-wrap: wrap;
       }
+      .header-inner-stack {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .header-brand-row {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+      .header-brand-row .header-search {
+        margin-left: auto;
+      }
+      .site-nav-channels {
+        flex-wrap: wrap;
+        gap: 14px 18px;
+        padding-top: 4px;
+        border-top: 1px solid var(--color-border);
+      }
+      .site-nav-local {
+        flex-wrap: wrap;
+        gap: 20px;
+        padding-top: 4px;
+        border-top: 1px solid var(--color-border);
+      }
+      .site-nav a.channel-hub.current {
+        color: var(--color-primary);
+        border-bottom-color: var(--color-primary);
+        font-weight: 600;
+      }
       .site-logo {
         font-size: 1.2rem;
         font-weight: 700;
@@ -338,7 +356,7 @@ const otherChannels = siteSlug
         border-bottom-color: var(--color-primary);
         text-decoration: none;
       }
-      .header-search {
+      .header-inner:not(.header-inner-stack) .header-search {
         margin-left: auto;
       }
       .header-search .pagefind-ui {
@@ -735,8 +753,11 @@ const otherChannels = siteSlug
           align-items: stretch;
           gap: 12px;
         }
-        .header-search {
+        .header-brand-row .header-search {
           margin-left: 0;
+          width: 100%;
+        }
+        .header-search {
           width: 100%;
           order: 3;
         }
@@ -934,22 +955,31 @@ const otherChannels = siteSlug
     {/* Site Header (只在站点页面渲染) */}
     {siteSlug && siteName ? (
       <header class="site-header">
-        <div class="header-inner">
-          <a href={`/${siteSlug}/`} class="site-logo">{siteName}</a>
-          <nav class="site-nav">
-            <a href="/">All Channels</a>
-            {otherChannels.map((s) => (
-              <a href={`/${s.slug}/`} class="channel-switch">
-                {CHANNEL_LABELS[s.slug] ?? s.config.name} →
+        <div class="header-inner header-inner-stack">
+          <div class="header-brand-row">
+            <a href={`/${siteSlug}/`} class="site-logo">{siteName}</a>
+            <div id="search" class="header-search"></div>
+          </div>
+          <nav class="site-nav site-nav-channels" aria-label="All columns">
+            <a href="/">Hub</a>
+            {allSites.map((s) => (
+              <a
+                href={`/${s.slug}/`}
+                class:list={["channel-hub", { current: siteSlug === s.slug }]}
+                aria-current={siteSlug === s.slug ? "page" : undefined}
+              >
+                {CHANNEL_LABELS[s.slug] ?? s.config.name}
               </a>
             ))}
-            <a href={`/${siteSlug}/posts/`}>Articles</a>
+          </nav>
+          <nav class="site-nav site-nav-local" aria-label="This column">
+            <a href={`/${siteSlug}/`}>Home</a>
+            <a href={`/${siteSlug}/posts/`}>{postsNavLabel(siteSlug)}</a>
             <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
             <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
             <a href={`/${siteSlug}/about/`}>About</a>
             <a href={`/${siteSlug}/contact/`}>Contact</a>
           </nav>
-          <div id="search" class="header-search"></div>
         </div>
       </header>
     ) : null}
@@ -968,11 +998,11 @@ const otherChannels = siteSlug
               {siteDescription ? <p class="footer-desc">{siteDescription}</p> : null}
             </div>
             <div class="footer-links">
-              <a href="/">All Channels</a>
-              {otherChannels.map((s) => (
+              <a href="/">Hub</a>
+              {allSites.map((s) => (
                 <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
               ))}
-              <a href={`/${siteSlug}/posts/`}>Articles</a>
+              <a href={`/${siteSlug}/posts/`}>{postsNavLabel(siteSlug)}</a>
               <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
               <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
               <a href={`/${siteSlug}/about/`}>About</a>
@@ -984,6 +1014,7 @@ const otherChannels = siteSlug
               ) : null}
               <a href="/sitemap/">Site Map</a>
               <a href={`/${siteSlug}/rss.xml`}>RSS</a>
+              <a href={`/${siteSlug}/sitemap.xml`}>Sitemap</a>
             </div>
           </div>
           {/* 全频道关键入口：增强从任意页面到各站首页/列表/栏目的爬取路径 */}
@@ -994,7 +1025,7 @@ const otherChannels = siteSlug
                 <span class="footer-hub-group">
                   <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
                   <span class="footer-hub-sep"> · </span>
-                  <a href={`/${s.slug}/posts/`}>Articles</a>
+                  <a href={`/${s.slug}/posts/`}>{postsHubLabel(s.slug)}</a>
                   <span class="footer-hub-sep"> · </span>
                   <a href={`/${s.slug}/ai-frontiers/`}>AI Frontiers</a>
                   <span class="footer-hub-sep"> · </span>

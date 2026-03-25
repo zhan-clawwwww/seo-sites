@@ -1,18 +1,7 @@
 ---
 import { getAllSites } from "../lib/site-data";
 import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
-import { newsPostsNavLabel } from "../lib/news-style-sites";
-
-const CHANNEL_LABELS: Record<string, string> = {
-  "vpn-usa": "VPN",
-  ai: "AI News",
-  apple: "Apple",
-  streaming: "Streaming",
-  web3: "Web3",
-  "site-a": "Tech Guides",
-  tesla: "Tesla",
-  openclaw: "OpenClaw",
-};
+import { CHANNEL_LABELS, postsHubLabel, postsNavLabel } from "../lib/channel-nav";
 
 /**
  * AI News Layout - 36Kr style
@@ -87,11 +76,6 @@ function safeJsonStringify(v: unknown): string {
 const currentYear = new Date().getFullYear();
 
 const allSites = getAllSites();
-const otherChannels = siteSlug
-  ? allSites.filter((s) => s.slug !== siteSlug)
-  : [];
-/** OpenClaw 由顶栏固定入口展示，不在「其它频道 →」里重复 */
-const switchChannels = otherChannels.filter((s) => s.slug !== "openclaw");
 ---
 
 <!doctype html>
@@ -253,6 +237,11 @@ const switchChannels = otherChannels.filter((s) => s.slug !== "openclaw");
         gap: 32px;
         flex-wrap: wrap;
       }
+      .ai-header-stack {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
       .ai-brand-row {
         display: flex;
         align-items: center;
@@ -267,18 +256,19 @@ const switchChannels = otherChannels.filter((s) => s.slug !== "openclaw");
         text-decoration: none !important;
         letter-spacing: -0.02em;
       }
-      .ai-dedicated-channel-tag {
-        font-size: 0.65rem;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--ai-accent);
-        border: 1px solid color-mix(in srgb, var(--ai-accent) 40%, var(--ai-border));
-        padding: 4px 9px;
-        border-radius: 999px;
-        white-space: nowrap;
+      .ai-nav-channels {
+        flex-wrap: wrap;
+        gap: 14px 18px;
+        padding-top: 4px;
+        border-top: 1px solid var(--ai-border);
       }
-      .ai-nav a.ai-openclaw-pillar.current {
+      .ai-nav-local {
+        flex-wrap: wrap;
+        gap: 24px;
+        padding-top: 4px;
+        border-top: 1px solid var(--ai-border);
+      }
+      .ai-nav a.ai-channel-hub.current {
         color: var(--ai-primary);
         border-bottom-color: var(--ai-primary);
         font-weight: 600;
@@ -607,34 +597,27 @@ const switchChannels = otherChannels.filter((s) => s.slug !== "openclaw");
   <body class="ai-theme">
     {siteSlug && siteName ? (
       <header class="ai-header">
-        <div class="ai-header-inner">
+        <div class="ai-header-inner ai-header-stack">
           <div class="ai-brand-row">
             <a href={`/${siteSlug}/`} class="ai-logo">{siteName}</a>
-            {siteSlug === "openclaw" ? (
-              <span class="ai-dedicated-channel-tag">Dedicated channel</span>
-            ) : null}
           </div>
-          <nav class="ai-nav">
-            <a href="/">All Channels</a>
-            <a
-              href="/openclaw/"
-              class:list={["ai-openclaw-pillar", { current: siteSlug === "openclaw" }]}
-            >
-              OpenClaw
-            </a>
-            {switchChannels.map((s) => (
-              <a href={`/${s.slug}/`} class="channel-switch">
-                {CHANNEL_LABELS[s.slug] ?? s.config.name} →
+          <nav class="ai-nav ai-nav-channels" aria-label="All columns">
+            <a href="/">Hub</a>
+            {allSites.map((s) => (
+              <a
+                href={`/${s.slug}/`}
+                class:list={["ai-channel-hub", { current: siteSlug === s.slug }]}
+                aria-current={siteSlug === s.slug ? "page" : undefined}
+              >
+                {CHANNEL_LABELS[s.slug] ?? s.config.name}
               </a>
             ))}
+          </nav>
+          <nav class="ai-nav ai-nav-local" aria-label="This column">
             <a href={`/${siteSlug}/`}>Home</a>
-            <a href={`/${siteSlug}/posts/`}>{newsPostsNavLabel(siteSlug)}</a>
-            {siteSlug !== "openclaw" ? (
-              <>
-                <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
-                <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
-              </>
-            ) : null}
+            <a href={`/${siteSlug}/posts/`}>{postsNavLabel(siteSlug)}</a>
+            <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
+            <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
             <a href={`/${siteSlug}/about/`}>About</a>
             <a href={`/${siteSlug}/contact/`}>Contact</a>
           </nav>
@@ -650,19 +633,14 @@ const switchChannels = otherChannels.filter((s) => s.slug !== "openclaw");
       <footer class="ai-footer">
         <div class="ai-footer-inner">
           <div class="ai-footer-links">
-            <a href="/">All Channels</a>
-            <a href="/openclaw/">OpenClaw</a>
-            {switchChannels.map((s) => (
+            <a href="/">Hub</a>
+            {allSites.map((s) => (
               <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
             ))}
             <a href={`/${siteSlug}/`}>Home</a>
-            <a href={`/${siteSlug}/posts/`}>{newsPostsNavLabel(siteSlug)}</a>
-            {siteSlug !== "openclaw" ? (
-              <>
-                <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
-                <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
-              </>
-            ) : null}
+            <a href={`/${siteSlug}/posts/`}>{postsNavLabel(siteSlug)}</a>
+            <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
+            <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
             <a href={`/${siteSlug}/about/`}>About</a>
             <a href={`/${siteSlug}/contact/`}>Contact</a>
             <a href={`/${siteSlug}/privacy/`}>Privacy</a>
@@ -678,15 +656,11 @@ const switchChannels = otherChannels.filter((s) => s.slug !== "openclaw");
                 <span class="ai-footer-hub-group">
                   <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
                   <span class="ai-footer-hub-sep"> · </span>
-                  <a href={`/${s.slug}/posts/`}>{s.slug === "openclaw" ? "Guides" : "Articles"}</a>
-                  {s.slug !== "openclaw" ? (
-                    <>
-                      <span class="ai-footer-hub-sep"> · </span>
-                      <a href={`/${s.slug}/ai-frontiers/`}>AI Frontiers</a>
-                      <span class="ai-footer-hub-sep"> · </span>
-                      <a href={`/${s.slug}/privacy-security/`}>Privacy</a>
-                    </>
-                  ) : null}
+                  <a href={`/${s.slug}/posts/`}>{postsHubLabel(s.slug)}</a>
+                  <span class="ai-footer-hub-sep"> · </span>
+                  <a href={`/${s.slug}/ai-frontiers/`}>AI Frontiers</a>
+                  <span class="ai-footer-hub-sep"> · </span>
+                  <a href={`/${s.slug}/privacy-security/`}>Privacy</a>
                 </span>
               ))}
             </div>

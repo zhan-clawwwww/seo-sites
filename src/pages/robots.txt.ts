@@ -16,10 +16,14 @@ export const GET: APIRoute = () => {
     "User-agent: *",
     "Allow: /",
     "",
-    "# Sitemaps (index + full urlset — both valid for Google Search Console)",
+    "# Sitemaps (index + full urlset + per-channel — Google Search Console)",
     `Sitemap: ${toCanonical(rootBaseUrl, "/sitemap_index.xml")}`,
     `Sitemap: ${toCanonical(rootBaseUrl, "/sitemap.xml")}`,
   ];
+
+  for (const s of sites) {
+    lines.push(`Sitemap: ${toCanonical(s.config.baseUrl, `/${s.slug}/sitemap.xml`)}`);
+  }
 
   const body = lines.join("\n") + "\n";
 

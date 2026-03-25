@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
-import { getAllSites, toCanonical } from "../lib/site-data";
+import { getAllPosts, getAllSites, toCanonical } from "../lib/site-data";
+import { buildStampYyyyMmDd, latestPostLastmodYyyyMmDd } from "../lib/site-routing";
 
 export const prerender = true;
 
@@ -11,14 +12,19 @@ export const GET: APIRoute = () => {
   const rootBaseUrl =
     import.meta.env.PUBLIC_ROOT_BASE_URL?.toString().trim() || "https://wordok.top";
   const sites = getAllSites();
-  const lastmod = new Date().toISOString().slice(0, 10);
+  const buildDay = buildStampYyyyMmDd();
+  const allPosts = getAllPosts();
+  const rootSitemapLastmod = latestPostLastmodYyyyMmDd(allPosts) ?? buildDay;
 
   const sitemaps = [
-    { loc: toCanonical(rootBaseUrl, "/sitemap.xml"), lastmod },
-    ...sites.map((s) => ({
-      loc: toCanonical(s.config.baseUrl, `/${s.slug}/sitemap.xml`),
-      lastmod,
-    })),
+    { loc: toCanonical(rootBaseUrl, "/sitemap.xml"), lastmod: rootSitemapLastmod },
+    ...sites.map((s) => {
+      const posts = getAllPosts(s.slug);
+      return {
+        loc: toCanonical(s.config.baseUrl, `/${s.slug}/sitemap.xml`),
+        lastmod: latestPostLastmodYyyyMmDd(posts) ?? buildDay,
+      };
+    }),
   ];
 
   const body =

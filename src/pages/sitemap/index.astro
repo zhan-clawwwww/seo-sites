@@ -3,6 +3,7 @@ export const prerender = true;
 
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { resolveRootSiteAnalytics } from "../../lib/root-analytics";
+import { postsHubLabel } from "../../lib/channel-nav";
 import { getAllPosts, getAllSites, getSiteConfig, toCanonical } from "../../lib/site-data";
 
 const sites = getAllSites();
@@ -28,7 +29,7 @@ for (const s of sites) {
 
   const siteUrls: { href: string; label: string }[] = [
     { href: `${base}/${s.slug}/`, label: `${s.config.name} 首页` },
-    { href: `${base}/${s.slug}/posts/`, label: "文章列表" },
+    { href: `${base}/${s.slug}/posts/`, label: postsHubLabel(s.slug) },
     { href: `${base}/${s.slug}/ai-frontiers/`, label: "AI Frontiers" },
     { href: `${base}/${s.slug}/privacy-security/`, label: "Privacy & Security" },
     { href: `${base}/${s.slug}/about/`, label: "关于" },
@@ -58,6 +59,9 @@ const totalUrls = urlGroups.reduce((n, g) => n + g.urls.length, 0);
     <h1>站点地图</h1>
     <p class="sitemap-intro">
       共 {totalUrls} 个页面 · 最后更新：{new Date().toISOString().slice(0, 10)}
+      · 搜索引擎请优先使用{" "}
+      <a href="/sitemap_index.xml">sitemap_index.xml</a>（子站 sitemap 索引）与{" "}
+      <a href="/sitemap.xml">sitemap.xml</a>（全量 URL）；<code>robots.txt</code> 亦列出各专栏的 <code>/…/sitemap.xml</code>。
     </p>
 
     {urlGroups.map((group) => (
@@ -74,7 +78,7 @@ const totalUrls = urlGroups.reduce((n, g) => n + g.urls.length, 0);
     ))}
 
     <p class="sitemap-footer">
-      <a href="/">← 返回首页</a> · XML: <a href="/sitemap.xml">sitemap.xml</a>（全站） · <a href="/sitemap_index.xml">sitemap_index.xml</a>
+      <a href="/">← 返回首页</a> · XML: <a href="/sitemap.xml">sitemap.xml</a>（全站 URL） · <a href="/sitemap_index.xml">sitemap_index.xml</a>（索引）
     </p>
   </main>
 
