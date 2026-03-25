@@ -28,10 +28,10 @@ const rootBaseUrl =
 const canonical = toCanonical(rootBaseUrl, "/");
 
 const latestContentDate = latestPostLastmodYyyyMmDd(allPosts);
-/** 最近更新：展示完整日历日期（与 ISO 同一天，避免时区偏移） */
+/** Human-readable full date matching the ISO calendar day (UTC, no TZ skew). */
 const latestContentDateDisplay =
   latestContentDate != null
-    ? new Date(`${latestContentDate}T12:00:00.000Z`).toLocaleDateString("zh-CN", {
+    ? new Date(`${latestContentDate}T12:00:00.000Z`).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -165,7 +165,7 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
           <>
             <span class="portal-stats-sep" aria-hidden="true">·</span>
             <span class="portal-stats-part">
-              最近更新{" "}
+              Last updated{" "}
               <time datetime={latestContentDate} title={latestContentDate}>
                 {latestContentDateDisplay}
               </time>
