@@ -123,8 +123,15 @@ async function pingGoogleSitemap(sitemapUrl) {
   }
 }
 
-/** 与 .github/workflows/deploy.yml 中 ENABLED_SITES 保持一致 */
-const PRODUCTION_SITE_SLUGS = ["vpn-usa", "ai", "apple", "streaming", "web3"];
+/** 与仓库 sites/*/config.json 一致（全量频道） */
+function getAllSiteSlugs() {
+  const sitesDir = join(rootDir, "sites");
+  return readdirSync(sitesDir)
+    .filter((name) => existsSync(join(sitesDir, name, "config.json")))
+    .sort((a, b) => a.localeCompare(b));
+}
+
+const PRODUCTION_SITE_SLUGS = getAllSiteSlugs();
 
 async function submitAllProductionSites() {
   const rootBaseUrl = process.env.PUBLIC_ROOT_BASE_URL || "https://wordok.top";

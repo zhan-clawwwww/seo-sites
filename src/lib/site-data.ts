@@ -203,6 +203,15 @@ function siteSlugFromConfigPath(path: string) {
   return m[1];
 }
 
+/** 仓库内所有带 config.json 的站点 slug（与首页 / sitemap 频道列表一致） */
+const DISCOVERED_SITE_SLUGS = [
+  ...new Set(
+    Object.keys(configModules)
+      .map((p) => siteSlugFromConfigPath(p))
+      .filter((x): x is string => Boolean(x)),
+  ),
+].sort((a, b) => a.localeCompare(b));
+
 function postInfoFromPath(path: string) {
   const m = path.match(/\/sites\/([^/]+)\/posts\/([^/]+)\.md$/);
   if (!m) return null;
@@ -211,16 +220,17 @@ function postInfoFromPath(path: string) {
 
 /**
  * 多站点启用控制
- * 通过环境变量 ENABLED_SITES 控制（逗号分隔），默认启用 site-a
- * 例：ENABLED_SITES=site-a,site-b
+ * 未设置 ENABLED_SITES 时默认启用 sites 目录下全部带 config 的站点
+ * 仅构建部分频道时：ENABLED_SITES=site-a,vpn-usa（逗号分隔）
  */
-const ENABLED_SITES = (
-  (typeof import.meta.env !== "undefined" && import.meta.env.ENABLED_SITES) || "site-a"
-)
-  .toString()
-  .split(",")
-  .map((s: string) => s.trim())
-  .filter(Boolean);
+const enabledSitesEnv =
+  typeof import.meta.env !== "undefined" && import.meta.env.ENABLED_SITES
+    ? import.meta.env.ENABLED_SITES.toString().trim()
+    : "";
+
+const ENABLED_SITES = enabledSitesEnv
+  ? enabledSitesEnv.split(",").map((s: string) => s.trim()).filter(Boolean)
+  : DISCOVERED_SITE_SLUGS;
 
 export function getAllSites() {
   return Object.entries(configModules)

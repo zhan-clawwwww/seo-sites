@@ -258,7 +258,7 @@ const columnMeta: Record<string, { label: string; desc: string; icon: string; co
           <span class="link-icon">📢</span>
           <span class="link-text">RSS Feeds</span>
           <div class="rss-links">
-            {sites.slice(0, 3).map(s => (
+            {sites.map((s) => (
               <a href={`/${s.slug}/rss.xml`} class="rss-link">{s.config.name}</a>
             ))}
           </div>
