@@ -35,7 +35,7 @@ function orderSitesForPortal(list: { slug: string; config: SiteConfig }[]) {
 
 const orderedSites = orderSitesForPortal(sites);
 
-const ARTICLES_PER_CHANNEL = 4;
+const ARTICLES_PER_CHANNEL = 3;
 
 function postRecencyMs(p: (typeof allPosts)[number]): number {
   const iso = p.frontmatter.updatedDate || p.frontmatter.pubDate;
