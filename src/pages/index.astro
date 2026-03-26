@@ -131,6 +131,9 @@ const webSiteJsonLd = {
   },
 };
 
+/** 首页主标题与根顶栏品牌（域名仍为 wordok.top） */
+const portalBrandTitle = "Make Word Great Again";
+
 const columnMeta: Record<string, { label: string; desc: string; color: string }> = {
   "vpn-usa": {
     label: "VPN",
@@ -179,6 +182,7 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
   title="wordok.top — Latest Tech, Web3, OpenClaw & Streaming Articles"
   description="Discover trending articles on VPN, AI, Apple, Web3, OpenClaw, and streaming. Comprehensive guides and latest news across all technology channels."
   canonical={canonical}
+  rootHeaderLabel={portalBrandTitle}
   keywords={[
     "wordok",
     "VPN reviews",
@@ -197,7 +201,7 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
 >
   <div class="portal">
     <header class="portal-header">
-      <h1 class="portal-title">wordok.top</h1>
+      <h1 class="portal-title">{portalBrandTitle}</h1>
       <p class="portal-lead">Full feed per channel — latest posts previewed below.</p>
       <p class="portal-meta" role="status" aria-label="Site summary">
         <span class="portal-meta-part">
@@ -440,10 +444,13 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     }
 
     .portal-title {
-      font-size: 3rem;
+      font-size: clamp(1.65rem, 5vw, 2.75rem);
       font-weight: 800;
       letter-spacing: -0.025em;
-      margin: 0 0 12px;
+      margin: 0 auto 12px;
+      max-width: 22ch;
+      line-height: 1.12;
+      text-wrap: balance;
       background: linear-gradient(135deg, #7c3aed, #8b5cf6, #06b6d4);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -945,10 +952,6 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
         padding-bottom: max(48px, env(safe-area-inset-bottom));
       }
 
-      .portal-title {
-        font-size: 2.5rem;
-      }
-
       .portal-lead {
         font-size: 0.9375rem;
       }
@@ -967,10 +970,6 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     }
 
     @media (max-width: 480px) {
-      .portal-title {
-        font-size: 2rem;
-      }
-
       .links-grid {
         grid-template-columns: 1fr;
       }

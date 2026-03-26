@@ -406,6 +406,113 @@ const pathname = Astro.url.pathname;
         --pagefind-ui-font: var(--ai-font);
       }
 
+      .ai-header {
+        overflow: visible;
+      }
+      .ai-header-inner {
+        overflow: visible;
+      }
+      .header-search {
+        position: relative;
+        z-index: 400;
+        flex: 1 1 180px;
+        min-width: 0;
+        max-width: min(420px, 100%);
+      }
+      .header-search .pagefind-ui {
+        --pagefind-ui-scale: 0.62;
+        width: 100% !important;
+        max-width: 100%;
+        position: relative;
+      }
+      .header-search .pagefind-ui__search-input {
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        height: auto !important;
+        min-height: 44px;
+        padding: 0.5rem 3.25rem 0.5rem 2.15rem !important;
+        font-size: 0.875rem !important;
+        font-weight: 600 !important;
+        box-sizing: border-box !important;
+      }
+      .header-search .pagefind-ui__form::before {
+        top: 50% !important;
+        left: 0.65rem !important;
+        transform: translateY(-50%) !important;
+        width: 15px !important;
+        height: 15px !important;
+      }
+      .header-search .pagefind-ui__search-clear {
+        top: 50% !important;
+        right: 4px !important;
+        transform: translateY(-50%);
+        height: auto !important;
+        min-height: 36px;
+        font-size: 0.75rem !important;
+        padding: 0 10px !important;
+        box-sizing: border-box !important;
+      }
+      .header-search .pagefind-ui__drawer {
+        position: absolute !important;
+        left: 0 !important;
+        right: 0 !important;
+        top: calc(100% + 8px) !important;
+        width: 100% !important;
+        max-width: min(100vw - 24px, 520px) !important;
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+        gap: 0.5rem !important;
+        padding: 10px !important;
+        background: var(--ai-bg) !important;
+        border: 1px solid var(--ai-border) !important;
+        border-radius: var(--ai-radius-lg) !important;
+        box-shadow: var(--ai-shadow) !important;
+        max-height: min(75vh, 560px) !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        box-sizing: border-box !important;
+      }
+      .header-search .pagefind-ui__results-area {
+        min-width: 0 !important;
+        width: 100% !important;
+        flex: none !important;
+        margin-top: 0 !important;
+        max-width: 100% !important;
+      }
+      .header-search .pagefind-ui__filter-panel {
+        min-width: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 0 !important;
+      }
+      .header-search .pagefind-ui__result {
+        flex-wrap: wrap !important;
+        align-items: flex-start !important;
+        padding: 10px 0 !important;
+        gap: 8px !important;
+      }
+      .header-search .pagefind-ui__result-inner {
+        min-width: 0 !important;
+        max-width: 100% !important;
+      }
+      .header-search .pagefind-ui__result-excerpt {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        font-size: 0.8125rem !important;
+        word-break: break-word !important;
+        overflow-wrap: anywhere !important;
+      }
+      .header-search .pagefind-ui__result-title {
+        font-size: 0.9rem !important;
+      }
+      .header-search .pagefind-ui__message {
+        margin-top: 0 !important;
+        padding: 8px 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+      }
+
       /* === AI 主内容区 === */
       .ai-main {
         flex: 1;
@@ -849,7 +956,7 @@ const pathname = Astro.url.pathname;
         script.onload = function () {
           new PagefindUI({
             element: "#search",
-            showSubResults: true,
+            showSubResults: false,
             showImages: false,
             resetStyles: false,
           });
