@@ -1,5 +1,5 @@
 ---
-import { CHANNEL_LABELS, postsHubLabel, postsNavLabel } from "../lib/channel-nav";
+import { CHANNEL_LABELS, postsHubLabel, postsNavLabel, isPathActive } from "../lib/channel-nav";
 import { getPublicRootBaseUrl } from "../lib/root-base-url";
 import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
 import { getAllSites, toCanonical } from "../lib/site-data";
@@ -85,6 +85,7 @@ function safeJsonStringify(v: unknown): string {
 const currentYear = new Date().getFullYear();
 
 const allSites = getAllSites();
+const pathname = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -241,66 +242,168 @@ const allSites = getAllSites();
       .ai-header-inner {
         max-width: var(--ai-container);
         margin: 0 auto;
-        padding: 14px 24px;
+        padding: 10px 24px 12px;
         display: flex;
         align-items: center;
-        gap: 32px;
+        gap: 16px;
         flex-wrap: wrap;
       }
       .ai-header-stack {
         flex-direction: column;
         align-items: stretch;
-        gap: 12px;
+        gap: 8px;
       }
-      .ai-brand-row {
+      .ai-header-toolbar {
         display: flex;
         align-items: center;
-        gap: 12px;
+        justify-content: space-between;
+        gap: 12px 20px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+      .ai-header-toolbar-left {
+        display: flex;
+        align-items: center;
+        gap: 10px 14px;
         flex-wrap: wrap;
         min-width: 0;
       }
-      .ai-logo {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: var(--ai-primary) !important;
+      .ai-header-crumb {
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 4px 6px;
+        font-size: 0.875rem;
+        line-height: 1.3;
+      }
+      .ai-header-crumb a {
         text-decoration: none !important;
-        letter-spacing: -0.02em;
       }
-      .ai-nav-channels {
+      .ai-header-crumb-root {
+        color: var(--ai-text-secondary) !important;
+        font-weight: 500;
+      }
+      .ai-header-crumb-root:hover {
+        color: var(--ai-primary) !important;
+      }
+      .ai-header-crumb-sep {
+        color: var(--ai-border);
+        user-select: none;
+      }
+      .ai-header-crumb-site {
+        color: var(--ai-text) !important;
+        font-weight: 700;
+      }
+      .ai-header-crumb-site:hover {
+        color: var(--ai-primary) !important;
+      }
+      .ai-channels-dropdown {
+        position: relative;
+      }
+      .ai-channels-summary {
+        list-style: none;
+        cursor: pointer;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--ai-text-secondary);
+        padding: 6px 12px;
+        border-radius: var(--ai-radius);
+        border: 1px solid var(--ai-border);
+        background: var(--ai-surface);
+        transition: color 0.2s, border-color 0.2s;
+      }
+      .ai-channels-summary::-webkit-details-marker {
+        display: none;
+      }
+      .ai-channels-dropdown[open] .ai-channels-summary {
+        color: var(--ai-primary);
+        border-color: var(--ai-primary);
+      }
+      .ai-channels-summary:hover {
+        color: var(--ai-primary);
+        border-color: var(--ai-primary);
+      }
+      .ai-channels-panel {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        min-width: min(100vw - 48px, 240px);
+        max-height: min(70vh, 360px);
+        overflow-y: auto;
+        background: var(--ai-bg);
+        border: 1px solid var(--ai-border);
+        border-radius: var(--ai-radius-lg);
+        box-shadow: var(--ai-shadow);
+        padding: 6px;
+        z-index: 200;
+      }
+      .ai-channels-link {
+        display: block;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--ai-text-secondary) !important;
+        text-decoration: none !important;
+        transition: background 0.2s, color 0.2s;
+      }
+      .ai-channels-link:hover {
+        background: var(--ai-surface);
+        color: var(--ai-primary) !important;
+      }
+      .ai-channels-link--here,
+      .ai-channels-link[aria-current="page"] {
+        background: rgba(0, 102, 255, 0.1);
+        color: var(--ai-primary) !important;
+        font-weight: 600;
+      }
+      .ai-header-toolbar .header-search {
+        margin-left: auto;
+        flex-shrink: 0;
+      }
+      .header-search .pagefind-ui {
+        --pagefind-ui-scale: 0.78;
+      }
+      .header-search .pagefind-ui__search-input {
+        max-width: min(200px, 42vw);
+      }
+      .ai-nav-primary {
+        display: flex;
+        gap: 4px 18px;
         flex-wrap: wrap;
-        gap: 14px 18px;
-        padding-top: 4px;
+        align-items: center;
+        width: 100%;
+        padding-top: 6px;
         border-top: 1px solid var(--ai-border);
       }
-      .ai-nav-local {
-        flex-wrap: wrap;
-        gap: 24px;
-        padding-top: 4px;
-        border-top: 1px solid var(--ai-border);
+      .ai-nav-primary a {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--ai-text-secondary);
+        text-decoration: none;
+        padding: 6px 2px;
+        border-bottom: 2px solid transparent;
+        transition: color 0.2s, border-color 0.2s;
+        touch-action: manipulation;
       }
-      .ai-nav a.ai-channel-hub.current {
+      .ai-nav-primary a:hover {
+        color: var(--ai-primary);
+        border-bottom-color: var(--ai-primary);
+      }
+      .ai-nav-primary a[aria-current="page"] {
         color: var(--ai-primary);
         border-bottom-color: var(--ai-primary);
         font-weight: 600;
       }
-      .ai-nav {
-        display: flex;
-        gap: 24px;
-        flex-wrap: wrap;
-      }
-      .ai-nav a {
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: var(--ai-text-secondary);
-        text-decoration: none;
-        padding: 6px 0;
-        border-bottom: 2px solid transparent;
-        transition: all 0.2s;
-        touch-action: manipulation;
-      }
-      .ai-nav a:hover {
-        color: var(--ai-primary);
-        border-bottom-color: var(--ai-primary);
+
+      .pagefind-ui {
+        --pagefind-ui-primary: var(--ai-primary);
+        --pagefind-ui-text: var(--ai-text);
+        --pagefind-ui-background: var(--ai-bg);
+        --pagefind-ui-border: var(--ai-border);
+        --pagefind-ui-border-width: 1px;
+        --pagefind-ui-border-radius: 8px;
+        --pagefind-ui-font: var(--ai-font);
       }
 
       /* === AI 主内容区 === */
@@ -565,12 +668,26 @@ const allSites = getAllSites();
       }
 
       @media (max-width: 720px) {
-        .ai-header-inner {
+        .ai-header-toolbar {
           flex-direction: column;
           align-items: stretch;
-          gap: 12px;
+          gap: 10px;
         }
-        .ai-nav {
+        .ai-header-toolbar .header-search {
+          margin-left: 0;
+          width: 100%;
+        }
+        .header-search .pagefind-ui__search-input {
+          max-width: none;
+          width: 100%;
+        }
+        .ai-channels-panel {
+          left: 0;
+          right: 0;
+          width: 100%;
+          max-width: none;
+        }
+        .ai-nav-primary {
           flex-wrap: nowrap;
           overflow-x: auto;
           -webkit-overflow-scrolling: touch;
@@ -578,7 +695,7 @@ const allSites = getAllSites();
           padding-bottom: 6px;
           scrollbar-width: thin;
         }
-        .ai-nav a {
+        .ai-nav-primary a {
           flex-shrink: 0;
           min-height: 44px;
           display: inline-flex;
@@ -608,28 +725,67 @@ const allSites = getAllSites();
     {siteSlug && siteName ? (
       <header class="ai-header">
         <div class="ai-header-inner ai-header-stack">
-          <div class="ai-brand-row">
-            <a href={`/${siteSlug}/`} class="ai-logo">{siteName}</a>
+          <div class="ai-header-toolbar">
+            <div class="ai-header-toolbar-left">
+              <nav class="ai-header-crumb" aria-label="Site network">
+                <a href="/" class="ai-header-crumb-root">wordok.top</a>
+                <span class="ai-header-crumb-sep" aria-hidden="true">/</span>
+                <a href={`/${siteSlug}/`} class="ai-header-crumb-site">{siteName}</a>
+              </nav>
+              <details class="ai-channels-dropdown">
+                <summary class="ai-channels-summary">All channels</summary>
+                <div class="ai-channels-panel">
+                  {allSites.map((s) => (
+                    <a
+                      href={`/${s.slug}/`}
+                      class:list={["ai-channels-link", { "ai-channels-link--here": siteSlug === s.slug }]}
+                      aria-current={siteSlug === s.slug ? "page" : undefined}
+                    >
+                      {CHANNEL_LABELS[s.slug] ?? s.config.name}
+                    </a>
+                  ))}
+                </div>
+              </details>
+            </div>
+            <div id="search" class="header-search"></div>
           </div>
-          <nav class="ai-nav ai-nav-channels" aria-label="All columns">
-            <a href="/">Hub</a>
-            {allSites.map((s) => (
-              <a
-                href={`/${s.slug}/`}
-                class:list={["ai-channel-hub", { current: siteSlug === s.slug }]}
-                aria-current={siteSlug === s.slug ? "page" : undefined}
-              >
-                {CHANNEL_LABELS[s.slug] ?? s.config.name}
-              </a>
-            ))}
-          </nav>
-          <nav class="ai-nav ai-nav-local" aria-label="This column">
-            <a href={`/${siteSlug}/`}>Home</a>
-            <a href={`/${siteSlug}/posts/`}>{postsNavLabel(siteSlug)}</a>
-            <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
-            <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
-            <a href={`/${siteSlug}/about/`}>About</a>
-            <a href={`/${siteSlug}/contact/`}>Contact</a>
+          <nav class="ai-nav-primary" aria-label="This site">
+            <a
+              href={`/${siteSlug}/`}
+              aria-current={isPathActive(pathname, `/${siteSlug}/`, "exact") ? "page" : undefined}
+            >
+              Home
+            </a>
+            <a
+              href={`/${siteSlug}/posts/`}
+              aria-current={isPathActive(pathname, `/${siteSlug}/posts/`, "prefix") ? "page" : undefined}
+            >
+              {postsNavLabel(siteSlug)}
+            </a>
+            <a
+              href={`/${siteSlug}/ai-frontiers/`}
+              aria-current={isPathActive(pathname, `/${siteSlug}/ai-frontiers/`, "prefix") ? "page" : undefined}
+            >
+              AI Frontiers
+            </a>
+            <a
+              href={`/${siteSlug}/privacy-security/`}
+              aria-current={isPathActive(pathname, `/${siteSlug}/privacy-security/`, "prefix") ? "page" : undefined}
+            >
+              Privacy & Security
+            </a>
+            <a
+              href={`/${siteSlug}/about/`}
+              aria-current={isPathActive(pathname, `/${siteSlug}/about/`, "prefix") ? "page" : undefined}
+            >
+              About
+            </a>
+            <a
+              href={`/${siteSlug}/contact/`}
+              aria-current={isPathActive(pathname, `/${siteSlug}/contact/`, "prefix") ? "page" : undefined}
+            >
+              Contact
+            </a>
           </nav>
         </div>
       </header>
@@ -643,7 +799,7 @@ const allSites = getAllSites();
       <footer class="ai-footer">
         <div class="ai-footer-inner">
           <div class="ai-footer-links">
-            <a href="/">Hub</a>
+            <a href="/">wordok.top</a>
             {allSites.map((s) => (
               <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
             ))}
@@ -679,5 +835,28 @@ const allSites = getAllSites();
         </div>
       </footer>
     ) : null}
+
+    <script is:inline>
+      (function () {
+        var el = document.getElementById("search");
+        if (!el) return;
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = "/pagefind/pagefind-ui.css";
+        document.head.appendChild(link);
+        var script = document.createElement("script");
+        script.src = "/pagefind/pagefind-ui.js";
+        script.onload = function () {
+          new PagefindUI({
+            element: "#search",
+            showSubResults: true,
+            showImages: false,
+            resetStyles: false,
+          });
+        };
+        script.onerror = function () {};
+        document.head.appendChild(script);
+      })();
+    </script>
   </body>
 </html>

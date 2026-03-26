@@ -1,5 +1,5 @@
 ---
-import { CHANNEL_LABELS, postsHubLabel, postsNavLabel } from "../lib/channel-nav";
+import { CHANNEL_LABELS, postsHubLabel, postsNavLabel, isPathActive } from "../lib/channel-nav";
 import { getPublicRootBaseUrl } from "../lib/root-base-url";
 import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
 import { getAllSites, toCanonical } from "../lib/site-data";
@@ -90,6 +90,7 @@ function safeJsonStringify(v: unknown): string {
 const currentYear = new Date().getFullYear();
 
 const allSites = getAllSites();
+const pathname = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -304,43 +305,139 @@ const allSites = getAllSites();
       .header-inner {
         max-width: var(--container-max);
         margin: 0 auto;
-        padding: 12px 24px;
+        padding: 10px 24px;
         display: flex;
         align-items: center;
-        gap: 24px;
+        gap: 16px;
         flex-wrap: wrap;
+      }
+      .header-inner-toolbar {
+        justify-content: space-between;
+        align-items: center;
       }
       .header-inner-stack {
         flex-direction: column;
         align-items: stretch;
-        gap: 12px;
+        gap: 8px;
+        padding-bottom: 10px;
       }
-      .header-brand-row {
+      .header-toolbar {
         display: flex;
         align-items: center;
-        gap: 24px;
+        justify-content: space-between;
+        gap: 12px 20px;
         flex-wrap: wrap;
         width: 100%;
       }
-      .header-brand-row .header-search {
-        margin-left: auto;
-      }
-      .site-nav-channels {
+      .header-toolbar-left {
+        display: flex;
+        align-items: center;
+        gap: 10px 14px;
         flex-wrap: wrap;
-        gap: 14px 18px;
-        padding-top: 4px;
-        border-top: 1px solid var(--color-border);
+        min-width: 0;
       }
-      .site-nav-local {
+      .header-crumb {
+        display: flex;
+        align-items: baseline;
         flex-wrap: wrap;
-        gap: 20px;
-        padding-top: 4px;
-        border-top: 1px solid var(--color-border);
+        gap: 4px 6px;
+        font-size: 0.875rem;
+        line-height: 1.3;
       }
-      .site-nav a.channel-hub.current {
-        color: var(--color-primary);
-        border-bottom-color: var(--color-primary);
+      .header-crumb a {
+        text-decoration: none !important;
+      }
+      .header-crumb-root {
+        color: var(--color-text-secondary) !important;
+        font-weight: 500;
+      }
+      .header-crumb-root:hover {
+        color: var(--color-primary) !important;
+      }
+      .header-crumb-sep {
+        color: var(--color-border);
+        user-select: none;
+        font-weight: 500;
+      }
+      .header-crumb-site {
+        color: var(--color-text) !important;
+        font-weight: 700;
+      }
+      .header-crumb-site:hover {
+        color: var(--color-primary) !important;
+      }
+      .header-channels-dropdown {
+        position: relative;
+      }
+      .header-channels-summary {
+        list-style: none;
+        cursor: pointer;
+        font-size: 0.8125rem;
         font-weight: 600;
+        color: var(--color-text-secondary);
+        padding: 6px 12px;
+        border-radius: var(--radius);
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        transition: color var(--transition), border-color var(--transition), background var(--transition);
+      }
+      .header-channels-summary::-webkit-details-marker {
+        display: none;
+      }
+      .header-channels-dropdown[open] .header-channels-summary {
+        color: var(--color-primary);
+        border-color: var(--color-primary);
+      }
+      .header-channels-summary:hover {
+        color: var(--color-primary);
+        border-color: var(--color-primary);
+      }
+      .header-channels-panel {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        min-width: min(100vw - 48px, 240px);
+        max-height: min(70vh, 360px);
+        overflow-y: auto;
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: 6px;
+        z-index: 200;
+      }
+      .header-channels-link {
+        display: block;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--color-text-secondary) !important;
+        text-decoration: none !important;
+        transition: background var(--transition), color var(--transition);
+      }
+      .header-channels-link:hover {
+        background: var(--color-surface-hover);
+        color: var(--color-primary) !important;
+      }
+      .header-channels-link--here,
+      .header-channels-link[aria-current="page"] {
+        background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+        color: var(--color-primary) !important;
+        font-weight: 600;
+      }
+      .site-logo-root {
+        font-size: 1.15rem;
+        font-weight: 700;
+        text-decoration: none !important;
+        white-space: nowrap;
+        background: var(--gradient-title);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .site-logo-root:hover {
+        opacity: 0.88;
       }
       .site-logo {
         font-size: 1.2rem;
@@ -351,15 +448,22 @@ const allSites = getAllSites();
       }
       .site-nav {
         display: flex;
-        gap: 20px;
+        gap: 4px 16px;
         flex-wrap: wrap;
+        align-items: center;
+        width: 100%;
+        padding-top: 6px;
+        border-top: 1px solid var(--color-border);
+      }
+      .site-nav-primary {
+        row-gap: 4px;
       }
       .site-nav a {
-        font-size: 0.9rem;
+        font-size: 0.875rem;
         font-weight: 500;
         color: var(--color-text-secondary);
         text-decoration: none;
-        padding: 4px 0;
+        padding: 6px 2px;
         border-bottom: 2px solid transparent;
         transition: color var(--transition), border-color var(--transition);
       }
@@ -368,14 +472,23 @@ const allSites = getAllSites();
         border-bottom-color: var(--color-primary);
         text-decoration: none;
       }
-      .header-inner:not(.header-inner-stack) .header-search {
+      .site-nav a[aria-current="page"] {
+        color: var(--color-primary);
+        border-bottom-color: var(--color-primary);
+        font-weight: 600;
+      }
+      .header-toolbar .header-search {
+        margin-left: auto;
+        flex-shrink: 0;
+      }
+      .header-inner-toolbar .header-search {
         margin-left: auto;
       }
       .header-search .pagefind-ui {
-        --pagefind-ui-scale: 0.8;
+        --pagefind-ui-scale: 0.78;
       }
       .header-search .pagefind-ui__search-input {
-        max-width: 200px;
+        max-width: min(200px, 42vw);
       }
 
       /* === Container === */
@@ -760,22 +873,32 @@ const allSites = getAllSites();
       }
 
       @media (max-width: 720px) {
-        .header-inner {
+        .header-inner-toolbar {
           flex-direction: column;
           align-items: stretch;
-          gap: 12px;
+          gap: 10px;
         }
-        .header-brand-row .header-search {
+        .header-toolbar {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+        }
+        .header-toolbar .header-search {
           margin-left: 0;
           width: 100%;
         }
         .header-search {
           width: 100%;
-          order: 3;
         }
         .header-search .pagefind-ui__search-input {
           max-width: none;
           width: 100%;
+        }
+        .header-channels-panel {
+          left: 0;
+          right: 0;
+          width: 100%;
+          max-width: none;
         }
         .site-nav {
           width: 100%;
@@ -990,33 +1113,79 @@ const allSites = getAllSites();
     </style>
   </head>
   <body>
-    {/* Site Header (只在站点页面渲染) */}
+    {!siteSlug ? (
+      <header class="site-header">
+        <div class="header-inner header-inner-toolbar">
+          <a href="/" class="site-logo-root">wordok.top</a>
+          <div id="search" class="header-search"></div>
+        </div>
+      </header>
+    ) : null}
+
     {siteSlug && siteName ? (
       <header class="site-header">
         <div class="header-inner header-inner-stack">
-          <div class="header-brand-row">
-            <a href={`/${siteSlug}/`} class="site-logo">{siteName}</a>
+          <div class="header-toolbar">
+            <div class="header-toolbar-left">
+              <nav class="header-crumb" aria-label="Site network">
+                <a href="/" class="header-crumb-root">wordok.top</a>
+                <span class="header-crumb-sep" aria-hidden="true">/</span>
+                <a href={`/${siteSlug}/`} class="header-crumb-site">{siteName}</a>
+              </nav>
+              <details class="header-channels-dropdown">
+                <summary class="header-channels-summary">All channels</summary>
+                <div class="header-channels-panel">
+                  {allSites.map((s) => (
+                    <a
+                      href={`/${s.slug}/`}
+                      class:list={["header-channels-link", { "header-channels-link--here": siteSlug === s.slug }]}
+                      aria-current={siteSlug === s.slug ? "page" : undefined}
+                    >
+                      {CHANNEL_LABELS[s.slug] ?? s.config.name}
+                    </a>
+                  ))}
+                </div>
+              </details>
+            </div>
             <div id="search" class="header-search"></div>
           </div>
-          <nav class="site-nav site-nav-channels" aria-label="All columns">
-            <a href="/">Hub</a>
-            {allSites.map((s) => (
-              <a
-                href={`/${s.slug}/`}
-                class:list={["channel-hub", { current: siteSlug === s.slug }]}
-                aria-current={siteSlug === s.slug ? "page" : undefined}
-              >
-                {CHANNEL_LABELS[s.slug] ?? s.config.name}
-              </a>
-            ))}
-          </nav>
-          <nav class="site-nav site-nav-local" aria-label="This column">
-            <a href={`/${siteSlug}/`}>Home</a>
-            <a href={`/${siteSlug}/posts/`}>{postsNavLabel(siteSlug)}</a>
-            <a href={`/${siteSlug}/ai-frontiers/`}>AI Frontiers</a>
-            <a href={`/${siteSlug}/privacy-security/`}>Privacy & Security</a>
-            <a href={`/${siteSlug}/about/`}>About</a>
-            <a href={`/${siteSlug}/contact/`}>Contact</a>
+          <nav class="site-nav site-nav-primary" aria-label="This site">
+            <a
+              href={`/${siteSlug}/`}
+              aria-current={isPathActive(pathname, `/${siteSlug}/`, "exact") ? "page" : undefined}
+            >
+              Home
+            </a>
+            <a
+              href={`/${siteSlug}/posts/`}
+              aria-current={isPathActive(pathname, `/${siteSlug}/posts/`, "prefix") ? "page" : undefined}
+            >
+              {postsNavLabel(siteSlug)}
+            </a>
+            <a
+              href={`/${siteSlug}/ai-frontiers/`}
+              aria-current={isPathActive(pathname, `/${siteSlug}/ai-frontiers/`, "prefix") ? "page" : undefined}
+            >
+              AI Frontiers
+            </a>
+            <a
+              href={`/${siteSlug}/privacy-security/`}
+              aria-current={isPathActive(pathname, `/${siteSlug}/privacy-security/`, "prefix") ? "page" : undefined}
+            >
+              Privacy & Security
+            </a>
+            <a
+              href={`/${siteSlug}/about/`}
+              aria-current={isPathActive(pathname, `/${siteSlug}/about/`, "prefix") ? "page" : undefined}
+            >
+              About
+            </a>
+            <a
+              href={`/${siteSlug}/contact/`}
+              aria-current={isPathActive(pathname, `/${siteSlug}/contact/`, "prefix") ? "page" : undefined}
+            >
+              Contact
+            </a>
           </nav>
         </div>
       </header>
@@ -1050,7 +1219,7 @@ const allSites = getAllSites();
               {siteDescription ? <p class="footer-desc">{siteDescription}</p> : null}
             </div>
             <div class="footer-links">
-              <a href="/">Hub</a>
+              <a href="/">wordok.top</a>
               {allSites.map((s) => (
                 <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
               ))}
