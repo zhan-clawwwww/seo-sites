@@ -241,6 +241,9 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
           };
           const sitePosts = allPosts.filter((p) => p.site === s.slug);
           const channelPosts = latestPostsForSite(s.slug);
+          const configDesc = (s.config.description || "").trim();
+          const tagline = (meta.desc || "").trim();
+          const showDualIntro = Boolean(configDesc && tagline && configDesc !== tagline);
           const topRecency = channelPosts[0]
             ? channelPosts[0].frontmatter.updatedDate || channelPosts[0].frontmatter.pubDate
             : sitePosts[0]?.frontmatter.updatedDate || sitePosts[0]?.frontmatter.pubDate;
@@ -259,7 +262,14 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
                 </div>
                 <div class="channel-content">
                   <h3 id={`channel-heading-${s.slug}`} class="channel-title">{meta.label}</h3>
-                  <p class="channel-desc">{meta.desc}</p>
+                  {showDualIntro ? (
+                    <>
+                      <p class="channel-tagline">{tagline}</p>
+                      <p class="channel-blurb">{configDesc}</p>
+                    </>
+                  ) : (
+                    <p class="channel-blurb channel-blurb--solo">{configDesc || tagline}</p>
+                  )}
                   <div class="channel-meta">
                     <span class="channel-count">{sitePosts.length} articles</span>
                     {latestDate ? <span class="channel-update">Latest {latestDate}</span> : null}
@@ -268,9 +278,15 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
                 <div class="channel-arrow">→</div>
               </a>
 
+              <p class="channel-open-hint">
+                <a href={`/${s.slug}/`} class="channel-open-hint__link">
+                  For more news and the full archive, open the {meta.label} channel →
+                </a>
+              </p>
+
               {channelPosts.length > 0 ? (
                 <>
-                  <h4 class="channel-block-articles-title">Latest updates in this channel</h4>
+                  <h4 class="channel-block-articles-title">Latest in {meta.label}</h4>
                   <div class="channel-block-articles">
                     {channelPosts.map((post) => {
                       const recencyIso = post.frontmatter.updatedDate || post.frontmatter.pubDate;
@@ -286,15 +302,18 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
                       return (
                         <a href={`/${post.site}/posts/${post.slug}/`} class="article-card article-card--nested">
                           <div class="article-header article-header--nested">
-                            <span class="article-date">
+                            <span class="nested-channel-pill">{meta.label}</span>
+                            <span class="article-date article-date--nested">
                               {dateLabel} {date}
                             </span>
                           </div>
-                          <h5 class="article-title">{post.frontmatter.title}</h5>
-                          <p class="article-desc">{post.frontmatter.description || "Read more about this topic"}</p>
-                          <div class="article-footer">
-                            <span class="article-topic">{post.frontmatter.topic || "general"}</span>
-                            <span class="article-read">Read →</span>
+                          <h5 class="article-title article-title--nested">{post.frontmatter.title}</h5>
+                          <p class="article-desc article-desc--nested">
+                            {post.frontmatter.description || "Read more about this topic"}
+                          </p>
+                          <div class="article-footer article-footer--nested">
+                            <span class="article-topic article-topic--nested">{post.frontmatter.topic || "general"}</span>
+                            <span class="article-read article-read--nested">Read →</span>
                           </div>
                         </a>
                       );
@@ -596,16 +615,71 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     }
 
     .article-card--nested {
-      border-color: color-mix(in srgb, var(--block-accent, var(--color-primary)) 22%, var(--color-border));
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border-color: color-mix(in srgb, var(--block-accent, var(--color-primary)) 18%, var(--color-border));
+      background: color-mix(in srgb, var(--color-surface) 92%, var(--block-accent) 8%);
     }
 
     .article-card--nested:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
       border-color: var(--block-accent, var(--color-primary));
     }
 
     .article-header--nested {
-      justify-content: flex-end;
-      margin-bottom: 8px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      gap: 8px;
+    }
+
+    .nested-channel-pill {
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      color: var(--block-accent, var(--color-primary));
+      background: color-mix(in srgb, var(--block-accent, var(--color-primary)) 14%, transparent);
+      border: 1px solid color-mix(in srgb, var(--block-accent, var(--color-primary)) 28%, transparent);
+      flex-shrink: 0;
+      max-width: 55%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .article-date--nested {
+      font-size: 0.6875rem;
+    }
+
+    .article-title--nested {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      margin: 0 0 6px;
+      line-height: 1.35;
+    }
+
+    .article-desc--nested {
+      font-size: 0.78125rem;
+      margin: 0 0 10px;
+      line-height: 1.45;
+      -webkit-line-clamp: 2;
+    }
+
+    .article-footer--nested {
+      gap: 8px;
+    }
+
+    .article-topic--nested {
+      font-size: 0.625rem;
+      padding: 2px 6px;
+    }
+
+    .article-read--nested {
+      font-size: 0.75rem;
     }
 
     /* Channels Section */
@@ -671,19 +745,58 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
       box-sizing: border-box;
     }
 
-    .channel-block-articles-title {
+    .channel-tagline {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0 0 8px;
+      line-height: 1.45;
+    }
+
+    .channel-blurb {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      margin: 0 0 10px;
+      line-height: 1.55;
+      max-width: 52rem;
+    }
+
+    .channel-blurb--solo {
+      margin-bottom: 10px;
+    }
+
+    .channel-open-hint {
+      margin: 12px 0 0;
       font-size: 0.8125rem;
+      line-height: 1.45;
+    }
+
+    .channel-open-hint__link {
+      color: var(--block-accent, var(--color-primary));
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid color-mix(in srgb, var(--block-accent, var(--color-primary)) 35%, transparent);
+      transition: var(--transition);
+    }
+
+    .channel-open-hint__link:hover {
+      color: var(--color-text);
+      border-bottom-color: var(--color-text-secondary);
+    }
+
+    .channel-block-articles-title {
+      font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--color-text-light);
-      margin: 18px 0 12px;
+      margin: 16px 0 10px;
     }
 
     .channel-block-articles {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+      gap: 12px;
     }
 
     .channel-block-empty {
@@ -734,13 +847,6 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
       font-weight: 600;
       margin: 0 0 4px;
       color: var(--color-text);
-    }
-
-    .channel-desc {
-      font-size: 0.875rem;
-      color: var(--color-text-secondary);
-      margin: 0 0 8px;
-      line-height: 1.4;
     }
 
     .channel-meta {
