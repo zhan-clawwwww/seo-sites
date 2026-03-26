@@ -7,13 +7,47 @@ import PortalGlyph from "../components/PortalGlyph.astro";
 import { resolveRootSiteAnalytics } from "../lib/root-analytics";
 import { getPublicRootBaseUrl } from "../lib/root-base-url";
 import { getAllSites, getSiteConfig, getAllPosts, toCanonical } from "../lib/site-data";
+import type { SiteConfig } from "../lib/site-data";
 import { latestPostLastmodYyyyMmDd } from "../lib/site-routing";
 
 const sites = getAllSites();
 const allPosts = getAllPosts();
-const recentPosts = allPosts
-  .sort((a, b) => new Date(b.frontmatter.pubDate || "1970-01-01").getTime() - new Date(a.frontmatter.pubDate || "1970-01-01").getTime())
-  .slice(0, 10);
+
+/** 首页频道顺序：优先展示，其余按 slug 字母序 */
+const PORTAL_PRIORITY_SLUGS = ["ai", "web3", "openclaw", "tesla", "apple"] as const;
+
+function orderSitesForPortal(list: { slug: string; config: SiteConfig }[]) {
+  const bySlug = new Map(list.map((s) => [s.slug, s]));
+  const out: { slug: string; config: SiteConfig }[] = [];
+  const seen = new Set<string>();
+  for (const slug of PORTAL_PRIORITY_SLUGS) {
+    const s = bySlug.get(slug);
+    if (s) {
+      out.push(s);
+      seen.add(slug);
+    }
+  }
+  for (const s of [...list].filter((x) => !seen.has(x.slug)).sort((a, b) => a.slug.localeCompare(b.slug))) {
+    out.push(s);
+  }
+  return out;
+}
+
+const orderedSites = orderSitesForPortal(sites);
+
+const ARTICLES_PER_CHANNEL = 4;
+
+function postRecencyMs(p: (typeof allPosts)[number]): number {
+  const iso = p.frontmatter.updatedDate || p.frontmatter.pubDate;
+  return new Date(iso || "1970-01-01").getTime();
+}
+
+function latestPostsForSite(siteSlug: string) {
+  return allPosts
+    .filter((p) => p.site === siteSlug)
+    .sort((a, b) => postRecencyMs(b) - postRecencyMs(a))
+    .slice(0, ARTICLES_PER_CHANNEL);
+}
 
 const firstSite = sites[0];
 const analytics = resolveRootSiteAnalytics(
@@ -63,7 +97,7 @@ const itemListJsonLd = {
   "name": "wordok.top Channels",
   "description": "wordok.top content channels",
   "numberOfItems": sites.length,
-  "itemListElement": sites.map((s, i) => ({
+  "itemListElement": orderedSites.map((s, i) => ({
     "@type": "ListItem",
     "position": i + 1,
     "name": s.config.name,
@@ -155,6 +189,9 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     <header class="portal-header">
       <h1 class="portal-title">wordok.top</h1>
       <p class="portal-subtitle">Latest technology articles and comprehensive guides</p>
+      <p class="portal-cta">
+        Each topic below lists its newest posts — open the channel header for the full feed.
+      </p>
 
       <p class="portal-stats" role="status" aria-label="Site summary">
         <span class="portal-stats-part">
@@ -179,85 +216,95 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     </header>
 
     <!-- Channels Grid (primary entry: browse by column first) -->
-    <section class="channels-section">
-      <h2 class="section-title">
+    <section class="channels-section" aria-labelledby="channels-main-heading">
+      <h2 id="channels-main-heading" class="channels-main-title">
         <span class="section-icon" aria-hidden="true">
           <PortalGlyph variant="folder" size={22} />
         </span>
-        Browse by Channel
+        Pick a topic — each card is a separate news channel
       </h2>
-      <p class="section-subtitle">Explore comprehensive content in each category</p>
-      
-      <div class="channels-grid">
-        {sites.map((s) => {
+      <p class="channels-main-lead">
+        Channels are ordered AI → Web3 → OpenClaw → Tesla → Apple, then the rest alphabetically. Under each header you’ll see the latest updates from that channel.
+      </p>
+      <p class="channels-muted-meta">
+        <span class="channels-muted-label">Browse by Channel</span>
+        <span class="channels-muted-sep" aria-hidden="true">·</span>
+        <span>Explore comprehensive content in each category</span>
+      </p>
+
+      <div class="channel-blocks">
+        {orderedSites.map((s) => {
           const meta = columnMeta[s.slug] ?? {
             label: s.config.name,
             desc: s.config.description,
             color: "#6b7280",
           };
-          const sitePosts = allPosts.filter(p => p.site === s.slug);
-          const latestDate = sitePosts.length > 0 
-            ? new Date(sitePosts[0].frontmatter.pubDate || "1970-01-01").toLocaleDateString('en-US', { 
-                month: 'short', 
-                day: 'numeric'
+          const sitePosts = allPosts.filter((p) => p.site === s.slug);
+          const channelPosts = latestPostsForSite(s.slug);
+          const topRecency = channelPosts[0]
+            ? channelPosts[0].frontmatter.updatedDate || channelPosts[0].frontmatter.pubDate
+            : sitePosts[0]?.frontmatter.updatedDate || sitePosts[0]?.frontmatter.pubDate;
+          const latestDate = topRecency
+            ? new Date(topRecency).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
               })
-            : '';
-          
-          return (
-            <a href={`/${s.slug}/`} class="channel-card" style={`--card-color: ${meta.color}`}>
-              <div class="channel-icon">
-                <ChannelGlyph slug={s.slug} size={26} />
-              </div>
-              <div class="channel-content">
-                <h3 class="channel-title">{meta.label}</h3>
-                <p class="channel-desc">{meta.desc}</p>
-                <div class="channel-meta">
-                  <span class="channel-count">{sitePosts.length} articles</span>
-                  {latestDate && <span class="channel-update">Updated {latestDate}</span>}
-                </div>
-              </div>
-              <div class="channel-arrow">→</div>
-            </a>
-          );
-        })}
-      </div>
-    </section>
+            : "";
 
-    <!-- Recently Updated Articles -->
-    <section class="recent-articles">
-      <h2 class="section-title">
-        <span class="section-icon" aria-hidden="true">
-          <PortalGlyph variant="newspaper" size={22} />
-        </span>
-        Recently Updated Articles
-      </h2>
-      <p class="section-subtitle">Latest publications across all channels</p>
-      
-      <div class="articles-grid">
-        {recentPosts.map((post, index) => {
-          const siteMeta = columnMeta[post.site] ?? { label: post.site, color: "#6b7280" };
-          const date = post.frontmatter.pubDate ? new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', { 
-            month: 'short', 
-            day: 'numeric',
-            year: 'numeric'
-          }) : '';
-          
           return (
-            <a href={`/${post.site}/posts/${post.slug}/`} class="article-card">
-              <div class="article-header">
-                <span class="article-badge" style={`--category-color: ${siteMeta.color}`}>
-                  <ChannelGlyph slug={post.site} size={15} class="article-badge-glyph" />
-                  {siteMeta.label}
-                </span>
-                <span class="article-date">{date}</span>
-              </div>
-              <h3 class="article-title">{post.frontmatter.title}</h3>
-              <p class="article-desc">{post.frontmatter.description || 'Read more about this topic'}</p>
-              <div class="article-footer">
-                <span class="article-topic">{post.frontmatter.topic || 'general'}</span>
-                <span class="article-read">Read →</span>
-              </div>
-            </a>
+            <article class="channel-block" style={`--block-accent: ${meta.color}`} aria-labelledby={`channel-heading-${s.slug}`}>
+              <a href={`/${s.slug}/`} class="channel-card channel-card--block" style={`--card-color: ${meta.color}`}>
+                <div class="channel-icon">
+                  <ChannelGlyph slug={s.slug} size={26} />
+                </div>
+                <div class="channel-content">
+                  <h3 id={`channel-heading-${s.slug}`} class="channel-title">{meta.label}</h3>
+                  <p class="channel-desc">{meta.desc}</p>
+                  <div class="channel-meta">
+                    <span class="channel-count">{sitePosts.length} articles</span>
+                    {latestDate ? <span class="channel-update">Latest {latestDate}</span> : null}
+                  </div>
+                </div>
+                <div class="channel-arrow">→</div>
+              </a>
+
+              {channelPosts.length > 0 ? (
+                <>
+                  <h4 class="channel-block-articles-title">Latest updates in this channel</h4>
+                  <div class="channel-block-articles">
+                    {channelPosts.map((post) => {
+                      const recencyIso = post.frontmatter.updatedDate || post.frontmatter.pubDate;
+                      const date = recencyIso
+                        ? new Date(recencyIso).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })
+                        : "";
+                      const dateLabel = post.frontmatter.updatedDate ? "Updated" : "Published";
+
+                      return (
+                        <a href={`/${post.site}/posts/${post.slug}/`} class="article-card article-card--nested">
+                          <div class="article-header article-header--nested">
+                            <span class="article-date">
+                              {dateLabel} {date}
+                            </span>
+                          </div>
+                          <h5 class="article-title">{post.frontmatter.title}</h5>
+                          <p class="article-desc">{post.frontmatter.description || "Read more about this topic"}</p>
+                          <div class="article-footer">
+                            <span class="article-topic">{post.frontmatter.topic || "general"}</span>
+                            <span class="article-read">Read →</span>
+                          </div>
+                        </a>
+                      );
+                    })}
+                  </div>
+                </>
+              ) : (
+                <p class="channel-block-empty">No articles in this channel yet — check back soon.</p>
+              )}
+            </article>
           );
         })}
       </div>
@@ -299,7 +346,7 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
             <span class="link-text">RSS Feeds</span>
           </div>
           <div class="rss-links">
-            {sites.map((s) => (
+            {orderedSites.map((s) => (
               <a href={`/${s.slug}/rss.xml`} class="rss-link">{s.config.name}</a>
             ))}
           </div>
@@ -315,7 +362,7 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
         All content is regularly updated for accuracy and relevance.
       </p>
       <div class="footer-links">
-        {sites.map(s => (
+        {orderedSites.map((s) => (
           <a href={`/${s.slug}/`}>{s.config.name}</a>
         ))}
       </div>
@@ -390,6 +437,17 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
       line-height: 1.6;
     }
 
+    .portal-cta {
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0 0 14px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
     .portal-stats {
       display: flex;
       flex-wrap: wrap;
@@ -436,10 +494,6 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
       font-size: 1rem;
       color: var(--color-text-secondary);
       margin: 0 0 24px;
-    }
-
-    .recent-articles {
-      margin-bottom: 48px;
     }
 
     /* Articles Grid */
@@ -541,16 +595,102 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
       font-weight: 600;
     }
 
+    .article-card--nested {
+      border-color: color-mix(in srgb, var(--block-accent, var(--color-primary)) 22%, var(--color-border));
+    }
+
+    .article-card--nested:hover {
+      border-color: var(--block-accent, var(--color-primary));
+    }
+
+    .article-header--nested {
+      justify-content: flex-end;
+      margin-bottom: 8px;
+    }
+
     /* Channels Section */
     .channels-section {
       margin-bottom: 48px;
     }
 
-    .channels-grid {
+    .channels-main-title {
+      font-size: 1.625rem;
+      font-weight: 700;
+      margin: 0 0 10px;
+      color: var(--color-text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    .channels-main-lead {
+      font-size: 1.0625rem;
+      color: var(--color-text-secondary);
+      margin: 0 0 12px;
+      max-width: 640px;
+      line-height: 1.55;
+    }
+
+    .channels-muted-meta {
+      font-size: 0.75rem;
+      line-height: 1.4;
+      color: var(--color-text-light);
+      margin: 0 0 16px;
+      max-width: 640px;
+    }
+
+    .channels-muted-label {
+      font-weight: 500;
+      color: var(--color-text-light);
+    }
+
+    .channels-muted-sep {
+      margin: 0 0.35em;
+      color: var(--color-border);
+      user-select: none;
+    }
+
+    .channel-blocks {
+      display: flex;
+      flex-direction: column;
+      gap: 44px;
+      margin-top: 8px;
+    }
+
+    .channel-block {
+      margin: 0;
+      padding: 0 0 0 14px;
+      border-left: 3px solid color-mix(in srgb, var(--block-accent) 55%, var(--color-border));
+      border-radius: 0;
+    }
+
+    .channel-card--block {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .channel-block-articles-title {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-text-light);
+      margin: 18px 0 12px;
+    }
+
+    .channel-block-articles {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
-      gap: 20px;
-      margin-top: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+      gap: 18px;
+    }
+
+    .channel-block-empty {
+      font-size: 0.875rem;
+      color: var(--color-text-light);
+      margin: 14px 0 0;
+      line-height: 1.5;
     }
 
     .channel-card {
@@ -754,11 +894,23 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
         font-size: 1rem;
       }
 
+      .portal-cta {
+        font-size: 1rem;
+      }
+
+      .channels-main-title {
+        font-size: 1.375rem;
+      }
+
+      .channels-main-lead {
+        font-size: 1rem;
+      }
+
       .articles-grid {
         grid-template-columns: 1fr;
       }
 
-      .channels-grid {
+      .channel-block-articles {
         grid-template-columns: 1fr;
       }
 
