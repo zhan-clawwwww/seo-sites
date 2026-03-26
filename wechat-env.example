@@ -1,0 +1,20 @@
+# 微信公众号API配置
+# 复制此文件为 wechat.env 并填写实际值
+
+# 微信公众号开发者凭证
+WECHAT_APP_ID=your_app_id_here
+WECHAT_APP_SECRET=your_app_secret_here
+
+# 发布配置
+WECHAT_PUBLISH_TO_DRAFT=true  # true=发布到草稿箱，false=直接发布
+WECHAT_ARTICLE_COUNT=3        # 每天发布文章数量
+WECHAT_MIN_WORD_COUNT=1000    # 最少字数要求
+
+# 内容质量配置
+WECHAT_REQUIRE_CITATIONS=true # 必须包含引用
+WECHAT_INCLUDE_MEDIA=true     # 包含图片/视频
+WECHAT_AUTO_TAGS=true         # 自动生成标签
+
+# 执行时间配置
+WECHAT_EXECUTE_TIME=09:35     # 执行时间
+WECHAT_TIMEZONE=Asia/Shanghai # 时区
