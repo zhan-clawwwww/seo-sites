@@ -361,12 +361,6 @@ const pathname = Astro.url.pathname;
         margin-left: auto;
         flex-shrink: 0;
       }
-      .header-search .pagefind-ui {
-        --pagefind-ui-scale: 0.78;
-      }
-      .header-search .pagefind-ui__search-input {
-        max-width: min(200px, 42vw);
-      }
       .ai-nav-primary {
         display: flex;
         gap: 4px 18px;
@@ -413,11 +407,25 @@ const pathname = Astro.url.pathname;
         overflow: visible;
       }
       .header-search {
+        --pf-input-bg: #ffffff;
+        --pf-input-fg: #18181b;
+        --pf-input-border: #d4d4d8;
+        --pf-input-placeholder: #71717a;
+        --pf-input-icon: #52525b;
         position: relative;
         z-index: 400;
         flex: 1 1 180px;
         min-width: 0;
         max-width: min(420px, 100%);
+      }
+      @media (prefers-color-scheme: dark) {
+        .header-search {
+          --pf-input-bg: #f8fafc;
+          --pf-input-fg: #0f172a;
+          --pf-input-border: #94a3b8;
+          --pf-input-placeholder: #64748b;
+          --pf-input-icon: #475569;
+        }
       }
       .header-search .pagefind-ui {
         --pagefind-ui-scale: 0.62;
@@ -435,6 +443,23 @@ const pathname = Astro.url.pathname;
         font-size: 0.875rem !important;
         font-weight: 600 !important;
         box-sizing: border-box !important;
+        background-color: var(--pf-input-bg) !important;
+        color: var(--pf-input-fg) !important;
+        caret-color: var(--pf-input-fg) !important;
+        border-color: var(--pf-input-border) !important;
+        -webkit-text-fill-color: var(--pf-input-fg) !important;
+      }
+      .header-search .pagefind-ui__search-input::placeholder {
+        color: var(--pf-input-placeholder) !important;
+        opacity: 1 !important;
+        -webkit-text-fill-color: var(--pf-input-placeholder) !important;
+      }
+      .header-search .pagefind-ui__search-input:-webkit-autofill,
+      .header-search .pagefind-ui__search-input:-webkit-autofill:hover,
+      .header-search .pagefind-ui__search-input:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 1000px var(--pf-input-bg) inset !important;
+        -webkit-text-fill-color: var(--pf-input-fg) !important;
+        caret-color: var(--pf-input-fg) !important;
       }
       .header-search .pagefind-ui__form::before {
         top: 50% !important;
@@ -442,6 +467,8 @@ const pathname = Astro.url.pathname;
         transform: translateY(-50%) !important;
         width: 15px !important;
         height: 15px !important;
+        background-color: var(--pf-input-icon) !important;
+        opacity: 0.9 !important;
       }
       .header-search .pagefind-ui__search-clear {
         top: 50% !important;
@@ -452,6 +479,9 @@ const pathname = Astro.url.pathname;
         font-size: 0.75rem !important;
         padding: 0 10px !important;
         box-sizing: border-box !important;
+        color: var(--pf-input-fg) !important;
+        background-color: var(--pf-input-bg) !important;
+        -webkit-text-fill-color: var(--pf-input-fg) !important;
       }
       .header-search .pagefind-ui__drawer {
         position: absolute !important;
