@@ -129,6 +129,11 @@ const webSiteJsonLd = {
     name: "wordok.top",
     url: canonical,
   },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${canonical}search?q={search_term_string}`,
+    "query-input": "required name=search_term_string",
+  },
 };
 
 /** 首页主标题（顶栏品牌仍为默认 wordok.top） */

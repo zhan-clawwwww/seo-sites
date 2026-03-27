@@ -2,9 +2,9 @@
   "name": "TechReview Pro",
   "description": "Expert technical reviews, SEO insights, and comprehensive analysis of web technologies, tools, and best practices.",
   "keywords": ["technical reviews", "SEO analysis", "web development", "technology testing", "performance optimization"],
-  "baseUrl": "https://techreviewpro.com",
+  "baseUrl": "https://wordok.top",
   "lang": "en",
-  "defaultImage": "https://techreviewpro.com/og-default.png",
+  "defaultImage": "https://wordok.top/og-default.png",
   "contact": {
     "email": "iwangzhanpeng94@gmail.com",
     "privacyEmail": "iwangzhanpeng94@gmail.com",
@@ -15,7 +15,7 @@
     "linkedin": "https://linkedin.com/company/techreviewpro"
   },
   "analytics": {
-    "ga4Id": "",
+    "ga4Id": "G-JWYQZWRTBN",
     "cfBeacon": ""
   },
   "giscus": {

@@ -31,7 +31,7 @@ export const authors: Record<string, Author> = {
       "Content Strategy",
     ],
     email: "iwangzhanpeng94@gmail.com",
-    website: "https://techreviewpro.com",
+    website: "https://wordok.top",
     social: {
       twitter: "https://twitter.com/techreviewpro",
       linkedin: "https://linkedin.com/company/techreviewpro",

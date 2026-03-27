@@ -6,6 +6,8 @@ pubDate: "2026-03-27"
 author: "wordok"
 ---
 
+![Tesla TERAFAB chip factory](https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80)
+
 # Tesla's $25 Billion TERAFAB Gamble: Ambition, Reality, and What It Means for the AI Chip Wars
 
 On March 21, 2026, Elon Musk stood before cameras in Austin, Texas and announced TERAFAB—a $25 billion joint venture between Tesla, SpaceX, and xAI to build one of the world's largest chip fabrication facilities. The target: one terawatt of AI computing capacity annually. If successful, this single facility would produce more AI computing power than many entire countries currently possess. But success is far from guaranteed.

@@ -193,6 +193,21 @@ const pathname = Astro.url.pathname;
       <script type="application/ld+json" set:html={safeJsonStringify(obj)} />
     ))}
 
+    {/* Organization Schema (site-wide) */}
+    <script type="application/ld+json" set:html={safeJsonStringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "wordok.top",
+      "url": "https://wordok.top",
+      "logo": "https://wordok.top/og-default.png",
+      "sameAs": [],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "iwangzhanpeng94@gmail.com",
+        "contactType": "customer service"
+      }
+    })} />
+
     {/* Google Analytics 4 */}
     {analytics?.ga4Id ? (
       <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analytics.ga4Id}`}></script>
@@ -1480,5 +1495,7 @@ const pathname = Astro.url.pathname;
         } catch(e) {}
       })();
     </script>
+
+    {/* Cookie banner removed - static site, no login required */}
   </body>
 </html>

@@ -6,6 +6,8 @@ pubDate: "2026-03-27"
 author: "wordok"
 ---
 
+![Bitcoin bear market and institutional growth](https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=800&q=80)
+
 # Bitcoin Down 20% in 2026: Why Institutions Are Buying While Everyone Else Panics
 
 Bitcoin is having a rough year. Down approximately 20% year-to-date and flirting with the psychologically important $70,000 support level, the cryptocurrency has many retail investors questioning their holdings. Some analysts predict further declines—one investment firm suggests another 30% drop is possible.
