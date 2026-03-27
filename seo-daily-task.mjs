@@ -421,14 +421,16 @@ async function main() {
       console.log(`  ${i + 1}. [${f.channel}] ${f.title} (~${f.words} words)`);
     });
     
-    // 提交
-    console.log('\nCommitting changes...');
+    // 提交并推送（GitHub Actions 会自动构建 sitemap）
+    console.log('\nCommitting and pushing changes...');
+    console.log('(GitHub Actions will auto-build sitemap after push)');
     try {
       execSync('git add -A', { stdio: 'inherit', cwd: PROJECT_PATH });
       execSync(`git commit -m "content: daily articles ${today} - ${generatedFiles.length} articles (4000+ words each)"`, { stdio: 'inherit', cwd: PROJECT_PATH });
-      console.log('\nCommitted. Run "git push" to upload.');
+      execSync('git push', { stdio: 'inherit', cwd: PROJECT_PATH });
+      console.log('\nPushed! GitHub Actions will build and deploy sitemap automatically.');
     } catch (e) {
-      console.log('No changes to commit.');
+      console.log('Error during commit/push:', e.message);
     }
   }
   
