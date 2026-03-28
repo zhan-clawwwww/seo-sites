@@ -166,3 +166,170 @@
 [2026-03-28 01:30:44] [INFO]   - web3: Blockchain Scalability Solutions Overview (策略: FallbackTopic)
 [2026-03-28 01:30:44] [INFO] 
 6 篇文章已生成，准备推送...
+[2026-03-28 01:30:48] [INFO] ✅ 代码已推送，触发GitHub Actions构建sitemap
+[2026-03-28 01:30:48] [INFO] === 任务结束 ===
+[2026-03-28 07:30:43] [INFO] === SEO每日内容生成任务开始 ===
+[2026-03-28 07:30:43] [INFO] 开始时间: 2026-03-28T07:30:43.244Z
+[2026-03-28 07:30:43] [INFO] 频道数量: 8
+[2026-03-28 07:30:43] [INFO] 
+处理频道: ai
+[2026-03-28 07:30:43] [INFO] 搜索尝试 1/3: ai - artificial+intelligence+news+today
+[2026-03-28 07:30:43] [INFO] 尝试DuckDuckGo搜索: artificial+intelligence+news+today
+[2026-03-28 07:30:44] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo未返回有效结果
+[2026-03-28 07:30:44] [INFO] 搜索尝试 1/3: ai - machine+learning+breakthrough+2026
+[2026-03-28 07:30:44] [INFO] 尝试DuckDuckGo搜索: machine+learning+breakthrough+2026
+[2026-03-28 07:30:44] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:44] [INFO] 搜索尝试 1/3: ai - openai+anthropic+google+ai+news
+[2026-03-28 07:30:44] [INFO] 尝试DuckDuckGo搜索: openai+anthropic+google+ai+news
+[2026-03-28 07:30:45] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:45] [INFO] 搜索尝试 1/3: ai - ai+safety+regulation+news
+[2026-03-28 07:30:45] [INFO] 尝试DuckDuckGo搜索: ai+safety+regulation+news
+[2026-03-28 07:30:45] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:45] [INFO] 搜索尝试 1/3: ai - ai+healthcare+robotics+news
+[2026-03-28 07:30:45] [INFO] 尝试DuckDuckGo搜索: ai+healthcare+robotics+news
+[2026-03-28 07:30:46] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:46] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-28 07:30:46] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-28 07:30:46] [INFO] 选择主题: Natural Language Processing Advancements 2026
+[2026-03-28 07:30:46] [INFO] 文章已保存: ai-2026-03-28-natural-language-processing-advancements-2026.md
+[2026-03-28 07:30:46] [INFO] ✅ 频道 ai 文章生成完成
+[2026-03-28 07:30:46] [INFO] 
+处理频道: apple
+[2026-03-28 07:30:46] [INFO] 搜索尝试 1/3: apple - Apple+iPhone+iOS+news+today
+[2026-03-28 07:30:46] [INFO] 尝试DuckDuckGo搜索: Apple+iPhone+iOS+news+today
+[2026-03-28 07:30:46] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:46] [INFO] 搜索尝试 1/3: apple - Mac+MacBook+Apple+Silicon+news
+[2026-03-28 07:30:46] [INFO] 尝试DuckDuckGo搜索: Mac+MacBook+Apple+Silicon+news
+[2026-03-28 07:30:47] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:47] [INFO] 搜索尝试 1/3: apple - Apple+WWDC+developer+news
+[2026-03-28 07:30:47] [INFO] 尝试DuckDuckGo搜索: Apple+WWDC+developer+news
+[2026-03-28 07:30:47] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:47] [INFO] 搜索尝试 1/3: apple - iPad+Apple+Watch+news
+[2026-03-28 07:30:47] [INFO] 尝试DuckDuckGo搜索: iPad+Apple+Watch+news
+[2026-03-28 07:30:47] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:47] [INFO] 搜索尝试 1/3: apple - Apple+services+privacy+news
+[2026-03-28 07:30:47] [INFO] 尝试DuckDuckGo搜索: Apple+services+privacy+news
+[2026-03-28 07:30:48] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:48] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-28 07:30:48] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-28 07:30:48] [WARN] ❌ 无法为频道 apple 生成文章（可能主题重复）
+[2026-03-28 07:30:48] [INFO] 
+处理频道: openclaw
+[2026-03-28 07:30:48] [INFO] 搜索尝试 1/3: openclaw - AI+assistant+local+deployment+news
+[2026-03-28 07:30:48] [INFO] 尝试DuckDuckGo搜索: AI+assistant+local+deployment+news
+[2026-03-28 07:30:48] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:48] [INFO] 搜索尝试 1/3: openclaw - open+source+AI+tools+news
+[2026-03-28 07:30:48] [INFO] 尝试DuckDuckGo搜索: open+source+AI+tools+news
+[2026-03-28 07:30:49] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:49] [INFO] 搜索尝试 1/3: openclaw - privacy+focused+AI+assistant
+[2026-03-28 07:30:49] [INFO] 尝试DuckDuckGo搜索: privacy+focused+AI+assistant
+[2026-03-28 07:30:49] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:49] [INFO] 搜索尝试 1/3: openclaw - self+hosted+AI+platforms
+[2026-03-28 07:30:49] [INFO] 尝试DuckDuckGo搜索: self+hosted+AI+platforms
+[2026-03-28 07:30:50] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:50] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-28 07:30:50] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-28 07:30:50] [INFO] 选择主题: Local AI Deployment Benefits and Challenges
+[2026-03-28 07:30:50] [INFO] 文章已保存: openclaw-2026-03-28-local-ai-deployment-benefits-and-challenges.md
+[2026-03-28 07:30:50] [INFO] ✅ 频道 openclaw 文章生成完成
+[2026-03-28 07:30:50] [INFO] 
+处理频道: site-a
+[2026-03-28 07:30:50] [INFO] 搜索尝试 1/3: site-a - search+engine+optimization+news
+[2026-03-28 07:30:50] [INFO] 尝试DuckDuckGo搜索: search+engine+optimization+news
+[2026-03-28 07:30:50] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:50] [INFO] 搜索尝试 1/3: site-a - SEO+best+practices+2026
+[2026-03-28 07:30:50] [INFO] 尝试DuckDuckGo搜索: SEO+best+practices+2026
+[2026-03-28 07:30:51] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:51] [INFO] 搜索尝试 1/3: site-a - Google+algorithm+update+news
+[2026-03-28 07:30:51] [INFO] 尝试DuckDuckGo搜索: Google+algorithm+update+news
+[2026-03-28 07:30:51] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:51] [INFO] 搜索尝试 1/3: site-a - content+marketing+trends+2026
+[2026-03-28 07:30:51] [INFO] 尝试DuckDuckGo搜索: content+marketing+trends+2026
+[2026-03-28 07:30:52] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:52] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-28 07:30:52] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-28 07:30:52] [WARN] ❌ 无法为频道 site-a 生成文章（可能主题重复）
+[2026-03-28 07:30:52] [INFO] 
+处理频道: streaming
+[2026-03-28 07:30:52] [INFO] 搜索尝试 1/3: streaming - streaming+services+news+2026
+[2026-03-28 07:30:52] [INFO] 尝试DuckDuckGo搜索: streaming+services+news+2026
+[2026-03-28 07:30:52] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:52] [INFO] 搜索尝试 1/3: streaming - Netflix+Disney+HBO+Max+news
+[2026-03-28 07:30:52] [INFO] 尝试DuckDuckGo搜索: Netflix+Disney+HBO+Max+news
+[2026-03-28 07:30:53] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:53] [INFO] 搜索尝试 1/3: streaming - video+streaming+platform+competition
+[2026-03-28 07:30:53] [INFO] 尝试DuckDuckGo搜索: video+streaming+platform+competition
+[2026-03-28 07:30:53] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:53] [INFO] 搜索尝试 1/3: streaming - OTT+content+distribution+trends
+[2026-03-28 07:30:53] [INFO] 尝试DuckDuckGo搜索: OTT+content+distribution+trends
+[2026-03-28 07:30:53] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:53] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-28 07:30:53] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-28 07:30:53] [INFO] 选择主题: Streaming Service Pricing Strategy Analysis
+[2026-03-28 07:30:53] [INFO] 文章已保存: streaming-2026-03-28-streaming-service-pricing-strategy-analysis.md
+[2026-03-28 07:30:53] [INFO] ✅ 频道 streaming 文章生成完成
+[2026-03-28 07:30:53] [INFO] 
+处理频道: tesla
+[2026-03-28 07:30:53] [INFO] 搜索尝试 1/3: tesla - Tesla+electric+vehicle+news+today
+[2026-03-28 07:30:53] [INFO] 尝试DuckDuckGo搜索: Tesla+electric+vehicle+news+today
+[2026-03-28 07:30:54] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:54] [INFO] 搜索尝试 1/3: tesla - EV+battery+technology+news+2026
+[2026-03-28 07:30:54] [INFO] 尝试DuckDuckGo搜索: EV+battery+technology+news+2026
+[2026-03-28 07:30:54] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:54] [INFO] 搜索尝试 1/3: tesla - autonomous+driving+Tesla+news
+[2026-03-28 07:30:54] [INFO] 尝试DuckDuckGo搜索: autonomous+driving+Tesla+news
+[2026-03-28 07:30:55] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:55] [INFO] 搜索尝试 1/3: tesla - energy+storage+solar+Tesla+news
+[2026-03-28 07:30:55] [INFO] 尝试DuckDuckGo搜索: energy+storage+solar+Tesla+news
+[2026-03-28 07:30:55] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:55] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-28 07:30:55] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-28 07:30:55] [INFO] 选择主题: Renewable Energy Integration in EV Infrastructure
+[2026-03-28 07:30:55] [INFO] 文章已保存: tesla-2026-03-28-renewable-energy-integration-in-ev-infrastructure.md
+[2026-03-28 07:30:55] [INFO] ✅ 频道 tesla 文章生成完成
+[2026-03-28 07:30:55] [INFO] 
+处理频道: vpn-usa
+[2026-03-28 07:30:55] [INFO] 搜索尝试 1/3: vpn-usa - VPN+privacy+security+news+today
+[2026-03-28 07:30:55] [INFO] 尝试DuckDuckGo搜索: VPN+privacy+security+news+today
+[2026-03-28 07:30:56] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:56] [INFO] 搜索尝试 1/3: vpn-usa - cybersecurity+threats+2026
+[2026-03-28 07:30:56] [INFO] 尝试DuckDuckGo搜索: cybersecurity+threats+2026
+[2026-03-28 07:30:56] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:56] [INFO] 搜索尝试 1/3: vpn-usa - online+privacy+legislation+news
+[2026-03-28 07:30:56] [INFO] 尝试DuckDuckGo搜索: online+privacy+legislation+news
+[2026-03-28 07:30:57] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:57] [INFO] 搜索尝试 1/3: vpn-usa - encryption+technology+updates
+[2026-03-28 07:30:57] [INFO] 尝试DuckDuckGo搜索: encryption+technology+updates
+[2026-03-28 07:30:57] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:57] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-28 07:30:57] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-28 07:30:57] [INFO] 选择主题: Data Privacy Regulations and Compliance
+[2026-03-28 07:30:57] [INFO] 文章已保存: vpn-usa-2026-03-28-data-privacy-regulations-and-compliance.md
+[2026-03-28 07:30:57] [INFO] ✅ 频道 vpn-usa 文章生成完成
+[2026-03-28 07:30:57] [INFO] 
+处理频道: web3
+[2026-03-28 07:30:57] [INFO] 搜索尝试 1/3: web3 - cryptocurrency+bitcoin+news+today
+[2026-03-28 07:30:57] [INFO] 尝试DuckDuckGo搜索: cryptocurrency+bitcoin+news+today
+[2026-03-28 07:30:58] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:58] [INFO] 搜索尝试 1/3: web3 - blockchain+technology+news+2026
+[2026-03-28 07:30:58] [INFO] 尝试DuckDuckGo搜索: blockchain+technology+news+2026
+[2026-03-28 07:30:58] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:58] [INFO] 搜索尝试 1/3: web3 - DeFi+defi+finance+news
+[2026-03-28 07:30:58] [INFO] 尝试DuckDuckGo搜索: DeFi+defi+finance+news
+[2026-03-28 07:30:59] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:59] [INFO] 搜索尝试 1/3: web3 - web3+ethereum+crypto+news
+[2026-03-28 07:30:59] [INFO] 尝试DuckDuckGo搜索: web3+ethereum+crypto+news
+[2026-03-28 07:30:59] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo返回状态码: 202
+[2026-03-28 07:30:59] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-28 07:30:59] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-28 07:30:59] [WARN] ❌ 无法为频道 web3 生成文章（可能主题重复）
+[2026-03-28 07:30:59] [INFO] 
+=== 任务完成报告 ===
+[2026-03-28 07:30:59] [INFO] 总文章数: 5/8
+[2026-03-28 07:30:59] [INFO]   - ai: Natural Language Processing Advancements 2026 (策略: FallbackTopic)
+[2026-03-28 07:30:59] [INFO]   - openclaw: Local AI Deployment Benefits and Challenges (策略: FallbackTopic)
+[2026-03-28 07:30:59] [INFO]   - streaming: Streaming Service Pricing Strategy Analysis (策略: FallbackTopic)
+[2026-03-28 07:30:59] [INFO]   - tesla: Renewable Energy Integration in EV Infrastructure (策略: FallbackTopic)
+[2026-03-28 07:30:59] [INFO]   - vpn-usa: Data Privacy Regulations and Compliance (策略: FallbackTopic)
+[2026-03-28 07:30:59] [INFO] 
+5 篇文章已生成，准备推送...
