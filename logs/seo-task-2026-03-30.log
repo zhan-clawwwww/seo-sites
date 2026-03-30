@@ -525,3 +525,18 @@
 [2026-03-30 08:33:34] [INFO] 搜索尝试 1/3: web3 - DeFi+defi+finance+news
 [2026-03-30 08:33:34] [INFO] 尝试DuckDuckGo搜索: DeFi+defi+finance+news
 [2026-03-30 08:33:34] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:33:49] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:33:49] [INFO] 搜索尝试 1/3: web3 - web3+ethereum+crypto+news
+[2026-03-30 08:33:49] [INFO] 尝试DuckDuckGo搜索: web3+ethereum+crypto+news
+[2026-03-30 08:33:49] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:34:04] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:34:04] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-30 08:34:04] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-30 08:34:04] [WARN] ❌ 无法为频道 web3 生成文章（可能主题重复）
+[2026-03-30 08:34:04] [INFO] 
+=== 任务完成报告 ===
+[2026-03-30 08:34:04] [INFO] 总文章数: 2/8
+[2026-03-30 08:34:04] [INFO]   - ai: AI Safety Regulations and Ethical Guidelines Update 2026 (策略: FallbackTopic)
+[2026-03-30 08:34:04] [INFO]   - apple: Privacy and Security Features in Latest Apple Products (策略: FallbackTopic)
+[2026-03-30 08:34:04] [INFO] 
+2 篇文章已生成，准备推送...
