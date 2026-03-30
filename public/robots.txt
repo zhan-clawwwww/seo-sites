@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wordok.top/sitemap_index.xml
+Sitemap: https://wordok.top/sitemap.xml
