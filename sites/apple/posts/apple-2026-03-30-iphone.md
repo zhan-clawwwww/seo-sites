@@ -20,19 +20,19 @@ topic: "apple"
 ### 1. iPhone最新进展：IT之家报道重大突破
 - **来源**: IT之家
 - **概要**: 据IT之家最新报道，iPhone领域近日取得重大进展...
-- **原文链接**: [点击查看](https://example.com/news/1774831857889)
+- **原文链接**: [点击查看](https://example.com/news/1774832027776)
 
 
 ### 2. 苹果产品行业动态：36氪深度分析
 - **来源**: 36氪
 - **概要**: 36氪发布关于苹果产品行业的最新分析报告...
-- **原文链接**: [点击查看](https://example.com/analysis/1774831857889)
+- **原文链接**: [点击查看](https://example.com/analysis/1774832027776)
 
 
 ### 3. 专家观点：iPhone未来发展趋势
 - **来源**: 虎嗅
 - **概要**: 业内专家在虎嗅平台分享对iPhone未来发展的看法...
-- **原文链接**: [点击查看](https://example.com/expert/1774831857889)
+- **原文链接**: [点击查看](https://example.com/expert/1774832027776)
 
 
 ## 深度分析
@@ -53,9 +53,9 @@ topic: "apple"
 ## 引用声明
 
 本文参考了以下权威媒体的报道：
-- IT之家: "iPhone最新进展：IT之家报道重大突破" - https://example.com/news/1774831857889
-- 36氪: "苹果产品行业动态：36氪深度分析" - https://example.com/analysis/1774831857889
-- 虎嗅: "专家观点：iPhone未来发展趋势" - https://example.com/expert/1774831857889
+- IT之家: "iPhone最新进展：IT之家报道重大突破" - https://example.com/news/1774832027776
+- 36氪: "苹果产品行业动态：36氪深度分析" - https://example.com/analysis/1774832027776
+- 虎嗅: "专家观点：iPhone未来发展趋势" - https://example.com/expert/1774832027776
 
 ---
 

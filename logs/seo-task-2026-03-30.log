@@ -157,3 +157,5 @@
 [2026-03-30 00:51:58] [INFO]   - web3: Web3 Adoption Challenges and Opportunities (策略: FallbackTopic)
 [2026-03-30 00:51:58] [INFO] 
 3 篇文章已生成，准备推送...
+[2026-03-30 00:52:00] [ERROR] ❌ Git操作失败: Command failed: git push
+[2026-03-30 00:52:00] [INFO] === 任务结束 ===
