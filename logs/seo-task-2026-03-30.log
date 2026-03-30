@@ -351,3 +351,177 @@
 [2026-03-30 01:39:08] [ERROR] ❌ Git操作失败: Command failed: git push
 [2026-03-30 01:39:08] [INFO] === 任务结束 ===
 [2026-03-30 01:39:08] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:25:33] [INFO] === SEO每日内容生成任务开始 ===
+[2026-03-30 08:25:33] [INFO] 开始时间: 2026-03-30T08:25:33.809Z
+[2026-03-30 08:25:33] [INFO] 频道数量: 8
+[2026-03-30 08:25:33] [INFO] 
+处理频道: ai
+[2026-03-30 08:25:33] [INFO] 搜索尝试 1/3: ai - artificial+intelligence+news+today
+[2026-03-30 08:25:33] [INFO] 尝试DuckDuckGo搜索: artificial+intelligence+news+today
+[2026-03-30 08:25:48] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:25:48] [INFO] 搜索尝试 1/3: ai - machine+learning+breakthrough+2026
+[2026-03-30 08:25:48] [INFO] 尝试DuckDuckGo搜索: machine+learning+breakthrough+2026
+[2026-03-30 08:25:48] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:26:03] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:26:03] [INFO] 搜索尝试 1/3: ai - openai+anthropic+google+ai+news
+[2026-03-30 08:26:03] [INFO] 尝试DuckDuckGo搜索: openai+anthropic+google+ai+news
+[2026-03-30 08:26:03] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:26:18] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:26:18] [INFO] 搜索尝试 1/3: ai - ai+safety+regulation+news
+[2026-03-30 08:26:18] [INFO] 尝试DuckDuckGo搜索: ai+safety+regulation+news
+[2026-03-30 08:26:18] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:26:33] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:26:33] [INFO] 搜索尝试 1/3: ai - ai+healthcare+robotics+news
+[2026-03-30 08:26:33] [INFO] 尝试DuckDuckGo搜索: ai+healthcare+robotics+news
+[2026-03-30 08:26:33] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:26:48] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:26:48] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-30 08:26:48] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-30 08:26:48] [INFO] 选择主题: AI Safety Regulations and Ethical Guidelines Update 2026
+[2026-03-30 08:26:48] [INFO] 文章已保存: ai-2026-03-30-ai-safety-regulations-and-ethical-guidelines-updat.md
+[2026-03-30 08:26:48] [INFO] ✅ 频道 ai 文章生成完成
+[2026-03-30 08:26:48] [INFO] 
+处理频道: apple
+[2026-03-30 08:26:48] [INFO] 搜索尝试 1/3: apple - Apple+iPhone+iOS+news+today
+[2026-03-30 08:26:48] [INFO] 尝试DuckDuckGo搜索: Apple+iPhone+iOS+news+today
+[2026-03-30 08:26:48] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:27:03] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:27:03] [INFO] 搜索尝试 1/3: apple - Mac+MacBook+Apple+Silicon+news
+[2026-03-30 08:27:03] [INFO] 尝试DuckDuckGo搜索: Mac+MacBook+Apple+Silicon+news
+[2026-03-30 08:27:03] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:27:18] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:27:18] [INFO] 搜索尝试 1/3: apple - Apple+WWDC+developer+news
+[2026-03-30 08:27:18] [INFO] 尝试DuckDuckGo搜索: Apple+WWDC+developer+news
+[2026-03-30 08:27:18] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:27:33] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:27:33] [INFO] 搜索尝试 1/3: apple - iPad+Apple+Watch+news
+[2026-03-30 08:27:33] [INFO] 尝试DuckDuckGo搜索: iPad+Apple+Watch+news
+[2026-03-30 08:27:33] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:27:48] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:27:48] [INFO] 搜索尝试 1/3: apple - Apple+services+privacy+news
+[2026-03-30 08:27:48] [INFO] 尝试DuckDuckGo搜索: Apple+services+privacy+news
+[2026-03-30 08:27:48] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:28:04] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:28:04] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-30 08:28:04] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-30 08:28:04] [INFO] 选择主题: Privacy and Security Features in Latest Apple Products
+[2026-03-30 08:28:04] [INFO] 文章已保存: apple-2026-03-30-privacy-and-security-features-in-latest-apple-prod.md
+[2026-03-30 08:28:04] [INFO] ✅ 频道 apple 文章生成完成
+[2026-03-30 08:28:04] [INFO] 
+处理频道: openclaw
+[2026-03-30 08:28:04] [INFO] 搜索尝试 1/3: openclaw - AI+assistant+local+deployment+news
+[2026-03-30 08:28:04] [INFO] 尝试DuckDuckGo搜索: AI+assistant+local+deployment+news
+[2026-03-30 08:28:04] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:28:19] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:28:19] [INFO] 搜索尝试 1/3: openclaw - open+source+AI+tools+news
+[2026-03-30 08:28:19] [INFO] 尝试DuckDuckGo搜索: open+source+AI+tools+news
+[2026-03-30 08:28:19] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:28:34] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:28:34] [INFO] 搜索尝试 1/3: openclaw - privacy+focused+AI+assistant
+[2026-03-30 08:28:34] [INFO] 尝试DuckDuckGo搜索: privacy+focused+AI+assistant
+[2026-03-30 08:28:34] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:28:49] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:28:49] [INFO] 搜索尝试 1/3: openclaw - self+hosted+AI+platforms
+[2026-03-30 08:28:49] [INFO] 尝试DuckDuckGo搜索: self+hosted+AI+platforms
+[2026-03-30 08:28:49] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:29:04] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:29:04] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-30 08:29:04] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-30 08:29:04] [WARN] ❌ 无法为频道 openclaw 生成文章（可能主题重复）
+[2026-03-30 08:29:04] [INFO] 
+处理频道: site-a
+[2026-03-30 08:29:04] [INFO] 搜索尝试 1/3: site-a - search+engine+optimization+news
+[2026-03-30 08:29:04] [INFO] 尝试DuckDuckGo搜索: search+engine+optimization+news
+[2026-03-30 08:29:04] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:29:19] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:29:19] [INFO] 搜索尝试 1/3: site-a - SEO+best+practices+2026
+[2026-03-30 08:29:19] [INFO] 尝试DuckDuckGo搜索: SEO+best+practices+2026
+[2026-03-30 08:29:19] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:29:34] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:29:34] [INFO] 搜索尝试 1/3: site-a - Google+algorithm+update+news
+[2026-03-30 08:29:34] [INFO] 尝试DuckDuckGo搜索: Google+algorithm+update+news
+[2026-03-30 08:29:34] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:29:49] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:29:49] [INFO] 搜索尝试 1/3: site-a - content+marketing+trends+2026
+[2026-03-30 08:29:49] [INFO] 尝试DuckDuckGo搜索: content+marketing+trends+2026
+[2026-03-30 08:29:49] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:30:04] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:30:04] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-30 08:30:04] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-30 08:30:04] [WARN] ❌ 无法为频道 site-a 生成文章（可能主题重复）
+[2026-03-30 08:30:04] [INFO] 
+处理频道: streaming
+[2026-03-30 08:30:04] [INFO] 搜索尝试 1/3: streaming - streaming+services+news+2026
+[2026-03-30 08:30:04] [INFO] 尝试DuckDuckGo搜索: streaming+services+news+2026
+[2026-03-30 08:30:04] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:30:19] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:30:19] [INFO] 搜索尝试 1/3: streaming - Netflix+Disney+HBO+Max+news
+[2026-03-30 08:30:19] [INFO] 尝试DuckDuckGo搜索: Netflix+Disney+HBO+Max+news
+[2026-03-30 08:30:19] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:30:34] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:30:34] [INFO] 搜索尝试 1/3: streaming - video+streaming+platform+competition
+[2026-03-30 08:30:34] [INFO] 尝试DuckDuckGo搜索: video+streaming+platform+competition
+[2026-03-30 08:30:34] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:30:49] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:30:49] [INFO] 搜索尝试 1/3: streaming - OTT+content+distribution+trends
+[2026-03-30 08:30:49] [INFO] 尝试DuckDuckGo搜索: OTT+content+distribution+trends
+[2026-03-30 08:30:49] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:31:04] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:31:04] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-30 08:31:04] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-30 08:31:04] [WARN] ❌ 无法为频道 streaming 生成文章（可能主题重复）
+[2026-03-30 08:31:04] [INFO] 
+处理频道: tesla
+[2026-03-30 08:31:04] [INFO] 搜索尝试 1/3: tesla - Tesla+electric+vehicle+news+today
+[2026-03-30 08:31:04] [INFO] 尝试DuckDuckGo搜索: Tesla+electric+vehicle+news+today
+[2026-03-30 08:31:04] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:31:19] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:31:19] [INFO] 搜索尝试 1/3: tesla - EV+battery+technology+news+2026
+[2026-03-30 08:31:19] [INFO] 尝试DuckDuckGo搜索: EV+battery+technology+news+2026
+[2026-03-30 08:31:19] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:31:34] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:31:34] [INFO] 搜索尝试 1/3: tesla - autonomous+driving+Tesla+news
+[2026-03-30 08:31:34] [INFO] 尝试DuckDuckGo搜索: autonomous+driving+Tesla+news
+[2026-03-30 08:31:34] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:31:49] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:31:49] [INFO] 搜索尝试 1/3: tesla - energy+storage+solar+Tesla+news
+[2026-03-30 08:31:49] [INFO] 尝试DuckDuckGo搜索: energy+storage+solar+Tesla+news
+[2026-03-30 08:31:49] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:32:04] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:32:04] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-30 08:32:04] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-30 08:32:04] [WARN] ❌ 无法为频道 tesla 生成文章（可能主题重复）
+[2026-03-30 08:32:04] [INFO] 
+处理频道: vpn-usa
+[2026-03-30 08:32:04] [INFO] 搜索尝试 1/3: vpn-usa - VPN+privacy+security+news+today
+[2026-03-30 08:32:04] [INFO] 尝试DuckDuckGo搜索: VPN+privacy+security+news+today
+[2026-03-30 08:32:04] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:32:19] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:32:19] [INFO] 搜索尝试 1/3: vpn-usa - cybersecurity+threats+2026
+[2026-03-30 08:32:19] [INFO] 尝试DuckDuckGo搜索: cybersecurity+threats+2026
+[2026-03-30 08:32:19] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:32:34] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:32:34] [INFO] 搜索尝试 1/3: vpn-usa - online+privacy+legislation+news
+[2026-03-30 08:32:34] [INFO] 尝试DuckDuckGo搜索: online+privacy+legislation+news
+[2026-03-30 08:32:34] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:32:49] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:32:49] [INFO] 搜索尝试 1/3: vpn-usa - encryption+technology+updates
+[2026-03-30 08:32:49] [INFO] 尝试DuckDuckGo搜索: encryption+technology+updates
+[2026-03-30 08:32:49] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:33:04] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:33:04] [WARN] ⚠️ 所有搜索策略失败，使用主题库备用内容
+[2026-03-30 08:33:04] [INFO] 搜索策略: FallbackTopic, 找到结果: 1
+[2026-03-30 08:33:04] [WARN] ❌ 无法为频道 vpn-usa 生成文章（可能主题重复）
+[2026-03-30 08:33:04] [INFO] 
+处理频道: web3
+[2026-03-30 08:33:04] [INFO] 搜索尝试 1/3: web3 - cryptocurrency+bitcoin+news+today
+[2026-03-30 08:33:04] [INFO] 尝试DuckDuckGo搜索: cryptocurrency+bitcoin+news+today
+[2026-03-30 08:33:04] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:33:19] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:33:19] [INFO] 搜索尝试 1/3: web3 - blockchain+technology+news+2026
+[2026-03-30 08:33:19] [INFO] 尝试DuckDuckGo搜索: blockchain+technology+news+2026
+[2026-03-30 08:33:19] [ERROR] DuckDuckGo请求失败: socket hang up
+[2026-03-30 08:33:34] [WARN] ❌ DuckDuckGo搜索失败: DuckDuckGo请求超时
+[2026-03-30 08:33:34] [INFO] 搜索尝试 1/3: web3 - DeFi+defi+finance+news
+[2026-03-30 08:33:34] [INFO] 尝试DuckDuckGo搜索: DeFi+defi+finance+news
+[2026-03-30 08:33:34] [ERROR] DuckDuckGo请求失败: socket hang up
