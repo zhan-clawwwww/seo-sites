@@ -1,0 +1,69 @@
+{
+  "description": "每个频道的直接新闻源网站，按优先级排列",
+  "channels": {
+    "ai": {
+      "name": "Artificial Intelligence",
+      "sources": [
+        {"name": "TechCrunch AI", "url": "https://techcrunch.com/category/artificial-intelligence/"},
+        {"name": "Ars Technica AI", "url": "https://arstechnica.com/ai-policy/"},
+        {"name": "The Verge AI", "url": "https://www.theverge.com/ai-artificial-intelligence"}
+      ]
+    },
+    "apple": {
+      "name": "Apple Ecosystem",
+      "sources": [
+        {"name": "9to5Mac", "url": "https://9to5mac.com/"},
+        {"name": "MacRumors", "url": "https://www.macrumors.com/"},
+        {"name": "AppleInsider", "url": "https://appleinsider.com/"}
+      ]
+    },
+    "openclaw": {
+      "name": "Open Source AI & Tools",
+      "sources": [
+        {"name": "Hacker News", "url": "https://news.ycombinator.com/"},
+        {"name": "GitHub Blog", "url": "https://github.blog/"},
+        {"name": "The Register", "url": "https://www.theregister.com/"}
+      ]
+    },
+    "site-a": {
+      "name": "SEO & Web Development",
+      "sources": [
+        {"name": "Search Engine Journal", "url": "https://www.searchenginejournal.com/"},
+        {"name": "Moz Blog", "url": "https://moz.com/blog"},
+        {"name": "Google Search Central Blog", "url": "https://developers.google.com/search/blog"}
+      ]
+    },
+    "streaming": {
+      "name": "Streaming & Entertainment",
+      "sources": [
+        {"name": "Variety Streaming", "url": "https://variety.com/v/streaming/"},
+        {"name": "The Verge Streaming", "url": "https://www.theverge.com/streaming"},
+        {"name": "Deadline", "url": "https://deadline.com/"}
+      ]
+    },
+    "tesla": {
+      "name": "Tesla & EV Industry",
+      "sources": [
+        {"name": "Electrek", "url": "https://electrek.co/"},
+        {"name": "InsideEVs", "url": "https://insideevs.com/"},
+        {"name": "CleanTechnica", "url": "https://cleantechnica.com/"}
+      ]
+    },
+    "vpn-usa": {
+      "name": "VPN & Digital Privacy",
+      "sources": [
+        {"name": "TorrentFreak", "url": "https://torrentfreak.com/"},
+        {"name": "The Record by Recorded Future", "url": "https://therecord.media/"},
+        {"name": "Krebs on Security", "url": "https://krebsonsecurity.com/"}
+      ]
+    },
+    "web3": {
+      "name": "Web3 & Cryptocurrency",
+      "sources": [
+        {"name": "CoinDesk", "url": "https://www.coindesk.com/"},
+        {"name": "The Block", "url": "https://www.theblock.co/"},
+        {"name": "Decrypt", "url": "https://decrypt.co/"}
+      ]
+    }
+  }
+}
