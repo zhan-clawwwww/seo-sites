@@ -1,3 +1,12 @@
+---
+title: "The Evolution of SEO in the AI Era: From Keywords to Contextual Understanding"
+date: 2026-03-31
+author: "SEO Content Team"
+category: "SEO & Web Development"
+tags: ["SEO","Search Engine Optimization","AI","Content Strategy","Digital Marketing"]
+excerpt: "Search Engine Optimization is undergoing its most significant transformation since the advent of Google's RankBrain in 2015. In 2026, AI is not just a tool for SEO professionals but the fundamental architecture of search itself."
+---
+
 # The Evolution of SEO in the AI Era: From Keywords to Contextual Understanding
 
 **Executive Summary**
