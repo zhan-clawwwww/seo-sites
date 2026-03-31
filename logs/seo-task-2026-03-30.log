@@ -540,3 +540,6 @@
 [2026-03-30 08:34:04] [INFO]   - apple: Privacy and Security Features in Latest Apple Products (策略: FallbackTopic)
 [2026-03-30 08:34:04] [INFO] 
 2 篇文章已生成，准备推送...
+[2026-03-30 08:34:45] [ERROR] ❌ Git操作失败: Command failed: git push
+[2026-03-30 08:34:45] [INFO] === 任务结束 ===
+[2026-03-30 08:34:45] [ERROR] DuckDuckGo请求失败: socket hang up
