@@ -1,6 +1,6 @@
 ---
 title: "iPhone Air 2026最新爆料：超薄设计、AI摄影、定价策略全解析"
-date: 2026-03-23
+pubDate: 2026-03-23
 author: "Apple专栏编辑"
 category: "新品预测"
 tags: ["iPhone Air", "2026新品", "苹果爆料", "超薄手机", "AI摄影"]

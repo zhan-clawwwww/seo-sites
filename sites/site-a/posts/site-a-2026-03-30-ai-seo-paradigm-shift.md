@@ -1,6 +1,6 @@
 ---
 title: "The AI SEO Paradigm Shift: Navigating Google's 2026 Core Update, AI Headlines, and the Future of Search"
-date: 2026-03-30
+pubDate: 2026-03-30
 author: "Site-A SEO Team"
 category: "SEO"
 tags: ["Google Core Update", "AI SEO", "Answer Engine Optimization", "Search Live", "Google Agent", "Training Data Cutoff", "Wikipedia AI Ban", "SEO Strategy"]

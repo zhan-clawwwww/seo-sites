@@ -1,6 +1,6 @@
 ---
 title: "The Future of Interactive Streaming: From Passive Viewing to Participatory Entertainment"
-date: 2026-03-31
+pubDate: 2026-03-31
 author: "SEO Content Team"
 category: "Streaming Entertainment"
 tags: ["Streaming","Interactive","Entertainment","Platforms","Content"]

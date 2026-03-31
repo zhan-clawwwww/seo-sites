@@ -1,6 +1,6 @@
 ---
 title: "The AI Revolution: How Artificial Intelligence is Transforming Apple's Ecosystem in 2026"
-date: 2026-03-30
+pubDate: 2026-03-30
 author: Apple Insights Team
 categories: ["Apple", "AI", "Technology", "Security"]
 tags: ["Apple", "AI", "Siri", "App Store", "macOS", "Security", "Vibe Coding", "Chatbot"]

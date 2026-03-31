@@ -1,6 +1,6 @@
 ---
 title: "The Future of AI in Scientific Discovery: Accelerating Breakthroughs Beyond Human Limits"
-date: 2026-03-31
+pubDate: 2026-03-31
 author: "AI News Editorial Team"
 category: "Artificial Intelligence"
 tags: ["AI", "Scientific Discovery", "Machine Learning", "Research", "Breakthroughs"]

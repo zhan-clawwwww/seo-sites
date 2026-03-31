@@ -1,6 +1,6 @@
 ---
 title: "Tesla at a Crossroads: Navigating the Ethical, Technological, and Legacy Challenges of the EV Revolution"
-date: 2026-03-30
+pubDate: 2026-03-30
 author: Tesla Insights Team
 categories: ["Technology", "Ethics", "Industry Analysis"]
 tags: ["Tesla", "FSD", "Autonomous Driving", "EV History", "Solar Technology", "Ethical AI"]

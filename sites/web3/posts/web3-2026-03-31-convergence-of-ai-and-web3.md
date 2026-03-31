@@ -1,6 +1,6 @@
 ---
 title: "The Convergence of AI and Web3: Creating Decentralized Intelligent Systems"
-date: 2026-03-31
+pubDate: 2026-03-31
 author: "SEO Content Team"
 category: "Web3 & Blockchain"
 tags: ["Web3","Blockchain","AI","Decentralization","Cryptocurrency"]

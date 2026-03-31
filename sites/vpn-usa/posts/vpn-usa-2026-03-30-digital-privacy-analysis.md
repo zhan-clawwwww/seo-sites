@@ -1,6 +1,6 @@
 ---
 title: "The Global Privacy Crisis 2026: VPNs, Digital Rights, and the Escalating Battle for Online Freedom"
-date: 2026-03-30
+pubDate: 2026-03-30
 author: VPN Privacy Analysis Team
 category: Privacy & Security
 tags: [VPN, Privacy, Cybersecurity, Digital Rights, Encryption, Internet Freedom]

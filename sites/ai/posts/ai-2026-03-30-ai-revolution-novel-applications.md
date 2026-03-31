@@ -1,6 +1,6 @@
 ---
 title: "The AI Revolution 2026: From Foundational Models to Novel Applications"
-date: 2026-03-30
+pubDate: 2026-03-30
 author: "SEO Content Team"
 category: "Artificial Intelligence"
 tags: ["AI", "Machine Learning", "Generative AI", "LLMs", "AI Applications"]

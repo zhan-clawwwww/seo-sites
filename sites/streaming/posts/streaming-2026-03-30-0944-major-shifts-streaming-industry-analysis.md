@@ -1,6 +1,6 @@
 ---
 title: "The Streaming Industry in 2026: Major Consolidation, Pricing Shifts, and International Expansion"
-date: 2026-03-30
+pubDate: 2026-03-30
 author: "Streaming Industry Analyst"
 category: ["Industry Analysis", "Streaming Services", "Market Trends"]
 tags: ["Netflix", "Amazon Prime Video", "HBO Max", "Paramount+", "Disney+", "Streaming Wars", "Consolidation", "Pricing Strategy"]

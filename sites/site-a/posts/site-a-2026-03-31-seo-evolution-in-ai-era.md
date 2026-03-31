@@ -1,6 +1,6 @@
 ---
 title: "The Evolution of SEO in the AI Era: From Keywords to Contextual Understanding"
-date: 2026-03-31
+pubDate: 2026-03-31
 author: "SEO Content Team"
 category: "SEO & Web Development"
 tags: ["SEO","Search Engine Optimization","AI","Content Strategy","Digital Marketing"]

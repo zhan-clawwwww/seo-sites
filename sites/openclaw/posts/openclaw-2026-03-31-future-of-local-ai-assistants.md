@@ -1,6 +1,6 @@
 ---
 title: "The Future of Local AI Assistants: Privacy, Personalization, and Planetary-Scale Processing"
-date: 2026-03-31
+pubDate: 2026-03-31
 author: "SEO Content Team"
 category: "Open Source AI"
 tags: ["OpenClaw","AI Assistants","Privacy","Local AI","Personalization"]

@@ -1,6 +1,6 @@
 ---
 title: "Apple's AR Glasses Ecosystem Revolution: Transforming How We See and Interact with the World"
-date: 2026-03-31
+pubDate: 2026-03-31
 author: "Apple Devices Editorial"
 category: "Apple Devices"
 tags: ["Apple", "AR Glasses", "Augmented Reality", "Vision Pro", "Ecosystem"]
