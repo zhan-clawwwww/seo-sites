@@ -1,55 +1,55 @@
 {
   "date": "2026-03-30",
   "totalChannels": 8,
-  "totalWords": 6797,
-  "averageWords": 850,
+  "totalWords": 11968,
+  "averageWords": 1496,
   "articles": [
     {
       "channel": "ai",
       "filename": "ai-2026-03-30-analysis.md",
-      "wordCount": 956,
+      "wordCount": 1765,
       "title": "The AI Revolution 2026: Comprehensive Analysis of Breakthroughs, Ethics, and Future Trajectories"
     },
     {
       "channel": "apple",
       "filename": "apple-2026-03-30-analysis.md",
-      "wordCount": 854,
+      "wordCount": 1458,
       "title": "Apple Ecosystem 2026: Strategic Analysis of Innovation, Market Position, and Future Product Roadmap"
     },
     {
       "channel": "openclaw",
       "filename": "openclaw-2026-03-30-analysis.md",
-      "wordCount": 837,
+      "wordCount": 1466,
       "title": "Open Source AI Tools 2026: Democratization of Artificial Intelligence and Community-Driven Innovation"
     },
     {
       "channel": "site-a",
       "filename": "site-a-2026-03-30-analysis.md",
-      "wordCount": 839,
+      "wordCount": 1468,
       "title": "SEO & Web Development 2026: Technical Evolution, Algorithm Updates, and Digital Marketing Strategies"
     },
     {
       "channel": "streaming",
       "filename": "streaming-2026-03-30-analysis.md",
-      "wordCount": 829,
+      "wordCount": 1454,
       "title": "Streaming Wars 2026: Market Analysis, Content Strategies, and Technological Innovation in Entertainment"
     },
     {
       "channel": "tesla",
       "filename": "tesla-2026-03-30-analysis.md",
-      "wordCount": 826,
+      "wordCount": 1452,
       "title": "Electric Vehicle Industry 2026: Tesla's Dominance, Competition Analysis, and Sustainable Mobility Future"
     },
     {
       "channel": "vpn-usa",
       "filename": "vpn-usa-2026-03-30-analysis.md",
-      "wordCount": 833,
+      "wordCount": 1458,
       "title": "Digital Privacy & VPN Technology 2026: Security Challenges, Regulatory Landscape, and Protection Strategies"
     },
     {
       "channel": "web3",
       "filename": "web3-2026-03-30-analysis.md",
-      "wordCount": 823,
+      "wordCount": 1447,
       "title": "Web3 & Blockchain 2026: Decentralized Future, Cryptocurrency Evolution, and Digital Asset Management"
     }
   ]
