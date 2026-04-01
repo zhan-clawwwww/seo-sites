@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+﻿!/usr/bin/env node
 
 /**
  * 涓?涓閬撶敓鎴愭繁搴﹀垎鏋愭枃绔狅紙4000+瀛楄嫳鏂囷級
@@ -400,7 +400,7 @@ async function main() {
     execSync(`cd "${PROJECT_PATH}" && git add .`, { stdio: 'inherit' });
     execSync(`cd "${PROJECT_PATH}" && git commit -m "SEO鏂囩珷鏇存柊 ${TODAY}: 涓?涓閬撶敓鎴愭繁搴﹀垎鏋愭枃绔?`, { stdio: 'inherit' });
     execSync(`cd "${PROJECT_PATH}" && git push`, { stdio: 'inherit' });
-    console.log('鉁?GitHub鎺ㄩ€佹垚鍔?);
+    console.log('鉁?GitHub推送成功);
   } catch (error) {
     console.log('鈿狅笍 GitHub鎺ㄩ€佸け璐ワ紙鍙兘鏃犻渶鎻愪氦鎴栨棤缃戠粶杩炴帴锛?);
   }
