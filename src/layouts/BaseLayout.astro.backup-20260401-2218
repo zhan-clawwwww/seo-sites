@@ -1,4 +1,4 @@
-﻿---
+---
 import { CHANNEL_LABELS, postsHubLabel, postsNavLabel, isPathActive } from "../lib/channel-nav";
 import { getPublicRootBaseUrl } from "../lib/root-base-url";
 import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
@@ -53,9 +53,9 @@ type Props = {
     adSlot?: string;
   };
   hasAffiliates?: boolean;
-  /** 榛樿 index,follow锛涜崏绋块〉鍙紶 noindex,nofollow */
+  /** 默认 index,follow；草稿页可传 noindex,nofollow */
   robots?: string;
-  /** 鏍圭珯椤舵爮鍝佺墝鏂囨锛堝棣栭〉鏍囪锛夛紱榛樿 wordok.top */
+  /** 根站顶栏品牌文案（如首页标语）；默认 wordok.top */
   rootHeaderLabel?: string;
 };
 
@@ -101,7 +101,7 @@ const pathname = Astro.url.pathname;
 <!doctype html>
 <html lang={lang || "en"}>
   <head>
-    {/* Ezoic Privacy Scripts - 蹇呴』鍦ㄦ渶椤堕儴鍔犺浇 */}
+    {/* Ezoic Privacy Scripts - 必须在最顶部加载 */}
     <script is:inline data-cfasync="false" src="https://cmp.gatekeeperconsent.com/min.js"></script>
     <script is:inline data-cfasync="false" src="https://the.gatekeeperconsent.com/cmp.min.js"></script>
     
@@ -121,7 +121,7 @@ const pathname = Astro.url.pathname;
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0c0a12" />
     <meta name="generator" content={Astro.generator} />
-    <!-- 榛樿鍏佽鏀跺綍锛涗粎鑽夌鎴?frontmatter.robots 瑕嗙洊鏃朵负 noindex -->
+    <!-- 默认允许收录；仅草稿或 frontmatter.robots 覆盖时为 noindex -->
     <meta name="robots" content={robotsContent} />
     <title>{title}</title>
     {description ? <meta name="description" content={description} /> : null}
@@ -244,7 +244,7 @@ const pathname = Astro.url.pathname;
     ) : null}
 
     <style is:global>
-      /* === Design System (purple 鈫?cyan, light/dark) === */
+      /* === Design System (purple ↔ cyan, light/dark) === */
       :root {
         --color-bg: #fafafa;
         --color-surface: #f4f4f5;
@@ -1188,7 +1188,7 @@ const pathname = Astro.url.pathname;
         color: var(--color-text-secondary);
       }
       .affiliate-features span::after {
-        content: " 路 ";
+        content: " · ";
       }
       .affiliate-features span:last-child::after {
         content: "";
@@ -1289,11 +1289,6 @@ const pathname = Astro.url.pathname;
           <div id="search" class="header-search"></div>
         </div>
       </header>
-    <!-- Ezoic Header Ad -->
-    <div class="ad-slot ezoic-ad ezoic-ad-1" data-ezoic-ad-unit-id="header-ad">
-      <!-- Header advertisement will be loaded here -->
-    </div>
-
     ) : null}
 
     {siteSlug && siteName ? (
@@ -1366,28 +1361,18 @@ const pathname = Astro.url.pathname;
     ) : null}
 
     <main class="main-content">
-    <!-- Ezoic Sidebar Ad -->
-    <div class="ad-slot ezoic-ad ezoic-ad-2" data-ezoic-ad-unit-id="sidebar-ad">
-      <!-- Sidebar advertisement will be loaded here -->
-    </div>
-
       <slot />
     </main>
 
     {!siteSlug ? (
-      
-    <!-- Ezoic Footer Ad -->
-    <div class="ad-slot ezoic-ad ezoic-ad-4" data-ezoic-ad-unit-id="footer-ad">
-      <!-- Footer advertisement will be loaded here -->
-    </div>
-<footer class="root-discovery-footer" aria-label="XML sitemaps and robots">
+      <footer class="root-discovery-footer" aria-label="XML sitemaps and robots">
         <p>
           <a href={sitemapIndexHref}>Sitemap index (XML)</a>
-          <span aria-hidden="true"> 路 </span>
+          <span aria-hidden="true"> · </span>
           <a href={sitemapUrlsetHref}>Full URL list (XML)</a>
-          <span aria-hidden="true"> 路 </span>
+          <span aria-hidden="true"> · </span>
           <a href={htmlSitemapHref}>HTML site map</a>
-          <span aria-hidden="true"> 路 </span>
+          <span aria-hidden="true"> · </span>
           <a href={robotsTxtHref}>robots.txt</a>
         </p>
       </footer>
@@ -1422,18 +1407,18 @@ const pathname = Astro.url.pathname;
               <a href={`/${siteSlug}/sitemap.xml`}>Sitemap</a>
             </div>
           </div>
-          {/* 鍏ㄩ閬撳叧閿叆鍙ｏ細澧炲己浠庝换鎰忛〉闈㈠埌鍚勭珯棣栭〉/鍒楄〃/鏍忕洰鐨勭埇鍙栬矾寰?*/}
+          {/* 全频道关键入口：增强从任意页面到各站首页/列表/栏目的爬取路径 */}
           <nav class="footer-channel-hubs" aria-label="All wordok.top channels">
             <p class="footer-hub-title">Explore all channels</p>
             <div class="footer-hub-row">
               {allSites.map((s) => (
                 <span class="footer-hub-group">
                   <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
-                  <span class="footer-hub-sep"> 路 </span>
+                  <span class="footer-hub-sep"> · </span>
                   <a href={`/${s.slug}/posts/`}>{postsHubLabel(s.slug)}</a>
-                  <span class="footer-hub-sep"> 路 </span>
+                  <span class="footer-hub-sep"> · </span>
                   <a href={`/${s.slug}/ai-frontiers/`}>AI Frontiers</a>
-                  <span class="footer-hub-sep"> 路 </span>
+                  <span class="footer-hub-sep"> · </span>
                   <a href={`/${s.slug}/privacy-security/`}>Privacy</a>
                 </span>
               ))}
@@ -1444,7 +1429,7 @@ const pathname = Astro.url.pathname;
       </footer>
     ) : null}
 
-    {/* Pagefind Search (鍔ㄦ€佸姞杞斤紝SSG 鏋勫缓鍚庡彲鐢? */}
+    {/* Pagefind Search (动态加载，SSG 构建后可用) */}
     <script is:inline>
       (function() {
         var el = document.getElementById('search');
@@ -1468,7 +1453,7 @@ const pathname = Astro.url.pathname;
       })();
     </script>
 
-    {/* Web Vitals 鐩戞帶 */}
+    {/* Web Vitals 监控 */}
     <script is:inline>
       (function() {
         function sendMetric(name, value, id) {
@@ -1526,4 +1511,3 @@ const pathname = Astro.url.pathname;
     {/* Cookie banner removed - static site, no login required */}
   </body>
 </html>
-
