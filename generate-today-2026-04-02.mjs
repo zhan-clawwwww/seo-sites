@@ -251,7 +251,7 @@ async function main() {
             // Create YAML frontmatter
             const frontmatter = `---
 title: "${articleTitle}"
-date: ${TODAY}
+pubDate: ${TODAY}
 author: "WordOK Tech"
 category: "${channel.category}"
 tags: ${JSON.stringify(channel.tags)}
@@ -283,7 +283,7 @@ ${articleContent}`;
         
         const indexContent = `---
 title: "${aiTitle}"
-date: ${TODAY}
+pubDate: ${TODAY}
 author: "WordOK Tech"
 category: "${aiChannel.category}"
 tags: ${JSON.stringify(aiChannel.tags)}
