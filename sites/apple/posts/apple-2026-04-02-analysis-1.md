@@ -1,6 +1,6 @@
----
+﻿---
 title: "Apple Intelligence in 2026: Comprehensive Analysis and Future Outlook"
-date: 2026-04-02
+pubDate: 2026-04-02
 author: "WordOK Tech"
 category: "Technology"
 tags: ["iPhone","Mac","iOS","Apple Ecosystem","Technology"]

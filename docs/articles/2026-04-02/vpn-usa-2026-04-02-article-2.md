@@ -1,6 +1,6 @@
----
+﻿---
 title: "Privacy Laws in 2026: Comprehensive Analysis and Future Outlook"
-date: 2026-04-02
+pubDate: 2026-04-02
 author: "WordOK Tech"
 category: "Security"
 tags: ["VPN","Security","Privacy","Cyber Security","Encryption"]
