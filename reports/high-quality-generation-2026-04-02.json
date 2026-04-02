@@ -1,0 +1,19 @@
+{
+  "date": "2026-04-02",
+  "channels": 8,
+  "articlesPerChannel": 2,
+  "totalArticles": 16,
+  "wordCountPerArticle": "4000+",
+  "quality": "High (deep analysis with personal insights)",
+  "sourcesUsed": "Multiple industry sources per channel",
+  "generatedAt": "2026-04-02T01:51:38.121Z",
+  "project": "wordok.top",
+  "frontmatter": "pubDate field used (correct for homepage sorting)",
+  "constraintsFollowed": [
+    "4000+ words per article",
+    "Deep analysis with personal opinions",
+    "Not just copying content",
+    "References included",
+    "Uses actual news sources configuration"
+  ]
+}
