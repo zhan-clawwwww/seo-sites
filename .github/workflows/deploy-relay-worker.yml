@@ -1,0 +1,40 @@
+# 仅当 token-relay/worker 变更时部署 Cloudflare Worker（与 Astro Pages 工作流独立）
+name: Deploy Token Relay Worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "token-relay/worker/**"
+      - ".github/workflows/deploy-relay-worker.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: token-relay/worker/package-lock.json
+
+      - name: Install & type-check
+        working-directory: token-relay/worker
+        run: |
+          npm ci
+          npm run type-check
+
+      - name: Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: token-relay/worker
+          command: deploy
