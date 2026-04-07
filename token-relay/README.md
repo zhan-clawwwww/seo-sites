@@ -79,7 +79,16 @@ npm run build
 
 ### 4. GitHub Actions（Worker 单独工作流）
 
-见 `.github/workflows/deploy-relay-worker.yml`。需在仓库 Secrets 中配置 `CLOUDFLARE_API_TOKEN`（及按需 `CLOUDFLARE_ACCOUNT_ID`）。
+见 `.github/workflows/deploy-relay-worker.yml`。
+
+**成功部署 Worker 需同时满足：**
+
+1. 仓库 Secret：`CLOUDFLARE_API_TOKEN`（Cloudflare → 我的个人资料 → API 令牌，需含 Workers 编辑等权限）。
+2. `token-relay/worker/wrangler.toml` 中 **KV id 已替换为真实值**，不得再含 `REPLACE_WITH_YOUR_*` 占位符。
+
+若任一不满足，工作流会 **跳过 `wrangler deploy` 且仍为绿色成功**，避免 `npx wrangler` 报错导致整站流水线失败。准备就绪后 push 一次 `token-relay/worker/` 即可触发真实部署。
+
+多 Cloudflare 账号时可在 `wrangler-action` 中增加 `accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}`。
 
 ---
 
