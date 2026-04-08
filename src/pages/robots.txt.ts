@@ -15,6 +15,8 @@ export const GET: APIRoute = () => {
   const lines: string[] = [
     "User-agent: *",
     "Allow: /",
+    "# Token 中转控制台无 SEO 价值",
+    "Disallow: /relay/dashboard/",
     "",
     "# Sitemaps (index + full urlset + per-channel — Google Search Console)",
     `Sitemap: ${toCanonical(rootBaseUrl, "/sitemap_index.xml")}`,

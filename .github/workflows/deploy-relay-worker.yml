@@ -1,0 +1,62 @@
+# 仅当 token-relay/worker 变更时尝试部署 Cloudflare Worker（与 Astro Pages 独立）
+# 若未配置 Secret 或 wrangler.toml 仍为占位 KV ID，则跳过部署且工作流仍为成功，避免 main 上出现失败红叉。
+name: Deploy Token Relay Worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "token-relay/worker/**"
+      - ".github/workflows/deploy-relay-worker.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: token-relay/worker/package-lock.json
+
+      - name: Install & type-check
+        working-directory: token-relay/worker
+        run: |
+          npm ci
+          npm run type-check
+
+      - name: Check Cloudflare deploy prerequisites
+        id: prereq
+        working-directory: token-relay/worker
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -e
+          if [ -z "$CF_TOKEN" ]; then
+            echo "::notice::Worker 部署已跳过：未设置仓库 Secret CLOUDFLARE_API_TOKEN。"
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if grep -q 'REPLACE_WITH_YOUR' wrangler.toml; then
+            echo "::notice::Worker 部署已跳过：请在 token-relay/worker/wrangler.toml 中替换 KV namespace id（勿保留 REPLACE_WITH_YOUR_*）。"
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+          echo "::notice::条件满足，将执行 wrangler deploy。"
+
+      - name: Deploy Worker to Cloudflare
+        if: steps.prereq.outputs.ready == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: token-relay/worker
+          command: deploy

@@ -1,0 +1,85 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { resolveRootSiteAnalytics } from "../../lib/root-analytics";
+import { getPublicRootBaseUrl } from "../../lib/root-base-url";
+import { getAllSites, getSiteConfig, toCanonical } from "../../lib/site-data";
+
+const firstSite = getAllSites()[0];
+const rootAnalytics = resolveRootSiteAnalytics(
+  firstSite ? getSiteConfig(firstSite.slug)?.analytics : undefined,
+);
+const rootBaseUrl = getPublicRootBaseUrl();
+const canonical = toCanonical(rootBaseUrl, "/relay/docs/");
+const relayOrigin = (import.meta.env.PUBLIC_RELAY_URL as string | undefined)?.replace(/\/$/, "") ?? "https://relay.wordok.top";
+---
+
+<BaseLayout
+  title="Token 中转 API 文档 — wordok.top"
+  description="relay.wordok.top 的路径约定、鉴权方式、OpenAI / Anthropic / Gemini 示例与速率限制说明。"
+  canonical={canonical}
+  analytics={rootAnalytics}
+>
+  <main class="relay-docs">
+    <h1>Token 中转 API 文档</h1>
+    <p class="muted">基础地址：<code>{relayOrigin}</code></p>
+
+    <h2>鉴权</h2>
+    <p>注册成功后，所有代理请求需携带：</p>
+    <pre><code>Authorization: Bearer &lt;relay-token&gt;</code></pre>
+
+    <h2>注册 Key</h2>
+    <pre><code>{`POST ${relayOrigin}/api/keys/submit
+Content-Type: application/json
+
+{ "provider": "openai"|"anthropic"|"gemini", "apiKey": "...", "refCode": "可选" }`}</code></pre>
+
+    <h2>OpenAI 兼容路径</h2>
+    <p>前缀 <code>/v1/</code>，例如 <code>/v1/chat/completions</code>、<code>/v1/embeddings</code>。公开 <code>GET /v1/models</code> 返回内置列表（非上游实时列表）。</p>
+
+    <h2>Anthropic</h2>
+    <p>使用 <code>/v1/messages</code> 或 <code>/messages</code>（将规范为 <code>/v1/messages</code>）。需携带 <code>anthropic-version</code> 等官方要求头（可原样透传）。</p>
+
+    <h2>Gemini</h2>
+    <p>请求路径使用前缀 <code>/gemini/</code>，后接官方路径，例如：</p>
+    <pre><code>{relayOrigin}/gemini/v1beta/models/gemini-1.5-flash:generateContent</code></pre>
+
+    <h2>推广</h2>
+    <ul>
+      <li><code>POST /api/ref/create</code> — 创建推广码（需 Bearer）。</li>
+      <li><code>GET /api/ref/stats</code> — 查询点击与转化（需 Bearer）。</li>
+      <li><code>GET /api/ref/&lt;code&gt;?target=nordvpn</code> — 302 至联盟链接（公开）。</li>
+    </ul>
+
+    <h2>健康检查</h2>
+    <p><code>GET /health</code>、<code>GET /api/stats</code>（公开统计）。</p>
+
+    <p><a href={toCanonical(rootBaseUrl, "/relay/")}>← 返回中转首页</a></p>
+  </main>
+</BaseLayout>
+
+<style>
+  .relay-docs {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    line-height: 1.65;
+  }
+  .relay-docs h1 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+  .relay-docs h2 {
+    margin-top: 1.75rem;
+    font-size: 1.15rem;
+  }
+  .muted {
+    color: var(--muted, #666);
+  }
+  pre {
+    padding: 1rem;
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 6px;
+  }
+</style>

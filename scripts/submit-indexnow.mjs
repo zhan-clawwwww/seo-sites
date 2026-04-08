@@ -11,7 +11,9 @@
  *
  * 前提：
  *   1. 在网站根目录放置验证文件 /public/<YOUR_API_KEY>.txt，内容为 API Key 本身
- *   2. 填写下方 INDEXNOW_KEY（在 https://www.bing.com/indexnow 申请）
+ *   2. 设置环境变量 INDEXNOW_KEY（在 https://www.bing.com/indexnow 申请），勿提交到 Git
+ *      例（PowerShell）: $env:INDEXNOW_KEY="你的key"; node scripts/submit-indexnow.mjs --site vpn-usa
+ *      例（Node 20+）: node --env-file=.env scripts/submit-indexnow.mjs --site vpn-usa
  *   3. 部署后再运行
  */
 
@@ -23,8 +25,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, "..");
 
 // ── 配置区 ──────────────────────────────────────────────────
-// 在 IndexNow 官网申请 key，或直接生成一个 UUID
-const INDEXNOW_KEY = "by687dm0txw1ovfinrpkhg2z5q3jeasu";
+const INDEXNOW_KEY = (process.env.INDEXNOW_KEY ?? "").trim();
 
 // 站点配置（从 config.json 读取）
 function loadSiteConfig(siteSlug) {
@@ -42,8 +43,8 @@ function getPostSlugs(siteSlug) {
 }
 
 async function submitToIndexNow(siteSlug) {
-  if (INDEXNOW_KEY === "REPLACE_WITH_YOUR_INDEXNOW_KEY") {
-    console.error("❌ 请先在脚本中填写 INDEXNOW_KEY！");
+  if (!INDEXNOW_KEY) {
+    console.error("❌ 请设置环境变量 INDEXNOW_KEY（勿写入仓库）。参见脚本顶部注释。");
     process.exit(1);
   }
 

@@ -1,0 +1,40 @@
+name = "token-relay"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+# 绑定到子域名路由
+routes = [
+  { pattern = "relay.wordok.top/*", zone_name = "wordok.top" }
+]
+
+# KV Namespace 绑定（部署前需替换为真实 ID）
+# 创建命令: npx wrangler kv:namespace create "RELAY_KV"
+[[kv_namespaces]]
+binding = "RELAY_KV"
+id = "REPLACE_WITH_YOUR_KV_ID"
+preview_id = "REPLACE_WITH_YOUR_PREVIEW_KV_ID"
+
+# 环境变量（非敏感值）
+[vars]
+OPENAI_BASE = "https://api.openai.com"
+ANTHROPIC_BASE = "https://api.anthropic.com"
+GEMINI_BASE = "https://generativelanguage.googleapis.com"
+RATE_LIMIT_PER_MIN = "20"
+ENVIRONMENT = "development"
+
+# 生产环境配置
+[env.production]
+routes = [
+  { pattern = "relay.wordok.top/*", zone_name = "wordok.top" }
+]
+
+[[env.production.kv_namespaces]]
+binding = "RELAY_KV"
+id = "REPLACE_WITH_YOUR_PROD_KV_ID"
+
+[env.production.vars]
+OPENAI_BASE = "https://api.openai.com"
+ANTHROPIC_BASE = "https://api.anthropic.com"
+GEMINI_BASE = "https://generativelanguage.googleapis.com"
+RATE_LIMIT_PER_MIN = "20"
+ENVIRONMENT = "production"

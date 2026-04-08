@@ -276,18 +276,18 @@ https://wordok.top/vpn-usa/posts/free-vpn-usa-no-credit-card/
 - 新建文件：`public/a3f9k2m8.txt`
 - 文件内容：`a3f9k2m8`
 
-**第 3 步：修改脚本里的 Key**
+**第 3 步：设置环境变量（勿把 Key 提交到 Git）**
 
-打开 `scripts/submit-indexnow.mjs`，找到 `REPLACE_WITH_YOUR_INDEXNOW_KEY`，替换为你的 Key。
+在 `.env` 中设置 `INDEXNOW_KEY=你的key`，或每次运行前在终端设置（见 `scripts/submit-indexnow.mjs` 顶部注释）。
 
 **第 4 步：推送并运行**
 ```powershell
 git add -A
-git commit -m "config: add indexnow key"
+git commit -m "chore: ..."
 git push
 
-# 等网站部署完成（约 3-5 分钟）后运行：
-npm run submit:indexnow:vpn
+# 等网站部署完成（约 3-5 分钟）后运行（示例）：
+# $env:INDEXNOW_KEY="你的key"; npm run submit:indexnow:vpn
 ```
 
 ---
