@@ -11,7 +11,7 @@ export const prerender = true;
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://wordok.top/sbti/" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <style>
+  <style is:global>
     :root {
       --bg: #fafafa;
       --panel: #ffffff;
@@ -207,7 +207,7 @@ export const prerender = true;
     .question {
       border: 1px solid var(--line);
       border-radius: 18px;
-      padding: 18px;
+      padding: 0;
       background: linear-gradient(180deg, var(--panel), color-mix(in srgb, var(--bg) 35%, var(--panel)));
       position: relative; overflow: hidden;
     }
@@ -220,7 +220,8 @@ export const prerender = true;
     }
     .question-meta {
       display: flex; justify-content: space-between; align-items: center;
-      gap: 12px; margin-bottom: 10px;
+      gap: 12px; padding: 12px 16px 10px 18px;
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
       color: var(--muted); font-size: 12px;
     }
     .badge {
@@ -235,14 +236,57 @@ export const prerender = true;
       background: color-mix(in srgb, var(--bg) 70%, var(--panel));
       border: 1px solid var(--line);
     }
+    /* question-stem: big number + title */
+    .question-stem {
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      gap: 10px 14px;
+      align-items: start;
+      padding: 14px 16px 16px 18px;
+    }
+    @media (max-width: 480px) {
+      .question-stem { grid-template-columns: 2.5rem 1fr; padding-left: 14px; }
+    }
+    .question-index {
+      font-size: clamp(24px, 5vw, 30px);
+      font-weight: 800; line-height: 1;
+      letter-spacing: -0.04em; font-variant-numeric: tabular-nums;
+      background: var(--gradient);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      user-select: none; padding-top: 3px;
+    }
+    .question-title-wrap { min-width: 0; }
     .question-title {
       font-size: 15px; line-height: 1.75; white-space: pre-wrap;
-      font-weight: 600; color: var(--text); padding-left: 6px;
+      font-weight: 600; color: var(--text); margin: 0;
     }
-    .options { display: grid; gap: 10px; margin-top: 14px; }
+    /* options head */
+    .options-head {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 10px; padding-top: 2px;
+    }
+    .options-head-icon {
+      display: inline-block; width: 6px; height: 6px;
+      border-radius: 50%; background: var(--gradient); flex-shrink: 0;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+    .options-head-text {
+      font-size: 11px; font-weight: 700;
+      color: var(--muted); letter-spacing: 0.06em;
+    }
+    /* ===== Options ===== */
+    .options {
+      display: flex; flex-direction: column; gap: 0;
+      padding: 0 14px 16px 18px; margin-top: 0;
+    }
     .option {
-      display: flex; align-items: flex-start; gap: 12px;
-      padding: 13px 14px; border-radius: 14px;
+      display: grid;
+      grid-template-columns: 18px auto 1fr;
+      align-items: start;
+      column-gap: 12px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      border-radius: 14px;
       border: 1px solid var(--line); background: var(--panel);
       cursor: pointer;
       transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
@@ -265,16 +309,35 @@ export const prerender = true;
       box-shadow: inset 0 0 0 1px var(--accent-border), 0 4px 16px rgba(124, 58, 237, 0.12);
       transform: translateY(0);
     }
+    .option:last-child { margin-bottom: 0; }
     .option input {
-      margin-top: 3px; accent-color: var(--accent);
-      transform: scale(1.1); flex-shrink: 0; cursor: pointer;
+      margin-top: 10px; accent-color: var(--accent);
+      width: 16px; height: 16px; flex-shrink: 0; cursor: pointer;
+    }
+    .option-key {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 2.1rem; height: 2.1rem;
+      margin-top: 4px; padding: 0 6px;
+      border-radius: 9px;
+      border: 1px solid color-mix(in srgb, var(--line) 70%, var(--accent) 15%);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--soft) 80%, var(--panel)), var(--panel));
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    @media (prefers-color-scheme: dark) {
+      .option-key { background: linear-gradient(180deg, var(--soft), var(--panel)); }
     }
     .option-code {
-      font-weight: 800; font-size: 14px; color: var(--accent);
-      min-width: 22px; flex-shrink: 0;
+      font-weight: 800; font-size: 13px; color: var(--accent); line-height: 1;
     }
-    .option:has(input:checked) .option-code { color: var(--accent-strong); }
-    .option-text { color: var(--muted); font-size: 14px; line-height: 1.65; }
+    .option:has(input:checked) .option-key {
+      background: var(--gradient); border-color: transparent;
+      box-shadow: 0 3px 10px rgba(109, 40, 217, 0.25);
+    }
+    .option:has(input:checked) .option-code { color: #fff; }
+    .option-text {
+      color: var(--muted); font-size: 14px; line-height: 1.65;
+      padding-top: 6px;
+    }
     @media (prefers-color-scheme: dark) {
       .option-text { color: color-mix(in srgb, var(--text) 75%, var(--muted)); }
     }
