@@ -111,7 +111,7 @@ const pathname = Astro.url.pathname;
       window.ezstandalone = window.ezstandalone || {};
       ezstandalone.cmd = ezstandalone.cmd || [];
     </script>
-    <script is:inline src="//ezoicanalytics.com/analytics.js"></script>
+    <script is:inline async src="//ezoicanalytics.com/analytics.js"></script>
     
     <meta charset="utf-8" />
     <meta
@@ -1444,27 +1444,39 @@ const pathname = Astro.url.pathname;
       </footer>
     ) : null}
 
-    {/* Pagefind Search (鍔ㄦ€佸姞杞斤紝SSG 鏋勫缓鍚庡彲鐢? */}
+    {/* Pagefind：延后到首次交互或浏览器空闲时再加载，减轻首屏 */}
     <script is:inline>
       (function() {
-        var el = document.getElementById('search');
-        if (!el) return;
-        var link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = '/pagefind/pagefind-ui.css';
-        document.head.appendChild(link);
-        var script = document.createElement('script');
-        script.src = '/pagefind/pagefind-ui.js';
-        script.onload = function() {
-          new PagefindUI({
-            element: '#search',
-            showSubResults: false,
-            showImages: false,
-            resetStyles: false
-          });
-        };
-        script.onerror = function() {};
-        document.head.appendChild(script);
+        var started = false;
+        function loadPagefind() {
+          if (started) return;
+          started = true;
+          var el = document.getElementById('search');
+          if (!el) return;
+          var link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = '/pagefind/pagefind-ui.css';
+          document.head.appendChild(link);
+          var script = document.createElement('script');
+          script.src = '/pagefind/pagefind-ui.js';
+          script.onload = function() {
+            new PagefindUI({
+              element: '#search',
+              showSubResults: false,
+              showImages: false,
+              resetStyles: false
+            });
+          };
+          script.onerror = function() {};
+          document.head.appendChild(script);
+        }
+        document.addEventListener('pointerdown', loadPagefind, { capture: true, passive: true, once: true });
+        document.addEventListener('keydown', loadPagefind, { capture: true, once: true });
+        if (window.requestIdleCallback) {
+          requestIdleCallback(loadPagefind, { timeout: 3500 });
+        } else {
+          setTimeout(loadPagefind, 2000);
+        }
       })();
     </script>
 
