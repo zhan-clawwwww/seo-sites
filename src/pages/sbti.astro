@@ -198,75 +198,222 @@ export const prerender = true;
       box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 35%, transparent);
     }
     .progress-text { color: var(--muted); font-size: 13px; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
-    .question-list { display: grid; gap: 16px; min-height: 80px; }
+    .question-list { display: grid; gap: 18px; min-height: 80px; }
     .question-list .quiz-loading { margin: 0; padding: 36px 12px; text-align: center; color: var(--muted); font-size: 14px; letter-spacing: 0.02em; }
     .question {
-      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid color-mix(in srgb, var(--line) 88%, var(--accent) 6%);
       border-radius: var(--radius);
-      padding: 18px 18px 16px;
-      background: linear-gradient(180deg, var(--surface) 0%, color-mix(in srgb, var(--soft) 35%, var(--surface)) 100%);
-      box-shadow: var(--shadow-sm);
+      padding: 0;
+      background:
+        linear-gradient(145deg, color-mix(in srgb, var(--soft) 45%, var(--surface)) 0%, var(--surface) 38%, color-mix(in srgb, #ecfeff 22%, var(--surface)) 100%);
+      box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.75);
     }
-    .question-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 12px; color: var(--muted); }
+    @media (prefers-color-scheme: dark) {
+      .question {
+        background: linear-gradient(145deg, color-mix(in srgb, var(--surface) 88%, #312e81) 0%, var(--surface) 45%, color-mix(in srgb, var(--surface) 90%, #164e63) 100%);
+        box-shadow: var(--shadow-sm);
+      }
+    }
+    .question::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: var(--radius) 0 0 var(--radius);
+      background: var(--gradient);
+      opacity: 0.85;
+    }
+    .question-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 14px 16px 12px 20px;
+      font-size: 12px;
+      color: var(--muted);
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+      background: color-mix(in srgb, var(--surface) 65%, transparent);
+    }
     .badge {
       display: inline-flex;
       align-items: center;
-      padding: 5px 11px;
-      background: var(--soft);
-      border: 1px solid color-mix(in srgb, var(--line) 80%, var(--accent) 15%);
+      gap: 6px;
+      padding: 6px 12px;
+      background: linear-gradient(180deg, var(--soft), color-mix(in srgb, var(--soft) 70%, var(--surface)));
+      border: 1px solid color-mix(in srgb, var(--line) 75%, var(--accent) 12%);
       border-radius: 999px;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 11px;
-      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+      color: var(--accent);
     }
-    .question-title { font-size: 16px; line-height: 1.72; white-space: pre-wrap; margin-bottom: 14px; color: var(--text); }
-    .options { display: grid; gap: 10px; }
-    /* 三列网格：单选 · 选项字母 · 文案 */
+    .question-dim {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--bg) 70%, var(--surface));
+      border: 1px solid var(--line);
+    }
+    .question-stem {
+      display: grid;
+      grid-template-columns: 3.25rem 1fr;
+      gap: 12px 14px;
+      align-items: start;
+      padding: 16px 16px 18px 18px;
+    }
+    @media (max-width: 480px) {
+      .question-stem { grid-template-columns: 2.75rem 1fr; padding-left: 16px; }
+    }
+    .question-index {
+      font-size: clamp(26px, 6vw, 32px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      font-variant-numeric: tabular-nums;
+      background: linear-gradient(165deg, color-mix(in srgb, var(--accent) 42%, var(--line)), color-mix(in srgb, #0891b2 35%, var(--line)));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      user-select: none;
+      padding-top: 2px;
+    }
+    @media (prefers-color-scheme: dark) {
+      .question-index {
+        background: linear-gradient(165deg, color-mix(in srgb, var(--accent) 55%, var(--muted)), color-mix(in srgb, #22d3ee 40%, var(--muted)));
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+    }
+    .question-title-wrap { min-width: 0; }
+    .question-title {
+      font-size: 16px;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      margin: 0;
+      color: var(--text);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 0 14px 16px 18px;
+      margin-top: 2px;
+    }
+    .options-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding-top: 4px;
+    }
+    .options-head-icon {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gradient);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+      flex-shrink: 0;
+    }
+    .options-head-text {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    /* 单选 · 字母键帽 · 文案 */
     .option {
       display: grid;
-      grid-template-columns: 20px 1.75rem 1fr;
+      grid-template-columns: 20px auto 1fr;
       align-items: start;
       column-gap: 12px;
-      row-gap: 4px;
-      padding: 14px 16px;
+      row-gap: 6px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
       border-radius: 14px;
       border: 1px solid var(--line);
-      background: var(--surface);
+      background: linear-gradient(180deg, #ffffff, color-mix(in srgb, var(--bg) 55%, #ffffff));
       cursor: pointer;
       transition: border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
     }
+    @media (prefers-color-scheme: dark) {
+      .option {
+        background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 92%, var(--bg)), var(--surface));
+      }
+    }
+    .option:last-child { margin-bottom: 0; }
     .option:hover {
-      border-color: var(--accent-border);
-      background: color-mix(in srgb, var(--soft) 55%, var(--surface));
-      box-shadow: 0 4px 14px rgba(91, 33, 182, 0.07);
+      border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+      background: linear-gradient(180deg, color-mix(in srgb, var(--soft) 40%, var(--surface)), color-mix(in srgb, var(--soft) 25%, var(--surface)));
+      box-shadow: 0 4px 16px rgba(91, 33, 182, 0.08);
       transform: translateY(-1px);
     }
-    .option:focus-within { outline: 2px solid color-mix(in srgb, var(--accent) 38%, transparent); outline-offset: 2px; }
+    .option:focus-within {
+      outline: 2px solid color-mix(in srgb, var(--accent) 38%, transparent);
+      outline-offset: 2px;
+    }
     .option:has(input:checked) {
       border-color: var(--accent);
-      background: color-mix(in srgb, var(--soft) 70%, var(--surface));
-      box-shadow: inset 0 0 0 1px var(--accent-border), 0 4px 16px rgba(91, 33, 182, 0.1);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--soft) 75%, var(--surface)), color-mix(in srgb, var(--soft) 45%, var(--surface)));
+      box-shadow: inset 0 0 0 1px var(--accent-border), 0 4px 18px rgba(91, 33, 182, 0.12);
       transform: translateY(0);
     }
+    .option:has(input:checked) .option-key {
+      background: var(--gradient);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(91, 33, 182, 0.25);
+    }
+    .option:has(input:checked) .option-code { color: #fff; -webkit-text-fill-color: #fff; }
     .option input {
-      margin: 4px 0 0;
+      margin: 10px 0 0;
       width: 18px;
       height: 18px;
       accent-color: var(--accent);
       flex-shrink: 0;
-      transform: none;
+      cursor: pointer;
+    }
+    .option-key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.25rem;
+      height: 2.25rem;
+      margin-top: 4px;
+      padding: 0 8px;
+      border-radius: 10px;
+      border: 1px solid color-mix(in srgb, var(--line) 70%, var(--accent) 15%);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--soft) 80%, var(--surface)), var(--surface));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      transition: background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, color 0.16s ease;
+    }
+    @media (prefers-color-scheme: dark) {
+      .option-key {
+        background: linear-gradient(180deg, var(--surface-hover), var(--surface));
+        box-shadow: none;
+      }
     }
     .option-code {
       font-weight: 800;
+      font-size: 14px;
       color: var(--accent);
-      line-height: 1.5;
-      padding-top: 2px;
+      line-height: 1;
     }
     .option-text {
       color: var(--text-secondary);
       font-size: 14px;
-      line-height: 1.65;
+      line-height: 1.68;
       min-width: 0;
+      padding-top: 6px;
     }
     .actions-bar {
       display: flex;
