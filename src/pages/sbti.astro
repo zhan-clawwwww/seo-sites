@@ -154,6 +154,16 @@ export const prerender = true;
       color: var(--muted);
       line-height: 1.5;
     }
+    .quiz-credit a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(124, 58, 237, 0.35);
+    }
+    .quiz-credit a:hover { opacity: 0.85; border-bottom-color: var(--accent); }
+    @media (prefers-color-scheme: dark) {
+      .quiz-credit a { border-bottom-color: rgba(167, 139, 250, 0.4); }
+    }
     .quiz-eyebrow {
       display: inline-flex;
       align-items: center;
@@ -509,7 +519,10 @@ export const prerender = true;
       <div class="test-wrap card">
 
         <div class="quiz-hero">
-          <p class="quiz-credit">原作者： B站@蛆肉儿串儿</p>
+          <p class="quiz-credit">
+            原作者：
+            <a href="https://space.bilibili.com/417038183" target="_blank" rel="noopener noreferrer">B站@蛆肉儿串儿</a>
+          </p>
           <div class="quiz-eyebrow">wordok · 31 题 · 仅供娱乐</div>
           <h1>MBTI已经过时，SBTI来了。</h1>
           <p class="sub">共 31 道题，全部选完即可查看你的人格画像。本测试仅供娱乐，别太当真。</p>
