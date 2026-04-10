@@ -21,7 +21,10 @@ const urlGroups: { name: string; urls: { href: string; label: string }[] }[] = [
 
 urlGroups.push({
   name: "首页",
-  urls: [{ href: toCanonical(rootBaseUrl, "/"), label: "wordok.top" }],
+  urls: [
+    { href: toCanonical(rootBaseUrl, "/"), label: "wordok.top" },
+    { href: toCanonical(rootBaseUrl, "/sbti"), label: "SBTI 人格测试" },
+  ],
 });
 
 for (const s of sites) {

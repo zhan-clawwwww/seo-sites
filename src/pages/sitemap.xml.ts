@@ -26,6 +26,7 @@ export const GET: APIRoute = () => {
 
   const urls: UrlEntry[] = [
     { loc: toCanonical(rootBaseUrl, "/"), lastmod: rootLastmod, priority: 1.0, changefreq: "daily" },
+    { loc: toCanonical(rootBaseUrl, "/sbti"), lastmod: rootLastmod, priority: 0.8, changefreq: "weekly" },
     { loc: toCanonical(rootBaseUrl, "/sitemap/"), lastmod: rootLastmod, priority: 0.9, changefreq: "daily" },
   ];
 
