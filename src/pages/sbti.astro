@@ -1,5 +1,14 @@
 ﻿---
 export const prerender = true;
+
+import { resolveRootSiteAnalytics } from "../lib/root-analytics";
+import { getAllSites, getSiteConfig } from "../lib/site-data";
+
+const sites = getAllSites();
+const firstSite = sites[0];
+const analytics = resolveRootSiteAnalytics(
+  firstSite ? getSiteConfig(firstSite.slug)?.analytics : undefined,
+);
 ---
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -11,6 +20,22 @@ export const prerender = true;
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://wordok.top/sbti/" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  {analytics.ga4Id ? (
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+  ) : null}
+  {analytics.ga4Id ? (
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analytics.ga4Id}`}></script>
+  ) : null}
+  {analytics.ga4Id ? (
+    <script define:vars={{ gaId: analytics.ga4Id }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(...args) {
+        window.dataLayer.push(args);
+      }
+      gtag("js", new Date());
+      gtag("config", gaId);
+    </script>
+  ) : null}
   <style is:global>
     :root {
       --bg: #fafafa;
