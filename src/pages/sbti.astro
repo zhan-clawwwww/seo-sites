@@ -10,11 +10,70 @@ export const prerender = true;
     <title>SBTI 人格测试</title>
     <meta name="description" content="SBTI 人格测试，31 题趣味人格画像，仅供娱乐。" />
     <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="https://wordok.top/sbti" />
-    <link rel="stylesheet" href="https://sbti.fancc.de5.net/main.css" />
+    <link rel="canonical" href="https://wordok.top/sbti/" />
+    <link rel="stylesheet" href="/sbti/main.css" />
+    <style>
+      :root {
+        --bg: #fafafa;
+        --panel: #f4f4f5;
+        --text: #18181b;
+        --muted: #52525b;
+        --line: #e4e4e7;
+        --soft: #ede9fe;
+        --accent: #7c3aed;
+        --accent-strong: #6d28d9;
+        --shadow: 0 16px 40px rgba(109, 40, 217, 0.12);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0c0a12;
+          --panel: #16121f;
+          --text: #f4f4f5;
+          --muted: #a1a1aa;
+          --line: #2e2654;
+          --soft: #201a33;
+          --accent: #a78bfa;
+          --accent-strong: #8b5cf6;
+          --shadow: 0 16px 40px rgba(124, 58, 237, 0.22);
+        }
+      }
+
+      .wordok-topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        padding: 10px 0 0;
+      }
+
+      .wordok-home-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--accent-strong);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+        padding: 10px 14px;
+      }
+
+      .wordok-home-link:hover {
+        text-decoration: none;
+        filter: brightness(0.98);
+      }
+    </style>
   </head>
   <body>
     <div class="shell">
+      <div class="wordok-topbar">
+        <a class="wordok-home-link" href="/" aria-label="返回 wordok 首页">
+          ← 返回 wordok 首页
+        </a>
+      </div>
+
       <section id="intro" class="screen active">
         <div class="hero card hero-minimal">
           <h1>MBTI已经过时，SBTI来了。</h1>
@@ -96,6 +155,6 @@ export const prerender = true;
       </section>
     </div>
 
-    <script src="https://sbti.fancc.de5.net/main.js"></script>
+    <script is:inline src="/sbti/main.js"></script>
   </body>
 </html>
