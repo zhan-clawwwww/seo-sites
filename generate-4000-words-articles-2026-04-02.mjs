@@ -19,7 +19,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const PROJECT_PATH = path.resolve(__dirname);
-const TODAY = '2026-04-02';
+/** 用法: node generate-4000-words-articles-2026-04-02.mjs 2026-04-13；省略则使用 UTC 当天 */
+const TODAY = (() => {
+  const arg = process.argv[2]?.trim();
+  if (arg && /^\d{4}-\d{2}-\d{2}$/.test(arg)) return arg;
+  return new Date().toISOString().slice(0, 10);
+})();
 
 // ==================== 约束条件验证 ====================
 console.log('🔍 ==================== 约束条件验证开始 ====================');

@@ -16,7 +16,8 @@
     "submit:indexnow:vpn": "node scripts/submit-indexnow.mjs --site vpn-usa",
     "submit:sitemap": "node scripts/submit-indexnow.mjs --all",
     "submit:indexnow:all-sites": "node scripts/submit-indexnow.mjs --all-sites",
-    "apple:generate": "node scripts/generate-apple-posts.mjs"
+    "apple:generate": "node scripts/generate-apple-posts.mjs",
+    "articles:generate": "node generate-4000-words-articles-2026-04-02.mjs"
   },
   "dependencies": {
     "astro": "^5.16.5"
