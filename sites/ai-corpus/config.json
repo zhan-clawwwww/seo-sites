@@ -1,0 +1,36 @@
+{
+  "name": "AI Corpus Desk",
+  "description": "Structured English reference notes for search engines, developers, and automated readers: emoji semantics, schema patterns, llms.txt, sitemaps, and machine-friendly page design.",
+  "keywords": [
+    "llms.txt",
+    "AI crawling",
+    "structured data",
+    "emoji unicode",
+    "Schema.org",
+    "SEO",
+    "plain text mirror",
+    "corpus"
+  ],
+  "baseUrl": "https://wordok.top",
+  "lang": "en",
+  "defaultImage": "https://wordok.top/og-default.png",
+  "contact": {
+    "email": "iwangzhanpeng94@gmail.com",
+    "privacyEmail": "iwangzhanpeng94@gmail.com",
+    "businessEmail": "iwangzhanpeng94@gmail.com"
+  },
+  "social": {
+    "twitter": "https://twitter.com/techreviewpro",
+    "linkedin": "https://linkedin.com/company/techreviewpro"
+  },
+  "analytics": {
+    "ga4Id": "G-JWYQZWRTBN",
+    "cfBeacon": ""
+  },
+  "giscus": {
+    "repo": "",
+    "repoId": "",
+    "category": "",
+    "categoryId": ""
+  }
+}

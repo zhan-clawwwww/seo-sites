@@ -28,6 +28,7 @@ export const GET: APIRoute = () => {
     { loc: toCanonical(rootBaseUrl, "/"), lastmod: rootLastmod, priority: 1.0, changefreq: "daily" },
     { loc: toCanonical(rootBaseUrl, "/sbti"), lastmod: rootLastmod, priority: 0.8, changefreq: "weekly" },
     { loc: toCanonical(rootBaseUrl, "/sitemap/"), lastmod: rootLastmod, priority: 0.9, changefreq: "daily" },
+    { loc: toCanonical(rootBaseUrl, "/llms.txt"), lastmod: buildDay, priority: 0.55, changefreq: "weekly" },
   ];
 
   for (const s of sites) {
@@ -71,6 +72,12 @@ export const GET: APIRoute = () => {
       priority: 0.6,
       changefreq: "monthly",
     });
+    urls.push({
+      loc: canonicalFor(siteConfig, `/${s.slug}/llms.txt`),
+      lastmod: siteHubLastmod,
+      priority: 0.45,
+      changefreq: "weekly",
+    });
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/privacy/`), priority: 0.4, changefreq: "yearly" });
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/terms/`), priority: 0.4, changefreq: "yearly" });
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/disclosure/`), priority: 0.4, changefreq: "yearly" });
@@ -83,6 +90,14 @@ export const GET: APIRoute = () => {
         priority: 0.8,
         changefreq: "weekly",
       });
+      if (s.slug === "ai-corpus") {
+        urls.push({
+          loc: canonicalFor(siteConfig, `/${s.slug}/posts/${p.slug}/plain.txt`),
+          lastmod,
+          priority: 0.72,
+          changefreq: "weekly",
+        });
+      }
     }
   }
 

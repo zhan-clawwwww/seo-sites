@@ -51,6 +51,12 @@ export const GET: APIRoute = ({ params }) => {
     },
     { loc: canonicalFor(siteConfig, `/${siteSlug}/about/`), lastmod: hubLastmod, priority: 0.6, changefreq: "monthly" },
     { loc: canonicalFor(siteConfig, `/${siteSlug}/contact/`), lastmod: hubLastmod, priority: 0.6, changefreq: "monthly" },
+    {
+      loc: canonicalFor(siteConfig, `/${siteSlug}/llms.txt`),
+      lastmod: hubLastmod,
+      priority: 0.45,
+      changefreq: "weekly",
+    },
     { loc: canonicalFor(siteConfig, `/${siteSlug}/privacy/`), priority: 0.4, changefreq: "yearly" },
     { loc: canonicalFor(siteConfig, `/${siteSlug}/terms/`), priority: 0.4, changefreq: "yearly" },
     { loc: canonicalFor(siteConfig, `/${siteSlug}/disclosure/`), priority: 0.4, changefreq: "yearly" },
@@ -64,6 +70,14 @@ export const GET: APIRoute = ({ params }) => {
       priority: 0.8,
       changefreq: "weekly",
     });
+    if (siteSlug === "ai-corpus") {
+      urls.push({
+        loc: canonicalFor(siteConfig, `/${siteSlug}/posts/${p.slug}/plain.txt`),
+        lastmod,
+        priority: 0.72,
+        changefreq: "weekly",
+      });
+    }
   }
 
   const body =

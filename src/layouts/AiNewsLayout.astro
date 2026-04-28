@@ -52,6 +52,7 @@ type Props = {
     ga4Id?: string;
     cfBeacon?: string;
   };
+  alternatePlain?: string;
 };
 
 const {
@@ -68,6 +69,7 @@ const {
   siteDescription,
   lang,
   analytics,
+  alternatePlain,
 } = Astro.props;
 
 const robotsContent = robots ?? DEFAULT_HTML_ROBOTS;
@@ -118,6 +120,7 @@ const pathname = Astro.url.pathname;
       <meta name="keywords" content={keywords.join(",")} />
     ) : null}
     <link rel="canonical" href={canonical} />
+    {alternatePlain ? <link rel="alternate" type="text/plain" href={alternatePlain} title="Plain text" /> : null}
     <link rel="alternate" hreflang={hrefLang} href={canonical} />
     <link rel="alternate" hreflang="x-default" href={canonical} />
     <link rel="sitemap" type="application/xml" title="Sitemap index" href={sitemapIndexHref} />
@@ -774,6 +777,33 @@ const pathname = Astro.url.pathname;
         margin: 8px 0 20px;
         padding-bottom: 16px;
         border-bottom: 1px solid var(--ai-border);
+      }
+      .ai-theme .machine-snapshot {
+        background: var(--ai-surface);
+        border: 1px solid var(--ai-border);
+        border-radius: var(--ai-radius-lg);
+        padding: 18px 20px;
+        margin: 0 0 20px;
+      }
+      .ai-theme .machine-snapshot-heading {
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin: 0 0 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ai-text-secondary);
+        border: none;
+        padding: 0;
+      }
+      .ai-theme .machine-snapshot p {
+        margin: 0 0 12px;
+      }
+      .ai-theme .machine-snapshot ul {
+        margin: 0;
+        padding-left: 1.25rem;
+      }
+      .ai-theme .machine-snapshot li {
+        margin: 6px 0;
       }
       .ai-theme .toc {
         background: var(--ai-surface);

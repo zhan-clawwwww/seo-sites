@@ -55,6 +55,8 @@ type Props = {
   hasAffiliates?: boolean;
   /** 榛樿 index,follow锛涜崏绋块〉鍙紶 noindex,nofollow */
   robots?: string;
+  /** Plain-text alternate URL (e.g. ai-corpus /posts/.../plain.txt) */
+  alternatePlain?: string;
   /** 鏍圭珯椤舵爮鍝佺墝鏂囨锛堝棣栭〉鏍囪锛夛紱榛樿 wordok.top */
   rootHeaderLabel?: string;
 };
@@ -75,6 +77,7 @@ const {
   adsense,
   hasAffiliates,
   robots,
+  alternatePlain,
   rootHeaderLabel,
 } = Astro.props;
 
@@ -129,6 +132,7 @@ const pathname = Astro.url.pathname;
       <meta name="keywords" content={keywords.join(",")} />
     ) : null}
     <link rel="canonical" href={canonical} />
+    {alternatePlain ? <link rel="alternate" type="text/plain" href={alternatePlain} title="Plain text" /> : null}
     <link rel="alternate" hreflang={hrefLang} href={canonical} />
     <link rel="alternate" hreflang="x-default" href={canonical} />
     <link rel="sitemap" type="application/xml" title="Sitemap index" href={sitemapIndexHref} />
@@ -841,6 +845,34 @@ const pathname = Astro.url.pathname;
         border-bottom: 1px solid var(--color-border);
       }
       .article-meta .divider { color: var(--color-border); }
+
+      .machine-snapshot {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        padding: 18px 20px;
+        margin: 0 0 24px;
+      }
+      .machine-snapshot-heading {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0 0 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--color-text-secondary);
+      }
+      .machine-snapshot p {
+        margin: 0 0 12px;
+        line-height: 1.55;
+      }
+      .machine-snapshot ul {
+        margin: 0;
+        padding-left: 1.25rem;
+      }
+      .machine-snapshot li {
+        margin: 6px 0;
+      }
+
       .tag {
         display: inline-block;
         padding: 2px 10px;

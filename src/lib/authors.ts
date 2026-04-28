@@ -102,6 +102,19 @@ export const authors: Record<string, Author> = {
     email: "iwangzhanpeng94@gmail.com",
     website: "https://wordok.top",
   },
+  "corpus-editor": {
+    id: "corpus-editor",
+    name: "AI Corpus Editorial",
+    bio: "Reference editors focused on machine-readable documentation patterns, Unicode emoji notes, and structured publishing for crawlers and RAG pipelines.",
+    expertise: [
+      "Structured publishing",
+      "Unicode text processing",
+      "Technical SEO",
+      "LLM-facing documentation",
+    ],
+    email: "iwangzhanpeng94@gmail.com",
+    website: "https://wordok.top",
+  },
   "apple-editor": {
     id: "apple-editor",
     name: "Apple Devices Editorial",
@@ -152,6 +165,9 @@ export function getDefaultAuthorForSite(siteSlug: string): Author {
   }
   if (siteSlug === "apple") {
     return authors["apple-editor"];
+  }
+  if (siteSlug === "ai-corpus") {
+    return authors["corpus-editor"];
   }
   // 默认返回tech-team
   return authors["tech-team"];

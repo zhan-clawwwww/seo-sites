@@ -55,6 +55,10 @@ export type PostFrontmatter = {
   author?: string;
   image?: string;
   topic?: string;
+  /** Short extractive summary for machine readers (ai-corpus channel). */
+  tldr?: string;
+  /** Key entities as strings or comma-separated in markdown frontmatter. */
+  entities?: string[] | string;
   faq?: Array<{ question: string; answer: string }>;
 };
 

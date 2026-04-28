@@ -35,6 +35,20 @@ function normalizeFaq(faq: unknown): FaqItem[] {
     .filter((x): x is FaqItem => Boolean(x));
 }
 
+function normalizeEntities(entities: unknown): string[] {
+  if (!entities) return [];
+  if (Array.isArray(entities)) {
+    return entities.map((x) => String(x).trim()).filter(Boolean);
+  }
+  if (typeof entities === "string") {
+    return entities
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
 // 从 Markdown 内容提取 TOC
 type TocItem = { depth: number; text: string; slug: string };
 function extractToc(content: string): TocItem[] {
@@ -74,6 +88,13 @@ const image = frontmatter.image?.toString?.() || siteConfig.defaultImage;
 const pubDate = frontmatter.pubDate?.toString?.();
 const updatedDate = frontmatter.updatedDate?.toString?.();
 const faq = normalizeFaq(frontmatter.faq);
+const tldr = frontmatter.tldr?.toString?.().trim?.() || "";
+const entities = normalizeEntities(frontmatter.entities);
+const showMachineSnapshot = siteSlug === "ai-corpus" && (Boolean(tldr) || entities.length > 0);
+const plainTextCanonical =
+  siteSlug === "ai-corpus"
+    ? canonicalFor(siteConfig, `/${siteSlug}/posts/${slug}/plain.txt`)
+    : undefined;
 
 const draftRaw = frontmatter.draft;
 const isDraft =
@@ -207,7 +228,25 @@ const faqJsonLd =
       }
     : null;
 
-const allJsonLd = [articleJsonLd, breadcrumbJsonLd, ...(faqJsonLd ? [faqJsonLd] : [])];
+const speakableJsonLd =
+  showMachineSnapshot
+    ? {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": `${canonical}#webpage`,
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: ["#machine-snapshot", "article h1"],
+        },
+      }
+    : null;
+
+const allJsonLd = [
+  articleJsonLd,
+  breadcrumbJsonLd,
+  ...(faqJsonLd ? [faqJsonLd] : []),
+  ...(speakableJsonLd ? [speakableJsonLd] : []),
+];
 
 const useNewsLayout = isNewsStyleSite(siteSlug);
 
@@ -227,6 +266,7 @@ const layoutProps = {
   adsense,
   hasAffiliates: hasAffiliates,
   ...(pageRobots ? { robots: pageRobots } : {}),
+  ...(plainTextCanonical ? { alternatePlain: plainTextCanonical } : {}),
 };
 ---
 
@@ -258,6 +298,27 @@ const layoutProps = {
         </>
       ) : null}
     </div>
+
+    {showMachineSnapshot ? (
+      <section id="machine-snapshot" class="machine-snapshot" data-ai-corpus="true" aria-label="Machine-readable summary">
+        {tldr ? (
+          <>
+            <h2 class="machine-snapshot-heading">TL;DR</h2>
+            <p>{tldr}</p>
+          </>
+        ) : null}
+        {entities.length ? (
+          <>
+            <h2 class="machine-snapshot-heading">Key entities</h2>
+            <ul>
+              {entities.map((ent) => (
+                <li>{ent}</li>
+              ))}
+            </ul>
+          </>
+        ) : null}
+      </section>
+    ) : null}
 
     {toc.length >= 3 ? (
       <div class="toc">
@@ -315,6 +376,7 @@ const layoutProps = {
   analytics={siteConfig.analytics}
   adsense={adsense}
   hasAffiliates={hasAffiliates}
+  alternatePlain={plainTextCanonical}
 >
   {/* 面包屑导航 */}
   <nav class="breadcrumb">
@@ -345,6 +407,27 @@ const layoutProps = {
         </>
       ) : null}
     </div>
+
+    {showMachineSnapshot ? (
+      <section id="machine-snapshot" class="machine-snapshot" data-ai-corpus="true" aria-label="Machine-readable summary">
+        {tldr ? (
+          <>
+            <h2 class="machine-snapshot-heading">TL;DR</h2>
+            <p>{tldr}</p>
+          </>
+        ) : null}
+        {entities.length ? (
+          <>
+            <h2 class="machine-snapshot-heading">Key entities</h2>
+            <ul>
+              {entities.map((ent) => (
+                <li>{ent}</li>
+              ))}
+            </ul>
+          </>
+        ) : null}
+      </section>
+    ) : null}
 
     {/* 联盟披露提示（有联盟产品时显示）*/}
     {hasAffiliates ? (

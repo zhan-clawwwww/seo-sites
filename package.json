@@ -17,7 +17,8 @@
     "submit:sitemap": "node scripts/submit-indexnow.mjs --all",
     "submit:indexnow:all-sites": "node scripts/submit-indexnow.mjs --all-sites",
     "apple:generate": "node scripts/generate-apple-posts.mjs",
-    "articles:generate": "node generate-4000-words-articles-2026-04-02.mjs"
+    "articles:generate": "node generate-4000-words-articles-2026-04-02.mjs",
+    "corpus:generate": "node scripts/generate-ai-corpus-batch.mjs"
   },
   "dependencies": {
     "astro": "^5.16.5"

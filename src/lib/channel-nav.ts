@@ -4,6 +4,7 @@
 export const CHANNEL_LABELS: Record<string, string> = {
   "vpn-usa": "VPN",
   ai: "AI News",
+  "ai-corpus": "AI Corpus",
   apple: "Apple",
   streaming: "Streaming",
   web3: "Web3",
@@ -16,6 +17,7 @@ export const CHANNEL_LABELS: Record<string, string> = {
 export function postsNavLabel(slug: string): string {
   if (slug === "apple") return "Products";
   if (slug === "openclaw") return "Guides";
+  if (slug === "ai-corpus") return "Corpus";
   return "News";
 }
 
@@ -23,6 +25,7 @@ export function postsNavLabel(slug: string): string {
 export function postsHubLabel(slug: string): string {
   if (slug === "apple") return "Products";
   if (slug === "openclaw") return "Guides";
+  if (slug === "ai-corpus") return "Corpus";
   return "Articles";
 }
 
