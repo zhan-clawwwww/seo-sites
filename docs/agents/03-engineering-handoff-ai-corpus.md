@@ -23,6 +23,7 @@
 
 ## 2. `plain.txt` 生成规则
 
+- **仅 `ai-corpus` 站点**构建该路由（`getStaticPaths` 过滤），避免全站文章倍增静态文件。  
 - 使用 `getPostRawContent(site, slug)` 取 Markdown 全文，**去掉 frontmatter**（`---` 块），UTF-8 输出。  
 - **不**做复杂 Markdown→纯文本转换（列表保留 `-` 即可）；优先简单、可复现。
 

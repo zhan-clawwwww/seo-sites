@@ -4,7 +4,8 @@ import { getPostRawContent } from "../../../../lib/site-data";
 
 export const prerender = true;
 
-export const getStaticPaths: GetStaticPaths = () => getPostStaticPaths();
+export const getStaticPaths: GetStaticPaths = () =>
+  getPostStaticPaths().filter((p) => p.params.site === "ai-corpus");
 
 function stripFrontmatter(md: string): string {
   return md.replace(/^---[\s\S]*?---\s*/u, "").trim();
