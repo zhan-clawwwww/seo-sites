@@ -1,6 +1,6 @@
-# Best USA VPN — SEO 联盟站
+# Wordok.top — SEO 多站点矩阵
 
-基于 **Astro** 构建的 VPN 评测 SEO 站，部署在 GitHub Pages，域名 `wordok.top`。
+基于 **Astro** 构建的 SEO 多站点矩阵，部署在 GitHub Pages，域名 `wordok.top`。
 
 ## 📖 操作手册
 
@@ -8,13 +8,40 @@
 
 👉 **[TODO.md](./TODO.md)**
 
+## 站点矩阵
+
+| 站点 | 路径 | 文章数 | 主题 |
+|------|------|--------|------|
+| **VPN USA** | `/vpn-usa/` | 133 | VPN 评测与推荐 |
+| **AI News** | `/ai/` | 57 | AI 新闻与技术 |
+| **Apple Devices** | `/apple/` | 131 | iPhone/MacBook 规格评测 |
+| **Web3 Insights** | `/web3/` | 51 | Web3/区块链/DeFi |
+| **Tesla News** | `/tesla/` | 40 | 特斯拉新闻与评测 |
+| **Streaming** | `/streaming/` | 30 | 流媒体服务 |
+| **OpenClaw** | `/openclaw/` | 27 | 开源技术 |
+| **Site A** | `/site-a/` | 40 | SEO 技术文章 |
+| **AI Corpus** | `/ai-corpus/` | 30 | LLM 语料库 |
+
+**总计：539 篇英文长文（3000+ 词/篇）**
+
 ## 快速开始
 
 ```powershell
 npm install
+
+# 启动单个站点
 $env:ENABLED_SITES="vpn-usa"
 npm run dev
-# 浏览器打开 http://localhost:4321/vpn-usa/
+
+# 启动多个站点
+$env:ENABLED_SITES="vpn-usa,ai,apple,web3,tesla"
+npm run dev
+
+# 启动所有站点
+$env:ENABLED_SITES="all"
+npm run dev
+
+# 浏览器打开 http://localhost:4321/
 ```
 
 ## Google Search Console 提交说明
@@ -66,12 +93,21 @@ git push
 ## 项目结构
 
 ```
-sites/vpn-usa/        ← 网站内容（文章 + 配置）
-sites/ai/posts/       ← AI 频道文章
-sites/apple/posts/    ← Apple 频道文章
+sites/
+├── vpn-usa/          ← VPN 评测主站（133 篇）
+├── ai/               ← AI 新闻频道（57 篇）
+├── apple/            ← Apple 设备评测（131 篇）
+├── web3/             ← Web3/区块链（51 篇）
+├── tesla/            ← 特斯拉新闻（40 篇）
+├── streaming/        ← 流媒体服务（30 篇）
+├── openclaw/         ← 开源技术（27 篇）
+├── site-a/           ← SEO 技术文章（40 篇）
+└── ai-corpus/        ← LLM 语料库（30 篇）
+
 src/                  ← 框架代码（一般不改）
 public/CNAME          ← 域名配置（wordok.top）
 .github/workflows/    ← 自动部署（push 后自动触发）
+scripts/              ← SEO 工具脚本
 ```
 
 ## 技术栈
@@ -79,3 +115,17 @@ public/CNAME          ← 域名配置（wordok.top）
 - **Astro 5** — 静态站点生成
 - **GitHub Pages** — 免费托管
 - **GitHub Actions** — 自动 CI/CD
+- **Pagefind** — 静态搜索索引
+
+## 文章生成
+
+```powershell
+# 生成今日文章（所有频道）
+node generate-4000-words-articles-2026-04-02.mjs
+
+# 生成指定日期文章
+node generate-4000-words-articles-2026-04-02.mjs --date=2026-05-09
+
+# 提交到搜索引擎
+npm run submit:indexnow:all-sites
+```
