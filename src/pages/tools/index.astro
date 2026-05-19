@@ -28,7 +28,9 @@ const jsonLd = {
     "图片裁切",
     "尺寸调整",
     "文字水印",
-    "图片压缩"
+    "图片压缩",
+    "按目标体积自动压缩",
+    "导出去除EXIF元数据"
   ]
 };
 
@@ -814,6 +816,18 @@ const faqJsonLd = {
         <option value="image/png">PNG</option>
       </select>
     </div>
+<div class="control-group">
+      <label for="compress-target-kb">目标体积 (KB)</label>
+      <input type="number" id="compress-target-kb" min="10" max="10240" value="200" placeholder="200" />
+    </div>
+<div class="control-group">
+      <label class="checkbox-label">
+        <input type="checkbox" id="compress-strip-meta" checked />
+        导出时去除 EXIF 元数据
+      </label>
+    </div>
+    <button class="btn btn-secondary" type="button" id="compress-to-target">按目标体积自动调质量</button>
+    <span id="compress-target-hint" style="font-size:0.85rem;color:var(--color-text-secondary);align-self:center;"></span>
   </div>
   <div id="compress-preview" class="preview-area hidden">
     <div class="preview-box">
@@ -844,7 +858,7 @@ const faqJsonLd = {
   <p>支持添加文字水印，可自定义字号、颜色、透明度、旋转角度和位置（9 宫格定位），还支持平铺水印模式。保护您的原创图片版权，防止盗用。</p>
 
   <h3>图片压缩</h3>
-  <p>可调节压缩质量（0.1-1.0），实时显示压缩前后文件大小对比和压缩率。JPG 和 WEBP 格式压缩效果尤为显著，能大幅减小文件体积，加快网页加载速度，节省存储空间。</p>
+  <p>支持按目标体积（如 200KB）自动调节质量，导出时可去除 EXIF 等元数据（浏览器本地重新编码，不上传服务器）。可调节压缩质量（0.1-1.0），实时显示压缩前后文件大小对比和压缩率。JPG 和 WEBP 格式压缩效果尤为显著，能大幅减小文件体积，加快网页加载速度，节省存储空间。</p>
 
   <h3>常见问题</h3>
   <h4>Q: 图片会被上传到服务器吗？</h4>
@@ -1373,6 +1387,64 @@ const faqJsonLd = {
     });
     formatSelect.addEventListener('change', doCompress);
 
+    document.getElementById('compress-to-target').addEventListener('click', function() {
+      if (!img) return;
+      var targetKb = parseInt(document.getElementById('compress-target-kb').value, 10);
+      if (!targetKb || targetKb < 1) {
+        document.getElementById('compress-target-hint').textContent = '请输入有效 KB';
+        return;
+      }
+      var targetBytes = targetKb * 1024;
+      var fmt = formatSelect.value;
+      if (fmt === 'same') {
+        fmt = file.type;
+        if (fmt === 'image/bmp' || fmt === 'image/gif') fmt = 'image/jpeg';
+      }
+      if (fmt !== 'image/jpeg' && fmt !== 'image/webp') {
+        formatSelect.value = 'image/jpeg';
+        fmt = 'image/jpeg';
+      }
+      var hint = document.getElementById('compress-target-hint');
+      hint.textContent = '计算中…';
+      var lo = 0.1, hi = 1.0, bestQ = 0.7, bestBlob = null;
+      var canvas = document.getElementById('process-canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      function tryQ(q, cb) {
+        canvas.toBlob(function(blob) { cb(blob); }, fmt, q);
+      }
+      function step(iter, done) {
+        if (iter > 12) { done(); return; }
+        var mid = (lo + hi) / 2;
+        tryQ(mid, function(blob) {
+          if (!blob) { done(); return; }
+          if (blob.size <= targetBytes) {
+            bestQ = mid; bestBlob = blob; lo = mid;
+          } else {
+            hi = mid;
+          }
+          step(iter + 1, done);
+        });
+      }
+      step(0, function() {
+        qualitySlider.value = bestQ.toFixed(2);
+        qualityVal.textContent = parseFloat(bestQ).toFixed(2);
+        resultBlob = bestBlob;
+        if (bestBlob) {
+          newSizeEl.textContent = formatSize(bestBlob.size);
+          var pct = file.size > 0 ? Math.round((1 - bestBlob.size / file.size) * 100) : 0;
+          savedEl.textContent = pct > 0 ? pct + '%' : '0%';
+          resultImg.src = URL.createObjectURL(bestBlob);
+          hint.textContent = bestBlob.size <= targetBytes
+            ? '已接近目标 ' + targetKb + ' KB（质量 ' + bestQ.toFixed(2) + '）'
+            : '已尽力压缩，仍大于目标（可缩小尺寸或换 JPG）';
+        } else {
+          hint.textContent = '压缩失败，请换格式重试';
+        }
+      });
+    });
     setupUpload('compress', function(f) {
       loadImage(f, function(i, fi) {
         img = i; file = fi;

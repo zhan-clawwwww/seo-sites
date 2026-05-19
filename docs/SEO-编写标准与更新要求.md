@@ -35,7 +35,19 @@
 - **合计：每天最多 12 篇**（4 × 3）。  
 - 每篇**独立成稿**，禁止同一篇改标题敷衍多个专栏或多篇。
 
-### 2.3 落盘路径与文件命名
+### 2.3 Tools 专栏（与 SEO 日更并行）
+
+每次完成四专栏 SEO 批次时，**同步**维护 `wordok.top/tools/`（图片处理百宝箱）：
+
+| 类型 | 路径 | 要求 |
+|------|------|------|
+| **中文教程** | `sites/site-a/posts/*.md` | 与当日工具能力或用户检索意图对齐；链到 `https://wordok.top/tools/` 对应 Tab |
+| **小功能探索** | `src/pages/tools/index.astro`（主 UI）、可选 `tools/*.mjs`（CLI） | 每次至少评估 1 项可上线的小改进（如目标体积压缩、EXIF 说明、预设尺寸等）；能 Ship 则同批 push |
+| **规划记录** | `memory/YYYY-MM-DD.md` | 写明当日教程标题、功能点、后续 backlog |
+
+> Tools 教程**不计入**四专栏 12 篇/日配额，但应与当日或当周工具改动一致，避免文不对版。
+
+### 2.4 落盘路径与文件命名
 
 ```
 sites/{ai|web3|tesla|apple}/posts/{站点slug}-YYYY-MM-DD-{英文短slug}.md
@@ -161,3 +173,4 @@ excerpt: "1-2 sentences: news/freshness hook + why the analysis/forecast matters
 | 版本 | 日期 | 说明 |
 |------|------|------|
 | 1.0 | 2026-04-27 | 首版：四专栏、每日 3 篇、英文 3000+ 词、Frontmatter 与 SEO 结构固化。 |
+| 1.1 | 2026-05-19 | 新增 §2.3 Tools 专栏：教程 + 小功能与 SEO 批次并行维护。 |
