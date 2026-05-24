@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * SEO网站每日内容生成任务
- * 基于 DuckDuckGo 搜索最新新闻生成英文文章
+ * 基于 Google News RSS 最新新闻生成英文文章
  * 
  * 质量标准:
  * 1. 每篇文章 4000+ 字
@@ -10,6 +10,8 @@
  * 4. 基于真实新闻
  * 5. 英文，面向用户
  * 6. 最近3天主题不重复
+ * 
+ * 2026-05-24: DuckDuckGo Lite 触发 CAPTCHA，改用 Google News RSS
  */
 
 import fs from 'fs';
@@ -17,6 +19,7 @@ import path from 'path';
 import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
 import https from 'https';
+import http from 'http';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -115,48 +118,73 @@ const CHANNELS = [
   }
 ];
 
-// 使用 DuckDuckGo Lite 搜索
-function searchDuckDuckGo(query) {
+// 使用 Google News RSS 搜索（替代被 CAPTCHA 封锁的 DuckDuckGo Lite）
+function searchGoogleNews(query) {
   return new Promise((resolve, reject) => {
-    const url = `https://lite.duckduckgo.com/lite/?q=${query}`;
+    const url = `https://news.google.com/rss/search?q=${query}&hl=en-US&gl=US&ceid=US:en`;
     
-    https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' } }, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        const results = parseResults(data);
-        resolve(results);
-      });
-    }).on('error', reject);
+    const doRequest = (reqUrl, redirectCount = 0) => {
+      if (redirectCount > 3) { resolve([]); return; }
+      
+      const client = reqUrl.startsWith('https') ? https : http;
+      client.get(reqUrl, { 
+        headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
+        timeout: 15000
+      }, (res) => {
+        // Handle redirects
+        if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+          doRequest(res.headers.location, redirectCount + 1);
+          return;
+        }
+        if (res.statusCode !== 200) { resolve([]); return; }
+        
+        let data = '';
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => {
+          const results = parseGoogleNewsRSS(data);
+          resolve(results);
+        });
+      }).on('error', () => resolve([]));
+    };
+    
+    doRequest(url);
   });
 }
 
-// 解析搜索结果
-function parseResults(html) {
+// 解析 Google News RSS XML
+function parseGoogleNewsRSS(xml) {
   const results = [];
   
-  // 提取结果链接和标题
-  const linkRegex = /class="result-link"[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>/g;
-  const snippetRegex = /class="result-snippet"[^>]*>([^<]*)<\/td>/g;
-  
-  const links = [];
-  const snippets = [];
+  // 提取 <item> 块
+  const itemRegex = /<item>([\s\S]*?)<\/item>/g;
   let match;
   
-  while ((match = linkRegex.exec(html)) !== null) {
-    links.push({ url: match[1], title: match[2].trim() });
-  }
-  
-  while ((match = snippetRegex.exec(html)) !== null) {
-    snippets.push(match[1].trim());
-  }
-  
-  for (let i = 0; i < Math.min(links.length, 10); i++) {
-    if (links[i].title && !links[i].title.includes('Sponsored')) {
+  while ((match = itemRegex.exec(xml)) !== null && results.length < 10) {
+    const item = match[1];
+    
+    const titleMatch = item.match(/<title>([\s\S]*?)<\/title>/);
+    const linkMatch = item.match(/<link>([\s\S]*?)<\/link>/);
+    const pubDateMatch = item.match(/<pubDate>([\s\S]*?)<\/pubDate>/);
+    const sourceMatch = item.match(/<source[^>]*>([\s\S]*?)<\/source>/);
+    const descMatch = item.match(/<description>([\s\S]*?)<\/description>/);
+    
+    if (titleMatch && linkMatch) {
+      let title = titleMatch[1].trim()
+        .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/<!\[CDATA\[|\]\]>/g, '');
+      
+      let snippet = descMatch ? descMatch[1].trim()
+        .replace(/<[^>]+>/g, '')
+        .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+        .slice(0, 500) : '';
+      
       results.push({
-        title: links[i].title,
-        url: links[i].url,
-        snippet: snippets[i] || ''
+        title,
+        url: linkMatch[1].trim(),
+        snippet,
+        source: sourceMatch ? sourceMatch[1].trim() : '',
+        pubDate: pubDateMatch ? pubDateMatch[1].trim() : ''
       });
     }
   }
@@ -367,7 +395,7 @@ async function main() {
     for (const query of channel.queries) {
       try {
         console.log(`  Searching: ${query}`);
-        const results = await searchDuckDuckGo(query);
+        const results = await searchGoogleNews(query);
         
         if (results.length === 0) continue;
         
