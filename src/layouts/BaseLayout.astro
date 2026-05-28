@@ -1,5 +1,6 @@
 ﻿---
 import { CHANNEL_LABELS, postsHubLabel, postsNavLabel, isPathActive } from "../lib/channel-nav";
+import { resolveAdsense } from "../lib/root-adsense";
 import { getPublicRootBaseUrl } from "../lib/root-base-url";
 import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
 import { getAllSites, toCanonical } from "../lib/site-data";
@@ -81,6 +82,7 @@ const {
   rootHeaderLabel,
 } = Astro.props;
 
+const effectiveAdsense = resolveAdsense(adsense);
 const rootHeaderTitle = rootHeaderLabel ?? "wordok.top";
 
 const robotsContent = robots ?? DEFAULT_HTML_ROBOTS;
@@ -104,18 +106,6 @@ const pathname = Astro.url.pathname;
 <!doctype html>
 <html lang={lang || "en"}>
   <head>
-    {/* Ezoic Privacy Scripts - 蹇呴』鍦ㄦ渶椤堕儴鍔犺浇 */}
-    <script is:inline data-cfasync="false" src="https://cmp.gatekeeperconsent.com/min.js"></script>
-    <script is:inline data-cfasync="false" src="https://the.gatekeeperconsent.com/cmp.min.js"></script>
-    
-    {/* Ezoic Header Script */}
-    <script is:inline async src="//www.ezojs.com/ezoic/sa.min.js"></script>
-    <script is:inline>
-      window.ezstandalone = window.ezstandalone || {};
-      ezstandalone.cmd = ezstandalone.cmd || [];
-    </script>
-    <script is:inline async src="//ezoicanalytics.com/analytics.js"></script>
-    
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -154,19 +144,15 @@ const pathname = Astro.url.pathname;
     {analytics?.ga4Id ? (
       <link rel="preconnect" href="https://www.googletagmanager.com" />
     ) : null}
-    {adsense?.publisherId ? (
-      <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
-    ) : null}
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
 
     {/* Google AdSense */}
-    {adsense?.publisherId ? (
-      <script
-        is:inline
-        async
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsense.publisherId}`}
-        crossorigin="anonymous"
-      ></script>
-    ) : null}
+    <script
+      is:inline
+      async
+      src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${effectiveAdsense.publisherId}`}
+      crossorigin="anonymous"
+    ></script>
 
     {/* OpenGraph */}
     {openGraph?.title ? <meta property="og:title" content={openGraph.title} /> : null}
@@ -1278,6 +1264,9 @@ const pathname = Astro.url.pathname;
         margin: 32px 0;
         text-align: center;
       }
+      .ad-slot:empty {
+        display: none;
+      }
 
       /* === Print === */
       .root-discovery-footer {
@@ -1321,11 +1310,6 @@ const pathname = Astro.url.pathname;
           <div id="search" class="header-search"></div>
         </div>
       </header>
-    <!-- Ezoic Header Ad -->
-    <div class="ad-slot ezoic-ad ezoic-ad-1" data-ezoic-ad-unit-id="header-ad">
-      <!-- Header advertisement will be loaded here -->
-    </div>
-
     ) : null}
 
     {siteSlug && siteName ? (
@@ -1398,21 +1382,11 @@ const pathname = Astro.url.pathname;
     ) : null}
 
     <main class="main-content">
-    <!-- Ezoic Sidebar Ad -->
-    <div class="ad-slot ezoic-ad ezoic-ad-2" data-ezoic-ad-unit-id="sidebar-ad">
-      <!-- Sidebar advertisement will be loaded here -->
-    </div>
-
       <slot />
     </main>
 
     {!siteSlug ? (
-      
-    <!-- Ezoic Footer Ad -->
-    <div class="ad-slot ezoic-ad ezoic-ad-4" data-ezoic-ad-unit-id="footer-ad">
-      <!-- Footer advertisement will be loaded here -->
-    </div>
-<footer class="root-discovery-footer" aria-label="XML sitemaps and robots">
+      <footer class="root-discovery-footer" aria-label="XML sitemaps and robots">
         <p>
           <a href={sitemapIndexHref}>Sitemap index (XML)</a>
           <span aria-hidden="true"> 路 </span>
