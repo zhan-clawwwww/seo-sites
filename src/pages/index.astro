@@ -476,10 +476,8 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     .portal {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 40px max(24px, env(safe-area-inset-right)) 60px max(24px, env(safe-area-inset-left));
-      padding-bottom: max(60px, env(safe-area-inset-bottom));
-      min-height: 100vh;
-      min-height: 100dvh;
+      padding: 20px max(20px, env(safe-area-inset-right)) 40px max(20px, env(safe-area-inset-left));
+      padding-bottom: max(40px, env(safe-area-inset-bottom));
     }
 
     .sr-only {
@@ -497,16 +495,15 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     /* Header Styles */
     .portal-header {
       text-align: center;
-      margin-bottom: 28px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
     }
 
     .portal-title {
-      font-size: clamp(1.65rem, 5vw, 2.75rem);
+      font-size: clamp(1.3rem, 4vw, 2rem);
       font-weight: 800;
       letter-spacing: -0.025em;
-      margin: 0 auto 12px;
+      margin: 0 auto 6px;
       max-width: 22ch;
       line-height: 1.12;
       text-wrap: balance;
@@ -518,9 +515,9 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     }
 
     .portal-lead {
-      font-size: 1rem;
+      font-size: 0.85rem;
       color: var(--color-text-secondary);
-      margin: 0 auto 14px;
+      margin: 0 auto 8px;
       max-width: 34rem;
       line-height: 1.55;
     }
@@ -578,35 +575,35 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
       background: var(--color-surface);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-lg);
-      padding: 36px 32px;
-      margin-bottom: 32px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
     }
 
     .tools-hero-title {
-      font-size: 1.6rem;
+      font-size: 1.25rem;
       font-weight: 800;
-      margin: 0 0 8px;
+      margin: 0 0 4px;
       color: var(--color-text);
     }
 
     .tools-hero-desc {
-      font-size: 0.95rem;
+      font-size: 0.82rem;
       color: var(--color-text-secondary);
-      margin: 0 0 24px;
+      margin: 0 0 14px;
     }
 
     .tools-hero-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
-      gap: 12px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr));
+      gap: 8px;
+      margin-bottom: 14px;
     }
 
     .tool-hero-card {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 16px;
+      gap: 10px;
+      padding: 10px 14px;
       background: var(--color-bg);
       border: 1px solid var(--color-border);
       border-radius: var(--radius);
@@ -624,20 +621,20 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
     }
 
     .tool-hero-icon {
-      font-size: 1.8rem;
+      font-size: 1.4rem;
       line-height: 1;
       flex-shrink: 0;
     }
 
     .tool-hero-info h3 {
-      font-size: 0.92rem;
+      font-size: 0.82rem;
       font-weight: 700;
       color: var(--color-text);
       margin: 0 0 2px;
     }
 
     .tool-hero-info p {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--color-text-light);
       margin: 0;
       line-height: 1.3;
@@ -647,7 +644,7 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 10px 24px;
+      padding: 8px 20px;
       background: var(--color-primary);
       color: #fff;
       font-weight: 600;
@@ -874,13 +871,13 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
 
     /* Channels Section */
     .channels-section {
-      margin-bottom: 48px;
+      margin-bottom: 32px;
     }
 
     .channel-blocks {
       display: flex;
       flex-direction: column;
-      gap: 44px;
+      gap: 28px;
       margin-top: 0;
     }
 
