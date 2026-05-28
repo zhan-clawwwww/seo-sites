@@ -328,6 +328,42 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
       </div>
     </section>
 
+    <!-- Tools Quick Access -->
+    <section class="tools-section" aria-labelledby="tools-heading">
+      <h2 id="tools-heading" class="section-title">
+        <span class="section-icon" aria-hidden="true">🛠️</span>
+        免费在线工具
+      </h2>
+      <p class="section-subtitle">纯浏览器本地处理，图片不上传，安全快捷</p>
+      <div class="tools-grid">
+        <a href={absPath("/tools/")} class="tool-card">
+          <span class="tool-icon" aria-hidden="true">🔄</span>
+          <span class="tool-name">格式转换</span>
+          <span class="tool-desc">PNG / JPG / WEBP / BMP / GIF 互转</span>
+        </a>
+        <a href={absPath("/tools/")} class="tool-card">
+          <span class="tool-icon" aria-hidden="true">✂️</span>
+          <span class="tool-name">图片裁切</span>
+          <span class="tool-desc">自由裁切 / 1:1 / 4:3 / 16:9</span>
+        </a>
+        <a href={absPath("/tools/")} class="tool-card">
+          <span class="tool-icon" aria-hidden="true">📐</span>
+          <span class="tool-name">尺寸调整</span>
+          <span class="tool-desc">等比缩放，常用尺寸预设</span>
+        </a>
+        <a href={absPath("/tools/")} class="tool-card">
+          <span class="tool-icon" aria-hidden="true">💧</span>
+          <span class="tool-name">添加水印</span>
+          <span class="tool-desc">文字水印，9宫格定位 + 平铺</span>
+        </a>
+        <a href={absPath("/tools/")} class="tool-card">
+          <span class="tool-icon" aria-hidden="true">📦</span>
+          <span class="tool-name">图片压缩</span>
+          <span class="tool-desc">按目标体积自动压缩，去 EXIF</span>
+        </a>
+      </div>
+    </section>
+
     <!-- Quick Links -->
     <section class="quick-links">
       <h2 class="section-title">
@@ -838,6 +874,63 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
       color: var(--color-primary);
     }
 
+    /* Tools Section */
+    .tools-section {
+      margin-bottom: 48px;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      margin: 0 0 24px;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .tool-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      touch-action: manipulation;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--color-primary);
+      background: var(--color-surface-hover);
+    }
+
+    .tool-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .tool-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    .tool-desc {
+      font-size: 0.75rem;
+      color: var(--color-text-light);
+      line-height: 1.4;
+    }
+
     /* Quick Links */
     .quick-links {
       margin-bottom: 48px;
@@ -971,11 +1064,17 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
       .links-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+      .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     @media (max-width: 480px) {
       .links-grid {
         grid-template-columns: 1fr;
+      }
+      .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
