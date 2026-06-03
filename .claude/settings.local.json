@@ -6,7 +6,8 @@
       "Bash(git push *)",
       "Bash(dir *)",
       "Read(//c/Users/iwang/.claude//**)",
-      "Read(//c/Users/iwang/.claude/**)"
+      "Read(//c/Users/iwang/.claude/**)",
+      "WebSearch"
     ]
   }
 }
