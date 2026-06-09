@@ -154,6 +154,9 @@ const pathname = Astro.url.pathname;
       crossorigin="anonymous"
     ></script>
 
+    <!-- Ezoic -->
+    <script is:inline async src="https://w.static.ezoic.com/publisher.min.js"></script>
+
     {/* OpenGraph */}
     {openGraph?.title ? <meta property="og:title" content={openGraph.title} /> : null}
     {openGraph?.description ? (
