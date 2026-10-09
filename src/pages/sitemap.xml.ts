@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getPublicRootBaseUrl } from "../lib/root-base-url";
+import { isTemplateSpamSlug } from "../lib/post-indexing";
 import { getAllPosts, getAllSites, getPostLastmodDateRaw, toCanonical } from "../lib/site-data";
 import {
   asYyyyMmDd,
@@ -26,9 +27,15 @@ export const GET: APIRoute = () => {
 
   const urls: UrlEntry[] = [
     { loc: toCanonical(rootBaseUrl, "/"), lastmod: rootLastmod, priority: 1.0, changefreq: "daily" },
-    { loc: toCanonical(rootBaseUrl, "/sbti"), lastmod: rootLastmod, priority: 0.8, changefreq: "weekly" },
+    { loc: toCanonical(rootBaseUrl, "/sbti/"), lastmod: rootLastmod, priority: 0.8, changefreq: "weekly" },
     { loc: toCanonical(rootBaseUrl, "/sitemap/"), lastmod: rootLastmod, priority: 0.9, changefreq: "daily" },
     { loc: toCanonical(rootBaseUrl, "/llms.txt"), lastmod: buildDay, priority: 0.55, changefreq: "weekly" },
+    { loc: toCanonical(rootBaseUrl, "/tools/"), lastmod: buildDay, priority: 0.85, changefreq: "weekly" },
+    { loc: toCanonical(rootBaseUrl, "/tools/about/"), lastmod: buildDay, priority: 0.5, changefreq: "yearly" },
+    { loc: toCanonical(rootBaseUrl, "/tools/privacy/"), lastmod: buildDay, priority: 0.4, changefreq: "yearly" },
+    { loc: toCanonical(rootBaseUrl, "/tools/contact/"), lastmod: buildDay, priority: 0.5, changefreq: "yearly" },
+    { loc: toCanonical(rootBaseUrl, "/relay/"), lastmod: buildDay, priority: 0.7, changefreq: "weekly" },
+    { loc: toCanonical(rootBaseUrl, "/relay/docs/"), lastmod: buildDay, priority: 0.65, changefreq: "monthly" },
   ];
 
   for (const s of sites) {
@@ -83,7 +90,7 @@ export const GET: APIRoute = () => {
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/disclosure/`), priority: 0.4, changefreq: "yearly" });
 
     for (const p of posts) {
-      if (p.hasUnreplacedPlaceholders) continue;
+      if (p.hasUnreplacedPlaceholders || isTemplateSpamSlug(p.slug)) continue;
       const lastmod = asYyyyMmDd(getPostLastmodDateRaw(p.frontmatter));
       urls.push({
         loc: canonicalFor(siteConfig, `/${s.slug}/posts/${p.slug}/`),

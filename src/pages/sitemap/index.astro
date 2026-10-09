@@ -5,6 +5,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { resolveRootSiteAnalytics } from "../../lib/root-analytics";
 import { postsHubLabel } from "../../lib/channel-nav";
 import { getPublicRootBaseUrl } from "../../lib/root-base-url";
+import { isTemplateSpamSlug } from "../../lib/post-indexing";
 import { getAllPosts, getAllSites, getSiteConfig, toCanonical } from "../../lib/site-data";
 
 const sites = getAllSites();
@@ -23,7 +24,13 @@ urlGroups.push({
   name: "首页",
   urls: [
     { href: toCanonical(rootBaseUrl, "/"), label: "wordok.top" },
-    { href: toCanonical(rootBaseUrl, "/sbti"), label: "SBTI 人格测试" },
+    { href: toCanonical(rootBaseUrl, "/sbti/"), label: "SBTI 人格测试" },
+    { href: toCanonical(rootBaseUrl, "/tools/"), label: "图片处理百宝箱" },
+    { href: toCanonical(rootBaseUrl, "/tools/about/"), label: "工具站 · 关于" },
+    { href: toCanonical(rootBaseUrl, "/tools/privacy/"), label: "工具站 · 隐私" },
+    { href: toCanonical(rootBaseUrl, "/tools/contact/"), label: "工具站 · 联系" },
+    { href: toCanonical(rootBaseUrl, "/relay/"), label: "Token API 中转" },
+    { href: toCanonical(rootBaseUrl, "/relay/docs/"), label: "中转 · API 文档" },
   ],
 });
 
@@ -42,6 +49,7 @@ for (const s of sites) {
   ];
 
   for (const p of posts) {
+    if (p.hasUnreplacedPlaceholders || isTemplateSpamSlug(p.slug)) continue;
     siteUrls.push({
       href: `${base}/${s.slug}/posts/${p.slug}/`,
       label: p.frontmatter.title,

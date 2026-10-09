@@ -11,9 +11,9 @@ author: "WordOK Team"
 
 ## Introduction
 
-The tokenization of real-world assets (RWAs) has emerged as one of the most significant narratives in the blockchain industry in 2026. Unlike previous crypto cycles driven by speculative retail interest, the current wave is led by the world's largest financial institutions 鈥?BlackRock, JPMorgan, Franklin Templeton, Goldman Sachs, and dozens of others 鈥?who are bringing traditional financial assets on-chain at an accelerating pace.
+The tokenization of real-world assets (RWAs) has emerged as one of the most significant narratives in the blockchain industry in 2026. Unlike previous crypto cycles driven by speculative retail interest, the current wave is led by the world's largest financial institutions —BlackRock, JPMorgan, Franklin Templeton, Goldman Sachs, and dozens of others —who are bringing traditional financial assets on-chain at an accelerating pace.
 
-The numbers tell the story: tokenized treasuries alone have grown from under $1 billion in early 2023 to over $12 billion in mid-2026. Tokenized private credit exceeds $15 billion. Real estate tokenization platforms are processing billions in property value. And the total addressable market 鈥?encompassing bonds, equities, real estate, commodities, and alternative investments 鈥?is estimated at $867 trillion by Boston Consulting Group.
+The numbers tell the story: tokenized treasuries alone have grown from under $1 billion in early 2023 to over $12 billion in mid-2026. Tokenized private credit exceeds $15 billion. Real estate tokenization platforms are processing billions in property value. And the total addressable market —encompassing bonds, equities, real estate, commodities, and alternative investments —is estimated at $867 trillion by Boston Consulting Group.
 
 This article examines the state of RWA tokenization in 2026, the infrastructure enabling it, the specific asset classes gaining traction, and the challenges that remain before tokenization reaches its full potential.
 
@@ -41,7 +41,7 @@ Tokenization addresses these problems by representing ownership of real-world as
 
 **Fractional Ownership**: A $50 million commercial property can be divided into 50,000 tokens worth $1,000 each, making it accessible to a much broader range of investors.
 
-**Composability**: Tokenized assets can interact with DeFi protocols 鈥?used as collateral for loans, traded on decentralized exchanges, or integrated into automated portfolio strategies.
+**Composability**: Tokenized assets can interact with DeFi protocols —used as collateral for loans, traded on decentralized exchanges, or integrated into automated portfolio strategies.
 
 **Transparent Ownership**: Blockchain provides an immutable, auditable record of ownership, simplifying reconciliation and reducing disputes.
 

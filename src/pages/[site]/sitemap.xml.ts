@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { isTemplateSpamSlug } from "../../lib/post-indexing";
 import { getAllPosts, getPostLastmodDateRaw } from "../../lib/site-data";
 import {
   asYyyyMmDd,
@@ -63,7 +64,7 @@ export const GET: APIRoute = ({ params }) => {
   ];
 
   for (const p of posts) {
-    if (p.hasUnreplacedPlaceholders) continue;
+    if (p.hasUnreplacedPlaceholders || isTemplateSpamSlug(p.slug)) continue;
     const lastmod = asYyyyMmDd(getPostLastmodDateRaw(p.frontmatter));
     urls.push({
       loc: canonicalFor(siteConfig, `/${siteSlug}/posts/${p.slug}/`),
@@ -100,5 +101,3 @@ export const GET: APIRoute = ({ params }) => {
     },
   });
 };
-
-
