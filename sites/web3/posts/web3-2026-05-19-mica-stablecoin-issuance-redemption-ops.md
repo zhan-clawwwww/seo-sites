@@ -13,7 +13,7 @@ excerpt: "With MiCA’s stablecoin chapter fully in force for major issuers in m
 
 **Why read this now:** Through mid-May 2026, public reporting and issuer disclosures have shifted from “will MiCA apply?” to “how do mint and burn actually work under supervision?” That operational layer—reserve location, redemption SLAs, CASP onboarding, and incident playbooks—is distinct from high-level “regulation converges with the U.S.” narratives covered elsewhere on this site. This article is for treasury teams, compliance officers, and builders who need **mechanisms**, not slogans.
 
-*This piece does not re-litigate cross-border remittance use cases or corporate treasury stack design; for those angles see prior WordOK coverage on [stablecoin regulation and payments convergence](/web3/web3-2026-05-08-stablecoin-regulation-cross-border-payments-convergence) and [stablecoin treasury operations](/web3/web3-2026-05-07-stablecoin-treasury-ops-cross-border-settlement).*
+*This piece does not re-litigate cross-border remittance use cases or corporate treasury stack design; for those angles see prior WordOK coverage on [stablecoin regulation and payments convergence](/web3/posts/web3-2026-05-08-stablecoin-regulation-cross-border-payments-convergence) and [stablecoin treasury operations](/web3/posts/web3-2026-05-07-stablecoin-treasury-ops-cross-border-settlement).*
 
 ## Recent anchors (early May 2026)
 
@@ -340,4 +340,4 @@ The next quarter will test whether published redemption SLAs survive benign rede
 
 ---
 
-*WordOK Tech Publications — Web3 column. Related reading: [GENIUS Act and issuer operations (April 2026)](/web3/web3-2026-04-28-genius-act-occ-rulemaking-issuer-operations), [stablecoin regulation compliance overview](/web3/web3-2026-04-29-stablecoin-regulation-compliance-2026).*
+*WordOK Tech Publications — Web3 column. Related reading: [GENIUS Act and issuer operations (April 2026)](/web3/posts/web3-2026-04-28-genius-act-occ-rulemaking-issuer-operations), [stablecoin regulation compliance overview](/web3/posts/web3-2026-04-29-stablecoin-regulation-compliance-2026).*

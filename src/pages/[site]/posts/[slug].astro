@@ -9,6 +9,7 @@ import { canonicalFor, getPostStaticPaths, requirePostModule, requireSiteConfig 
 import { estimateReadingTime, formatReadingTime } from "../../../lib/reading-time";
 import { getRelatedPosts } from "../../../lib/related-posts";
 import { isNewsStyleSite, newsPostsNavLabel } from "../../../lib/news-style-sites";
+import { buildPostDocumentTitle } from "../../../lib/seo-title";
 
 export function getStaticPaths() {
   return getPostStaticPaths();
@@ -79,7 +80,9 @@ const frontmatter = (mod as any).frontmatter ?? {};
 
 const canonical = canonicalFor(siteConfig, `/${siteSlug}/posts/${slug}/`);
 const postTitle = frontmatter.title?.toString?.().trim?.() || slug;
-const title = frontmatter.title ? `${postTitle} - ${siteConfig.name}` : `${siteConfig.name} - ${slug}`;
+const title = frontmatter.title
+  ? buildPostDocumentTitle(postTitle, siteConfig.name)
+  : `${siteConfig.name} - ${slug}`;
 const description = frontmatter.description?.toString?.().trim()
   || `${postTitle} - ${siteConfig.description}`;
 const keywords = normalizeKeywords(frontmatter.keywords) ?? siteConfig.keywords;
@@ -112,8 +115,19 @@ const readingTime = rawContent ? estimateReadingTime(rawContent) : estimateReadi
   `${postTitle} ${description}`
 );
 
-// 目录
-const toc = rawContent ? extractToc(rawContent) : [];
+// 目录（优先 Astro 渲染后的 heading slug，与正文锚点一致）
+const modHeadings =
+  typeof (mod as { getHeadings?: () => Array<{ depth: number; slug: string; text: string }> })
+    .getHeadings === "function"
+    ? (mod as { getHeadings: () => Array<{ depth: number; slug: string; text: string }> }).getHeadings()
+    : null;
+const toc: TocItem[] = modHeadings
+  ? modHeadings
+      .filter((h) => h.depth >= 2 && h.depth <= 4)
+      .map((h) => ({ depth: h.depth, text: h.text, slug: h.slug }))
+  : rawContent
+    ? extractToc(rawContent)
+    : [];
 
 // 基于关键词的相关文章
 const allPosts = getAllPosts(siteSlug);

@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 const title = '图片处理百宝箱 - 免费在线图片压缩、格式转换、加水印 | wordok.top';
 const description = '免费在线图片处理工具箱：支持图片压缩、格式转换（PNG/JPG/WEBP/BMP/GIF互转）、图片裁切、尺寸调整、添加文字水印。纯浏览器本地处理，图片不上传服务器，安全快捷。';
 const canonical = 'https://wordok.top/tools/';
+const toolsOgImage = 'https://wordok.top/tools-og.png';
 const keywords = [
   '图片压缩', '在线图片处理', '图片格式转换', '图片加水印', '图片裁切',
   '尺寸调整', 'PNG转JPG', '图片处理工具', '在线图片编辑', '免费图片工具',
@@ -78,14 +79,14 @@ const faqJsonLd = {
     description: description,
     url: canonical,
     siteName: "wordok.top",
-    image: "https://wordok.top/og-default.png",
+    image: toolsOgImage,
     locale: "zh_CN"
   }}
   twitter={{
     card: "summary_large_image",
     title: "图片处理百宝箱 - 免费在线图片处理",
     description: description,
-    image: "https://wordok.top/og-default.png",
+    image: toolsOgImage,
     site: "@wordok_top"
   }}
 >
@@ -423,6 +424,30 @@ const faqJsonLd = {
   .crop-handle.bl { bottom: -6px; left: -6px; cursor: nesw-resize; }
   .crop-handle.br { bottom: -6px; right: -6px; cursor: nwse-resize; }
 
+  .preset-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .preset-chip {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: border-color var(--transition), color var(--transition), background var(--transition);
+  }
+  .preset-chip:hover,
+  .preset-chip[aria-pressed="true"] {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: rgba(124, 58, 237, 0.08);
+  }
+
   /* Compression stats */
   .compress-stats {
     display: flex;
@@ -598,7 +623,7 @@ const faqJsonLd = {
   <div id="convert-preview" class="preview-area hidden">
     <div class="preview-box">
       <h3>原图</h3>
-      <img id="convert-orig-img" alt="原图预览" />
+      <img id="convert-orig-img" alt="原图预览" width="800" height="600" />
       <div class="meta" id="convert-orig-meta"></div>
     </div>
   </div>
@@ -649,7 +674,7 @@ const faqJsonLd = {
   </div>
   <div id="crop-area" class="hidden" style="margin-top:20px;">
     <div class="crop-container" id="crop-container">
-      <img id="crop-img" alt="裁切预览" />
+      <img id="crop-img" alt="裁切预览" width="800" height="600" />
       <div class="crop-overlay" id="crop-overlay"></div>
     </div>
   </div>
@@ -671,7 +696,7 @@ const faqJsonLd = {
   <div id="resize-preview" class="preview-area hidden">
     <div class="preview-box">
       <h3>原图</h3>
-      <img id="resize-orig-img" alt="原图预览" />
+      <img id="resize-orig-img" alt="原图预览" width="800" height="600" />
       <div class="meta" id="resize-orig-meta"></div>
     </div>
   </div>
@@ -819,6 +844,11 @@ const faqJsonLd = {
 <div class="control-group">
       <label for="compress-target-kb">目标体积 (KB)</label>
       <input type="number" id="compress-target-kb" min="10" max="10240" value="200" placeholder="200" />
+      <div class="preset-chips" role="group" aria-label="目标体积预设">
+        <button type="button" class="preset-chip" data-kb="100" aria-pressed="false">100 KB</button>
+        <button type="button" class="preset-chip" data-kb="200" aria-pressed="true">200 KB</button>
+        <button type="button" class="preset-chip" data-kb="500" aria-pressed="false">500 KB</button>
+      </div>
     </div>
 <div class="control-group">
       <label class="checkbox-label">
@@ -832,7 +862,7 @@ const faqJsonLd = {
   <div id="compress-preview" class="preview-area hidden">
     <div class="preview-box">
       <h3>压缩后预览</h3>
-      <img id="compress-result-img" alt="压缩后预览" />
+      <img id="compress-result-img" alt="压缩后预览" width="800" height="600" />
     </div>
   </div>
   <div id="compress-actions" class="btn-row hidden">
@@ -1386,6 +1416,17 @@ const faqJsonLd = {
       doCompress();
     });
     formatSelect.addEventListener('change', doCompress);
+
+    document.querySelectorAll('.preset-chip').forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        var kb = chip.getAttribute('data-kb');
+        if (!kb) return;
+        document.getElementById('compress-target-kb').value = kb;
+        document.querySelectorAll('.preset-chip').forEach(function(c) {
+          c.setAttribute('aria-pressed', c === chip ? 'true' : 'false');
+        });
+      });
+    });
 
     document.getElementById('compress-to-target').addEventListener('click', function() {
       if (!img) return;

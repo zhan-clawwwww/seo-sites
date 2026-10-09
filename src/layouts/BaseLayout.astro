@@ -342,6 +342,27 @@ const pathname = Astro.url.pathname;
         justify-content: space-between;
         align-items: center;
       }
+      .root-header-nav {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .root-header-nav a {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--color-primary);
+        text-decoration: none;
+        padding: 6px 14px;
+        border: 1px solid var(--color-border);
+        border-radius: 999px;
+        background: var(--color-surface);
+        transition: border-color var(--transition), background var(--transition);
+      }
+      .root-header-nav a:hover {
+        border-color: var(--color-primary);
+        text-decoration: none;
+      }
       .header-inner-stack {
         flex-direction: column;
         align-items: stretch;
@@ -1310,6 +1331,9 @@ const pathname = Astro.url.pathname;
       <header class="site-header">
         <div class="header-inner header-inner-toolbar">
           <a href="/" class="site-logo-root">{rootHeaderTitle}</a>
+          <nav class="root-header-nav" aria-label="Portal">
+            <a href="/tools/">🛠️ 图片工具箱</a>
+          </nav>
         </div>
       </header>
     ) : null}

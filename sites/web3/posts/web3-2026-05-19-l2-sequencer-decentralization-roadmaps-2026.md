@@ -11,7 +11,7 @@ excerpt: "As Ethereum rollups mature in mid-2026, sequencer decentralization roa
 
 **Publication date:** 2026-05-19 | **Language:** English | **Focus:** Ethereum L2 rollups (optimistic and ZK families) | **Disclosure:** *not financial advice*; L2 bridges and governance carry smart-contract and operational risks; sequencing changes can affect liveness and ordering fairness.
 
-**Why read this now:** Through May 2026, rollup teams publicly emphasize **decentralizing the sequencer**—the entity or committee that orders transactions before data is posted to Ethereum. This is a different conversation from **preconfirmation latency** (covered in prior WordOK articles on [rollup preconfirmations in May 2026](/web3/web3-2026-05-07-ethereum-based-rollups-preconfirmations-inclusion) and [consolidation themes](/web3/web3-2026-05-08-ethereum-based-rollups-preconfirmations-consolidation)). Preconfirmations ask “how fast does the user feel?” Sequencer decentralization asks **“who can censor, reorder, or halt the chain?”** Institutions and developers need both answers; conflating them blurs risk disclosures.
+**Why read this now:** Through May 2026, rollup teams publicly emphasize **decentralizing the sequencer**—the entity or committee that orders transactions before data is posted to Ethereum. This is a different conversation from **preconfirmation latency** (covered in prior WordOK articles on [rollup preconfirmations in May 2026](/web3/posts/web3-2026-05-07-ethereum-based-rollups-preconfirmations-inclusion) and [consolidation themes](/web3/posts/web3-2026-05-08-ethereum-based-rollups-preconfirmations-consolidation)). Preconfirmations ask “how fast does the user feel?” Sequencer decentralization asks **“who can censor, reorder, or halt the chain?”** Institutions and developers need both answers; conflating them blurs risk disclosures.
 
 *This piece does not revisit RWA secondary liquidity, stablecoin treasury ops, or MiCA payment rails.*
 
@@ -103,7 +103,7 @@ Decentralizing the sequencer does not automatically solve **MEV extraction**. Ne
 
 **0–3 month forecast:** Wallets begin showing **“ordering provider”** metadata for power users. **Falsifier:** If a high-profile **ordering scandal** (censorship of withdrawals or selective reordering) occurs on a “decentralizing” chain, roadmap timelines extend.
 
-Link: rollup fee economics and MEV are discussed in [L2 rollup fees and restaking liquidity (April 2026)](/web3/web3-2026-04-27-l2-rollup-fees-restaking-liquidity).
+Link: rollup fee economics and MEV are discussed in [L2 rollup fees and restaking liquidity (April 2026)](/web3/posts/web3-2026-04-27-l2-rollup-fees-restaking-liquidity).
 
 ## Fault proofs, upgrades, and sequencer power
 
@@ -322,7 +322,7 @@ Facts reflect **public roadmap statements and Ethereum research discourse** thro
 
 ## Sequencer decentralization and restaking narratives (boundary)
 
-**Restaking** protocols promise shared security for auxiliary services; **sequencer decentralization** promises shared ordering. They interact when the same operator set stakes across layers, increasing **correlation** in stress events. Readers should not assume progress on one axis implies progress on the other—verify each independently. See [L2 rollup fees and restaking liquidity](/web3/web3-2026-04-27-l2-rollup-fees-restaking-liquidity) for the economic stack; this article stays on ordering power.
+**Restaking** protocols promise shared security for auxiliary services; **sequencer decentralization** promises shared ordering. They interact when the same operator set stakes across layers, increasing **correlation** in stress events. Readers should not assume progress on one axis implies progress on the other—verify each independently. See [L2 rollup fees and restaking liquidity](/web3/posts/web3-2026-04-27-l2-rollup-fees-restaking-liquidity) for the economic stack; this article stays on ordering power.
 
 ## Timeline skepticism: how to read “Q3 2026” roadmap lines
 
@@ -363,4 +363,4 @@ Pick one L2 you use monthly. Record **sequencer downtime incidents**, **batch po
 
 ---
 
-*WordOK Tech Publications — Web3 column. Related: [Layer 2 scaling guide](/web3/web3-2026-03-24-layer-2-rollups-ethereum-scaling-guide), [Ethereum L2 stablecoin liquidity and fees](/web3/web3-2026-04-28-ethereum-l2-stablecoin-liquidity-fee-economics).*
+*WordOK Tech Publications — Web3 column. Related: [Layer 2 scaling guide](/web3/posts/web3-2026-03-24-layer-2-rollups-ethereum-scaling-guide), [Ethereum L2 stablecoin liquidity and fees](/web3/posts/web3-2026-04-28-ethereum-l2-stablecoin-liquidity-fee-economics).*

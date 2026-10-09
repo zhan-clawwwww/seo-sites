@@ -420,10 +420,10 @@ PIA's massive server network means you'll always find an unblocked server for Pa
 
 ## Related Articles
 
-- [Best VPN for HBO Max in the USA](/vpn-usa/usa-vpn-for-hbo-max/)
-- [Best VPN for ESPN+ in the USA](/vpn-usa/usa-vpn-for-espn-plus/)
-- [Best VPN for Chromecast in the USA](/vpn-usa/usa-vpn-for-chromecast/)
-- [Best VPN for Streaming in the USA](/vpn-usa/best-vpn-usa-torrenting/)
+- [Best VPN for HBO Max in the USA](/vpn-usa/posts/usa-vpn-for-hbo-max/)
+- [Best VPN for ESPN+ in the USA](/vpn-usa/posts/usa-vpn-for-espn-plus/)
+- [Best VPN for Chromecast in the USA](/vpn-usa/posts/usa-vpn-for-chromecast/)
+- [Best VPN for Streaming in the USA](/vpn-usa/posts/best-vpn-usa-torrenting/)
 
 ## FAQ
 
