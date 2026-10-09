@@ -24,3 +24,42 @@ export function newsPostsListHeadline(slug: string): string {
   if (slug === "openclaw") return "All Guides";
   return "All News";
 }
+
+/** 文章列表页 meta / OG 描述（避免误用 site-a 的通用 SEO 文案） */
+export function postsListMetaDescription(
+  siteSlug: string,
+  siteName: string,
+  siteDescription: string,
+): string {
+  const trimmed = siteDescription.trim();
+  switch (siteSlug) {
+    case "openclaw":
+      return `Browse OpenClaw gateway guides from ${siteName}. Setup, security, and operations.`;
+    case "apple":
+      return trimmed
+        ? `Apple news, products, and guides from ${siteName}. ${trimmed}`
+        : `Apple news, products, and guides from ${siteName}.`;
+    case "ai":
+      return trimmed
+        ? `Latest AI news and analysis from ${siteName}. ${trimmed}`
+        : `Latest AI news and analysis from ${siteName}.`;
+    case "vpn-usa":
+      return `USA VPN reviews, privacy guides, and streaming tips from ${siteName}.`;
+    case "web3":
+      return trimmed
+        ? `Web3, crypto, and DeFi coverage from ${siteName}. ${trimmed}`
+        : `Web3, crypto, and DeFi coverage from ${siteName}.`;
+    case "tesla":
+      return trimmed
+        ? `Tesla and EV industry news from ${siteName}. ${trimmed}`
+        : `Tesla and EV industry news from ${siteName}.`;
+    case "streaming":
+      return trimmed
+        ? `Streaming service guides and reviews from ${siteName}. ${trimmed}`
+        : `Streaming service guides and reviews from ${siteName}.`;
+    default:
+      return trimmed
+        ? `Browse articles and guides from ${siteName}. ${trimmed}`
+        : `Browse articles and guides from ${siteName}.`;
+  }
+}

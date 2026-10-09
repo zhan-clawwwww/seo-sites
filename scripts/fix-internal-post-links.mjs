@@ -15,14 +15,23 @@ const RESERVED = new Set([
 ]);
 
 const linkRe = /\]\(\/(vpn-usa|web3|apple)\/([^)]+)\)/g;
+/** Legacy typo: /vpn-usa-for-foo → /vpn-usa/posts/usa-vpn-for-foo/ */
+const vpnUsaLegacySlugRe = /\]\(\/(vpn-usa-[a-z0-9-]+)\)/g;
 
 function fixContent(text) {
-  return text.replace(linkRe, (match, site, rest) => {
+  let out = text.replace(vpnUsaLegacySlugRe, (match, legacySlug) => {
+    const tail = legacySlug.replace(/^vpn-usa-/, "");
+    if (!tail) return match;
+    return `](/vpn-usa/posts/usa-vpn-${tail}/)`;
+  });
+  out = out.replace(linkRe, (match, site, rest) => {
     const segment = rest.replace(/\/$/, "").split("/")[0];
     if (RESERVED.has(segment)) return match;
     if (rest.startsWith("posts/")) return match;
-    return `](/${site}/posts/${rest})`;
+    const normalized = rest.endsWith("/") ? rest : `${rest}/`;
+    return `](/${site}/posts/${normalized})`;
   });
+  return out;
 }
 
 let filesChanged = 0;
