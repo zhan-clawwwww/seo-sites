@@ -6,7 +6,11 @@ import AiNewsLayout from "../../../layouts/AiNewsLayout.astro";
 import { getAllPosts } from "../../../lib/site-data";
 import { canonicalFor, getSiteStaticPaths, requireSiteConfig } from "../../../lib/site-routing";
 import { formatReadingTime } from "../../../lib/reading-time";
-import { isNewsStyleSite, newsPostsListHeadline } from "../../../lib/news-style-sites";
+import {
+  isNewsStyleSite,
+  newsPostsListHeadline,
+  postsListMetaDescription,
+} from "../../../lib/news-style-sites";
 
 export function getStaticPaths() {
   return getSiteStaticPaths();
@@ -39,15 +43,17 @@ const breadcrumbJsonLd = {
 };
 
 const listPageLabel = siteSlug === "openclaw" ? "All Guides" : "All Articles";
+const listMetaDescription = postsListMetaDescription(
+  siteSlug,
+  siteConfig.name,
+  siteConfig.description,
+);
 
 const itemListJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   "name": `${listPageLabel} - ${siteConfig.name}`,
-  "description":
-    siteSlug === "openclaw"
-      ? `Browse OpenClaw gateway guides from ${siteConfig.name}.`
-      : `Browse all articles and guides from ${siteConfig.name}`,
+  "description": listMetaDescription,
   "numberOfItems": posts.length,
   "itemListElement": posts.slice(0, 20).map((p, i) => ({
     "@type": "ListItem",
@@ -60,10 +66,7 @@ const itemListJsonLd = {
 const openGraph = {
   type: "website" as const,
   title: `${listPageLabel} - ${siteConfig.name}`,
-  description:
-    siteSlug === "openclaw"
-      ? `Browse all OpenClaw gateway guides from ${siteConfig.name}.`
-      : `Browse all articles and guides from ${siteConfig.name}. Expert technical reviews, SEO insights, and web development resources.`,
+  description: listMetaDescription,
   url: canonical,
   siteName: siteConfig.name,
   image: siteConfig.defaultImage,
@@ -73,19 +76,13 @@ const openGraph = {
 const twitter = {
   card: siteConfig.defaultImage ? ("summary_large_image" as const) : ("summary" as const),
   title: `${siteSlug === "openclaw" ? "All Guides" : "All Articles"} - ${siteConfig.name}`,
-  description:
-    siteSlug === "openclaw"
-      ? `Browse all OpenClaw guides from ${siteConfig.name}.`
-      : `Browse all articles and guides from ${siteConfig.name}.`,
+  description: listMetaDescription,
   image: siteConfig.defaultImage,
 };
 
 const layoutProps = {
   title: `${listPageLabel} - ${siteConfig.name}`,
-  description:
-    siteSlug === "openclaw"
-      ? `Browse all OpenClaw gateway guides from ${siteConfig.name}.`
-      : `Browse all articles and guides from ${siteConfig.name}. Expert technical reviews, SEO insights, and web development resources.`,
+  description: listMetaDescription,
   canonical,
   keywords: siteConfig.keywords,
   jsonLd: [breadcrumbJsonLd, itemListJsonLd],
@@ -142,7 +139,7 @@ const layoutProps = {
 ) : (
 <BaseLayout
   title={`All Articles - ${siteConfig.name}`}
-  description={`Browse all articles and guides from ${siteConfig.name}. Expert technical reviews, SEO insights, and web development resources.`}
+  description={listMetaDescription}
   canonical={canonical}
   keywords={siteConfig.keywords}
   jsonLd={[breadcrumbJsonLd, itemListJsonLd]}

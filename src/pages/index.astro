@@ -86,9 +86,11 @@ const latestContentDateCompact =
       })
     : null;
 
+const portalOgImage = absPath("/portal-og.png");
+
 const openGraph = {
   type: "website" as const,
-  image: "https://wordok.top/og-default.png",
+  image: portalOgImage,
   title: "wordok.top — VPN, AI, Apple, Tesla, Web3, OpenClaw & Streaming Guides",
   description:
     "Latest articles on VPN, AI, Apple, Tesla, Web3, OpenClaw, and streaming. Discover trending topics and comprehensive guides across all channels.",
@@ -101,6 +103,7 @@ const twitter = {
   title: "wordok.top — Tech, Tesla, Web3 & OpenClaw",
   description:
     "Stay updated with VPN reviews, AI news, Apple and Tesla coverage, Web3 guides, OpenClaw gateway tutorials, and streaming tips.",
+  image: portalOgImage,
 };
 
 const itemListJsonLd = {
