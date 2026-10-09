@@ -6,7 +6,7 @@ import ChannelGlyph from "../components/ChannelGlyph.astro";
 import PortalGlyph from "../components/PortalGlyph.astro";
 import { resolveRootSiteAnalytics } from "../lib/root-analytics";
 import { getPublicRootBaseUrl } from "../lib/root-base-url";
-import { getAllSites, getSiteConfig, getAllPosts, toCanonical } from "../lib/site-data";
+import { getAllSites, getSiteConfig, getAllPosts, getPostLastmodDateRaw, toCanonical } from "../lib/site-data";
 import type { SiteConfig } from "../lib/site-data";
 import { latestPostLastmodYyyyMmDd } from "../lib/site-routing";
 
@@ -38,7 +38,7 @@ const orderedSites = orderSitesForPortal(sites);
 const ARTICLES_PER_CHANNEL = 3;
 
 function postRecencyMs(p: (typeof allPosts)[number]): number {
-  const iso = p.frontmatter.updatedDate || p.frontmatter.pubDate;
+  const iso = getPostLastmodDateRaw(p.frontmatter);
   return new Date(iso || "1970-01-01").getTime();
 }
 
@@ -300,8 +300,8 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
           const tagline = (meta.desc || "").trim();
           const showDualIntro = Boolean(configDesc && tagline && configDesc !== tagline);
           const topRecency = channelPosts[0]
-            ? channelPosts[0].frontmatter.updatedDate || channelPosts[0].frontmatter.pubDate
-            : sitePosts[0]?.frontmatter.updatedDate || sitePosts[0]?.frontmatter.pubDate;
+            ? getPostLastmodDateRaw(channelPosts[0].frontmatter)
+            : sitePosts[0] ? getPostLastmodDateRaw(sitePosts[0].frontmatter) : undefined;
           const latestDate = topRecency
             ? new Date(topRecency).toLocaleDateString("en-US", {
                 month: "short",
@@ -344,7 +344,7 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
                   <h4 class="channel-block-articles-title">New in {meta.label}</h4>
                   <div class="channel-block-articles">
                     {channelPosts.map((post) => {
-                      const recencyIso = post.frontmatter.updatedDate || post.frontmatter.pubDate;
+                      const recencyIso = getPostLastmodDateRaw(post.frontmatter);
                       const date = recencyIso
                         ? new Date(recencyIso).toLocaleDateString("en-US", {
                             month: "short",

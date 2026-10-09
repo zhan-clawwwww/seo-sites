@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { getPublicRootBaseUrl } from "../lib/root-base-url";
-import { getAllPosts, getAllSites, toCanonical } from "../lib/site-data";
+import { getAllPosts, getAllSites, getPostLastmodDateRaw, toCanonical } from "../lib/site-data";
 import {
   asYyyyMmDd,
   buildStampYyyyMmDd,
@@ -83,7 +83,8 @@ export const GET: APIRoute = () => {
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/disclosure/`), priority: 0.4, changefreq: "yearly" });
 
     for (const p of posts) {
-      const lastmod = asYyyyMmDd(p.frontmatter.updatedDate ?? p.frontmatter.pubDate);
+      if (p.hasUnreplacedPlaceholders) continue;
+      const lastmod = asYyyyMmDd(getPostLastmodDateRaw(p.frontmatter));
       urls.push({
         loc: canonicalFor(siteConfig, `/${s.slug}/posts/${p.slug}/`),
         lastmod,

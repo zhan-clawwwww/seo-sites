@@ -1,5 +1,12 @@
 import type { SiteConfig } from "./site-data";
-import { getAllPosts, getAllSites, getPostModule, getSiteConfig, toCanonical } from "./site-data";
+import {
+  getAllPosts,
+  getAllSites,
+  getPostLastmodDateRaw,
+  getPostModule,
+  getSiteConfig,
+  toCanonical,
+} from "./site-data";
 
 export type SiteParams = { site: string };
 export type PostParams = { site: string; slug: string };
@@ -44,11 +51,11 @@ export function buildStampYyyyMmDd(): string {
  * 用于频道首页、列表等 URL 的 lastmod，便于 GSC 发现更新
  */
 export function latestPostLastmodYyyyMmDd(
-  posts: Array<{ frontmatter: { pubDate?: string; updatedDate?: string } }>,
+  posts: Array<{ frontmatter: Record<string, unknown> }>,
 ): string | undefined {
   let max = 0;
   for (const p of posts) {
-    const raw = p.frontmatter.updatedDate ?? p.frontmatter.pubDate;
+    const raw = getPostLastmodDateRaw(p.frontmatter);
     if (!raw) continue;
     const t = new Date(String(raw).trim()).getTime();
     if (!Number.isNaN(t) && t > max) max = t;

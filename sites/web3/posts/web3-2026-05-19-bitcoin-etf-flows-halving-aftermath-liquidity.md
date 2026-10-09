@@ -339,4 +339,4 @@ The near-term test is whether markets continue to **overfit daily flow colors**;
 
 ---
 
-*WordOK Tech Publications — Web3 column. Related: [Ethereum ETF flows and activity (April 2026)](/web3/web3-2026-04-22-eth-rotation-etf-flows-activity-forecast), [Bitcoin bear market vs institutional growth (March 2026)](/web3/web3-2026-03-27-bitcoin-bear-market-institutional-growth).*
+*WordOK Tech Publications — Web3 column. Related: [Ethereum ETF flows and activity (April 2026)](/web3/posts/web3-2026-04-22-eth-rotation-etf-flows-activity-forecast), [Bitcoin bear market vs institutional growth (March 2026)](/web3/posts/web3-2026-03-27-bitcoin-bear-market-institutional-growth).*

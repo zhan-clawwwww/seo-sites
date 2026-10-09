@@ -49,9 +49,13 @@ export type SiteConfig = {
 export type PostFrontmatter = {
   title: string;
   description?: string;
+  /** Legacy alias; normalized to pubDate when loading posts */
+  date?: string;
   pubDate?: string;
   updatedDate?: string;
   keywords?: string[];
+  excerpt?: string;
+  tags?: string[] | string;
   author?: string;
   image?: string;
   topic?: string;
@@ -112,6 +116,61 @@ function normalizeKeywords(k: unknown): string[] | undefined {
       .map((s) => s.trim())
       .filter(Boolean);
   return undefined;
+}
+
+/** Site paths that are not under /posts/ */
+export const SITE_NON_POST_HUB_SEGMENTS = new Set([
+  "about",
+  "contact",
+  "disclosure",
+  "privacy",
+  "terms",
+  "posts",
+  "ai-frontiers",
+  "privacy-security",
+]);
+
+export function getFrontmatterPubDateRaw(fm: Record<string, unknown>): string | undefined {
+  const raw = fm.pubDate ?? fm.date;
+  if (raw === undefined || raw === null) return undefined;
+  const s = String(raw).trim();
+  return s || undefined;
+}
+
+export function getFrontmatterUpdatedDateRaw(fm: Record<string, unknown>): string | undefined {
+  const raw = fm.updatedDate;
+  if (raw === undefined || raw === null) return undefined;
+  const s = String(raw).trim();
+  return s || undefined;
+}
+
+export function getPostLastmodDateRaw(fm: Record<string, unknown>): string | undefined {
+  return getFrontmatterUpdatedDateRaw(fm) ?? getFrontmatterPubDateRaw(fm);
+}
+
+/**
+ * Resolve description (excerpt) and keywords (tags) for SEO templates.
+ */
+export function enrichPostFrontmatter<T extends Record<string, unknown>>(fm: T): T & PostFrontmatter {
+  const pubDate = getFrontmatterPubDateRaw(fm);
+  const updatedDate = getFrontmatterUpdatedDateRaw(fm);
+  const description = str(fm.description) ?? str(fm.excerpt);
+  const keywords =
+    normalizeKeywords(fm.keywords) ??
+    normalizeKeywords(fm.tags);
+  return {
+    ...fm,
+    pubDate,
+    updatedDate,
+    description,
+    keywords,
+  } as T & PostFrontmatter;
+}
+
+/** Unreplaced template placeholders (e.g. "[technology 1]") — exclude from index/sitemaps */
+export function postHasUnreplacedPlaceholders(content: string): boolean {
+  if (!content) return false;
+  return /\[(?:technology\s+\d+)\]/i.test(content);
 }
 
 function str(v: unknown): string | undefined {
@@ -284,20 +343,18 @@ export function getAllPosts(siteSlug?: string) {
       (x): x is { site: string; slug: string; mod: MarkdownModule } => Boolean(x),
     )
     .map((p) => {
-      const frontmatter = p.mod.frontmatter ?? {};
-      const normalizedFrontmatter = {
-        ...frontmatter,
-        keywords: normalizeKeywords(frontmatter.keywords),
-      };
+      const frontmatter = enrichPostFrontmatter((p.mod.frontmatter ?? {}) as Record<string, unknown>);
       const rawContent =
         typeof (p.mod as any).rawContent === "function" ? (p.mod as any).rawContent() : "";
-      const fallbackText = `${normalizedFrontmatter.title || ""} ${normalizedFrontmatter.description || ""}`;
+      const fallbackText = `${frontmatter.title || ""} ${frontmatter.description || ""}`;
       const readingTime = estimateReadingTime(rawContent || fallbackText);
+      const pubDateRaw = getFrontmatterPubDateRaw(frontmatter);
       return {
         ...p,
-        frontmatter: normalizedFrontmatter,
-        pubDate: normalizedFrontmatter.pubDate ? new Date(normalizedFrontmatter.pubDate) : null,
+        frontmatter,
+        pubDate: pubDateRaw ? new Date(pubDateRaw) : null,
         readingTime,
+        hasUnreplacedPlaceholders: postHasUnreplacedPlaceholders(rawContent),
       };
     })
     .sort((a, b) => {

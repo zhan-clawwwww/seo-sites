@@ -520,9 +520,9 @@ Select a VPN based on your needs:
 
 ## Related Articles
 
-- [Best VPN for Torrenting in the USA](/vpn-usa/best-vpn-usa-torrenting/)
-- [Fastest VPN Servers in the USA](/vpn-usa/fast-vpn-usa-server-list/)
-- [Best VPN for Business in the USA](/vpn-usa/usa-vpn-for-business/)
+- [Best VPN for Torrenting in the USA](/vpn-usa/posts/best-vpn-usa-torrenting/)
+- [Fastest VPN Servers in the USA](/vpn-usa/posts/fast-vpn-usa-server-list/)
+- [Best VPN for Business in the USA](/vpn-usa/posts/usa-vpn-for-business/)
 
 ## FAQ
 
