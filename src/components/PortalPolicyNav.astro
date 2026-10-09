@@ -1,0 +1,49 @@
+---
+type Props = {
+  current?: "about" | "privacy" | "contact";
+};
+
+const { current } = Astro.props;
+---
+
+<nav class="portal-policy-nav" aria-label="Legal">
+  <a href="/">Home</a>
+  <span class="portal-policy-nav-sep" aria-hidden="true">/</span>
+  <a href="/about/" aria-current={current === "about" ? "page" : undefined}>
+    {current === "about" ? <strong>About</strong> : "About"}
+  </a>
+  <span class="portal-policy-nav-sep" aria-hidden="true">/</span>
+  <a href="/privacy/" aria-current={current === "privacy" ? "page" : undefined}>
+    {current === "privacy" ? <strong>Privacy</strong> : "Privacy"}
+  </a>
+  <span class="portal-policy-nav-sep" aria-hidden="true">/</span>
+  <a href="/contact/" aria-current={current === "contact" ? "page" : undefined}>
+    {current === "contact" ? <strong>Contact</strong> : "Contact"}
+  </a>
+  <span class="portal-policy-nav-sep" aria-hidden="true">·</span>
+  <a href="/tools/privacy/">Tools privacy (中文)</a>
+</nav>
+
+<style>
+  .portal-policy-nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    font-size: 0.85rem;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .portal-policy-nav a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .portal-policy-nav a:hover {
+    color: var(--color-primary);
+  }
+  .portal-policy-nav-sep {
+    color: var(--color-border);
+  }
+</style>

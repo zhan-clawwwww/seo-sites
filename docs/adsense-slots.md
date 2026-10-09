@@ -16,7 +16,13 @@ Do **not** invent or commit real slot IDs in the repo. Leave defaults empty so C
 
 ## In-article ads
 
-Article templates only render `<ins class="adsbygoogle">` when `resolveAdsense()` returns a non-empty `adSlot` (from config or `PUBLIC_ADSENSE_AD_SLOT`).
+Article templates only render `<ins class="adsbygoogle">` when `resolveAdsense()` returns a non-empty `adSlot` (from config or `PUBLIC_ADSENSE_AD_SLOT`). If the slot is empty, **no** `<ins>` is output (`AdSenseArticleSlot.astro`).
+
+## Layout CLS reserves (Auto ads / future units)
+
+`BaseLayout.astro` and `AiNewsLayout.astro` wrap page content with empty `.ad-auto-reserve` containers (`AdSenseAutoReserve.astro`, 90px min-height). These hold space for AdSense Auto ads or manual units without committing to a slot ID in the repo.
+
+**Excluded paths** (no layout reserves): root and per-channel `/about/`, `/contact/`, `/privacy/`, plus `/tools/about|contact|privacy/` — see `shouldSuppressAdReserves()` in `src/lib/ad-layout-policy.ts`.
 
 ## CMP / Funding Choices (optional)
 

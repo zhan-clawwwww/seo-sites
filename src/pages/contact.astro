@@ -1,0 +1,90 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PortalPolicyNav from "../components/PortalPolicyNav.astro";
+import { PORTAL_CONTACT_EMAIL } from "../lib/ad-layout-policy";
+import { resolveRootSiteAnalytics } from "../lib/root-analytics";
+import { getPublicRootBaseUrl } from "../lib/root-base-url";
+import { getAllSites, getSiteConfig, toCanonical } from "../lib/site-data";
+
+const sites = getAllSites();
+const firstSite = sites[0];
+const analytics = resolveRootSiteAnalytics(
+  firstSite ? getSiteConfig(firstSite.slug)?.analytics : undefined,
+);
+const rootBase = getPublicRootBaseUrl();
+const canonical = toCanonical(rootBase, "/contact/");
+const contactEmail = PORTAL_CONTACT_EMAIL;
+
+const openGraph = {
+  type: "website" as const,
+  title: "Contact — wordok.top",
+  description: "Contact wordok.top for feedback, corrections, privacy requests, and partnership inquiries.",
+  url: canonical,
+  siteName: "wordok.top",
+  image: "https://wordok.top/og-default.png",
+  locale: "en_US",
+};
+---
+
+<BaseLayout
+  title="Contact — wordok.top"
+  description="Reach the wordok.top team by email for feedback, privacy requests, and business inquiries."
+  canonical={canonical}
+  analytics={analytics}
+  openGraph={openGraph}
+  lang="en"
+>
+  <PortalPolicyNav current="contact" />
+
+  <article class="section-page">
+    <h1>Contact</h1>
+    <p>We read every message and aim to respond within one to two business days.</p>
+
+    <section>
+      <h2>Email</h2>
+      <div class="info-box">
+        <h3>General &amp; privacy</h3>
+        <p>
+          <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+        </p>
+        <p style="font-size: 0.9rem; color: var(--color-text-secondary); margin-top: 8px;">
+          Include the page URL and a short description so we can help faster.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Channel-specific contact</h2>
+      <p>Each editorial channel also lists a contact page:</p>
+      <ul>
+        {sites.map((s) => (
+          <li>
+            <a href={`/${s.slug}/contact/`}>{s.config.name}</a>
+          </li>
+        ))}
+        <li><a href="/tools/contact/">Image tools (中文)</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What to send</h2>
+      <ul>
+        <li><strong>Corrections:</strong> article URL, inaccurate statement, and preferred fix or source</li>
+        <li><strong>Privacy:</strong> requests under GDPR/CCPA with enough detail to verify ownership</li>
+        <li><strong>Tools:</strong> browser/OS version and steps to reproduce bugs</li>
+        <li><strong>Partnerships:</strong> brief overview and relevant links—no unsolicited attachments</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Related policies</h2>
+      <p>
+        <a href="/privacy/">Privacy Policy</a>
+        · <a href="/about/">About</a>
+        · <a href="/tools/privacy/">Tools privacy (中文)</a>
+      </p>
+    </section>
+  </article>
+</BaseLayout>

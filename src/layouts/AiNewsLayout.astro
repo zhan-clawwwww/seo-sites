@@ -1,5 +1,7 @@
 ---
+import AdSenseAutoReserve from "../components/AdSenseAutoReserve.astro";
 import { CHANNEL_LABELS, postsHubLabel, postsNavLabel, isPathActive } from "../lib/channel-nav";
+import { shouldSuppressAdReserves } from "../lib/ad-layout-policy";
 import { resolveAdsense } from "../lib/root-adsense";
 import { getPublicRootBaseUrl } from "../lib/root-base-url";
 import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
@@ -58,6 +60,7 @@ type Props = {
     adSlot?: string;
   };
   alternatePlain?: string;
+  suppressAdReserves?: boolean;
 };
 
 const {
@@ -76,9 +79,13 @@ const {
   analytics,
   adsense,
   alternatePlain,
+  suppressAdReserves: suppressAdReservesProp,
 } = Astro.props;
 
+const pathname = Astro.url.pathname;
 const effectiveAdsense = resolveAdsense(adsense);
+const suppressAdReserves =
+  suppressAdReservesProp ?? shouldSuppressAdReserves(pathname);
 const adsenseFundingChoicesOn =
   String(import.meta.env.PUBLIC_ENABLE_ADSENSE_FUNDING_CHOICES ?? "").toLowerCase() === "true";
 
@@ -97,7 +104,6 @@ function safeJsonStringify(v: unknown): string {
 const currentYear = new Date().getFullYear();
 
 const allSites = getAllSites();
-const pathname = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -897,6 +903,18 @@ const pathname = Astro.url.pathname;
         }
       }
 
+      .ad-auto-reserve {
+        min-height: 90px;
+        margin: 20px auto;
+        max-width: 728px;
+        width: 100%;
+        text-align: center;
+      }
+      .ad-auto-reserve--after {
+        margin-top: 32px;
+        margin-bottom: 8px;
+      }
+
       @media (max-width: 640px) {
         .ai-main {
           padding: 20px max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom))
@@ -988,7 +1006,9 @@ const pathname = Astro.url.pathname;
     ) : null}
 
     <main class="ai-main">
+      {!suppressAdReserves ? <AdSenseAutoReserve /> : null}
       <slot />
+      {!suppressAdReserves ? <AdSenseAutoReserve class="ad-auto-reserve--after" /> : null}
     </main>
 
     {siteSlug && siteName ? (
