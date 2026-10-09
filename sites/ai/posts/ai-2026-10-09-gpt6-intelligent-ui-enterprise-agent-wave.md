@@ -45,7 +45,7 @@ On October 8, 2026, at **Gemini at Work 2026**, Google Cloud announced the **Gem
 
 This sits alongside broader industry reporting in early October about **Gemini 4 Argon**, Google’s latest flagship model, with phased rollout beginning through cybersecurity partners and government safety evaluations—positioning Google as a “trusted” frontier provider after a year of high-profile security incidents involving other vendors’ agentic systems. Analyst commentary (e.g., CNBC’s October 2, 2026 “Tech Download”) notes strong benchmark placement on composite indices, with the **production reality test** still ahead for wide enterprise deployment.
 
-For readers who followed our [enterprise agent orchestration analysis from late April 2026](/ai/posts/ai-2026-04-28-enterprise-ai-agent-orchestration-google-cloud-openai-workspace/), the October announcement is less “new category” and more **category consolidation**: Google is branding the prompt box itself as the agent runtime, not a separate SKU per department.
+For readers who followed our [enterprise agent orchestration analysis from late April 2026](/ai/posts/ai-2026-04-28-enterprise-ai-agent-orchestration-google-cloud-openai-workspace/), the October announcement is less “new category” and more **category consolidation**: Google is branding the prompt box itself as the agent runtime, not a separate SKU per department. For a dedicated deep dive on coworker identity, MCP connectors, memory types, and the tasks inbox, see our [Gemini agent enterprise architecture analysis](/ai/posts/ai-2026-10-09-google-gemini-agent-enterprise-coworker/) (also published October 9, 2026).
 
 ### Anthropic: OSS Scanner for open-source projects (October 8)
 
