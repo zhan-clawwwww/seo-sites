@@ -218,9 +218,9 @@ const pathname = Astro.url.pathname;
       <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analytics.ga4Id}`}></script>
     ) : null}
     {analytics?.ga4Id ? (
-      <script define:vars={{ gaId: analytics.ga4Id }}>
+      <script is:inline define:vars={{ gaId: analytics.ga4Id }}>
         window.dataLayer = window.dataLayer || [];
-        function gtag(...args: any[]) { window.dataLayer.push(args); }
+        function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', gaId);
       </script>

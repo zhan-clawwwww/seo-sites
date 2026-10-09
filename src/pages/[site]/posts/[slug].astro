@@ -3,7 +3,15 @@ export const prerender = true;
 
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import AiNewsLayout from "../../../layouts/AiNewsLayout.astro";
-import { getAllPosts, getPostRawContent, getTwitterHandleFromUrl } from "../../../lib/site-data";
+import {
+  enrichPostFrontmatter,
+  getAllPosts,
+  getFrontmatterPubDateRaw,
+  getFrontmatterUpdatedDateRaw,
+  getPostRawContent,
+  getTwitterHandleFromUrl,
+  postHasUnreplacedPlaceholders,
+} from "../../../lib/site-data";
 import { getAuthor, getDefaultAuthorForSite } from "../../../lib/authors";
 import { canonicalFor, getPostStaticPaths, requirePostModule, requireSiteConfig } from "../../../lib/site-routing";
 import { estimateReadingTime, formatReadingTime } from "../../../lib/reading-time";
@@ -75,7 +83,7 @@ const siteConfig = requireSiteConfig(siteSlug);
 const mod = requirePostModule(siteSlug, slug);
 
 const Content = (mod as any).Content;
-const frontmatter = (mod as any).frontmatter ?? {};
+const frontmatter = enrichPostFrontmatter(((mod as any).frontmatter ?? {}) as Record<string, unknown>);
 
 const canonical = canonicalFor(siteConfig, `/${siteSlug}/posts/${slug}/`);
 const postTitle = frontmatter.title?.toString?.().trim?.() || slug;
@@ -85,8 +93,8 @@ const description = frontmatter.description?.toString?.().trim()
 const keywords = normalizeKeywords(frontmatter.keywords) ?? siteConfig.keywords;
 
 const image = frontmatter.image?.toString?.() || siteConfig.defaultImage;
-const pubDate = frontmatter.pubDate?.toString?.();
-const updatedDate = frontmatter.updatedDate?.toString?.();
+const pubDate = getFrontmatterPubDateRaw(frontmatter);
+const updatedDate = getFrontmatterUpdatedDateRaw(frontmatter);
 const faq = normalizeFaq(frontmatter.faq);
 const tldr = frontmatter.tldr?.toString?.().trim?.() || "";
 const entities = normalizeEntities(frontmatter.entities);
@@ -100,14 +108,20 @@ const draftRaw = frontmatter.draft;
 const isDraft =
   draftRaw === true || String(draftRaw ?? "").toLowerCase() === "true";
 const robotsFromFm = frontmatter.robots?.toString?.().trim?.() || undefined;
-const pageRobots = isDraft ? "noindex, nofollow" : robotsFromFm || undefined;
+const rawContentForPlaceholders = getPostRawContent(siteSlug, slug);
+const hasPlaceholders = postHasUnreplacedPlaceholders(rawContentForPlaceholders);
+const pageRobots = isDraft
+  ? "noindex, nofollow"
+  : hasPlaceholders
+    ? "noindex, follow"
+    : robotsFromFm || undefined;
 
 // 作者信息（若 authorId 不存在于 authors 库则回退到站点默认作者）
 const authorId = frontmatter.author?.toString?.().trim() || null;
 const author = (authorId ? getAuthor(authorId) : null) ?? getDefaultAuthorForSite(siteSlug);
 
 // 阅读时间
-const rawContent = getPostRawContent(siteSlug, slug);
+const rawContent = rawContentForPlaceholders;
 const readingTime = rawContent ? estimateReadingTime(rawContent) : estimateReadingTime(
   `${postTitle} ${description}`
 );
