@@ -23,13 +23,13 @@ This article examines the Pectra upgrade in detail, analyzing its technical comp
 
 EIP-7702 introduces a new transaction type that allows externally owned accounts (EOAs) to temporarily delegate their execution to smart contract code. This is a pragmatic middle ground between the existing EOA model and full account abstraction (ERC-4337).
 
-Before Pectra, an EOA could only initiate simple ETH transfers and contract calls. It had no ability to execute arbitrary smart contract logic. Users who wanted account abstraction features 鈥?batched transactions, gas sponsorship, session keys, social recovery 鈥?had to migrate to a smart contract wallet entirely, losing access to their existing address, on-chain history, and social graph.
+Before Pectra, an EOA could only initiate simple ETH transfers and contract calls. It had no ability to execute arbitrary smart contract logic. Users who wanted account abstraction features —batched transactions, gas sponsorship, session keys, social recovery —had to migrate to a smart contract wallet entirely, losing access to their existing address, on-chain history, and social graph.
 
 EIP-7702 changes this by allowing EOAs to sign a delegation designator that points to a smart contract implementation. When a transaction is sent from the EOA, the network executes the contract code in the context of the EOA. The delegation can be permanent or temporary, and the user retains full control over their private key.
 
 ### Real-World Impact
 
-**Transaction Batching**: Users can now combine multiple operations into a single transaction. For example, approving a token and then swapping it in the same transaction 鈥?something that previously required two separate transactions with two gas payments.
+**Transaction Batching**: Users can now combine multiple operations into a single transaction. For example, approving a token and then swapping it in the same transaction —something that previously required two separate transactions with two gas payments.
 
 **Gas Sponsorship**: Applications can pay gas fees on behalf of their users. This is transformative for onboarding, as new users no longer need to acquire ETH before they can interact with a dApp. Several major DeFi protocols have already implemented gas-free onboarding flows using EIP-7702.
 
@@ -70,7 +70,7 @@ EIP-7251 raises the maximum effective balance from 32 ETH to 2048 ETH. This allo
 
 ### Impact on the Network
 
-**Validator Count Reduction**: In the months since Pectra, the active validator count has decreased from over 1 million to approximately 870,000. This reduction improves network efficiency without compromising decentralization 鈥?the same amount of ETH is staked, just distributed across fewer, larger validators.
+**Validator Count Reduction**: In the months since Pectra, the active validator count has decreased from over 1 million to approximately 870,000. This reduction improves network efficiency without compromising decentralization —the same amount of ETH is staked, just distributed across fewer, larger validators.
 
 **Improved Staking Yields**: Compounding rewards result in approximately 0.3-0.5% higher annualized yields for large stakers. For a validator with 256 ETH, this translates to an additional 0.8-1.3 ETH per year.
 
@@ -155,7 +155,7 @@ Pectra reinforces Ethereum's position as the leading smart contract platform for
 
 The Pectra upgrade represents a major step forward for Ethereum across multiple dimensions. EIP-7702's account abstraction brings Ethereum's user experience much closer to what mainstream users expect from digital applications. EIP-7251's validator consolidation improves network efficiency and staking economics. And EIP-7691's blob scaling continues the trajectory toward making Layer 2 transactions essentially free.
 
-Together, these changes strengthen Ethereum's core value proposition: a secure, decentralized platform for programmable money and applications. While challenges remain 鈥?particularly around L1 fee revenue sustainability and the pace of further scaling upgrades 鈥?Pectra positions Ethereum well for the next phase of ecosystem growth.
+Together, these changes strengthen Ethereum's core value proposition: a secure, decentralized platform for programmable money and applications. While challenges remain —particularly around L1 fee revenue sustainability and the pace of further scaling upgrades —Pectra positions Ethereum well for the next phase of ecosystem growth.
 
 For users, the most tangible improvement is a smoother, cheaper experience when interacting with Ethereum applications. For developers, the expanded design space of account abstraction opens new possibilities for application design. And for validators, the consolidation opportunity simplifies operations while improving returns.
 
@@ -171,7 +171,7 @@ Security is unchanged for standard transactions. EIP-7702 delegation does not gi
 
 **Q3: How does validator consolidation affect solo stakers?**
 
-Solo stakers with 32 ETH are unaffected 鈥?the minimum stake remains 32 ETH. Solo stakers with more than 32 ETH benefit from the ability to compound rewards without running additional validators. The consolidation primarily benefits large operators but does not disadvantage small ones.
+Solo stakers with 32 ETH are unaffected —the minimum stake remains 32 ETH. Solo stakers with more than 32 ETH benefit from the ability to compound rewards without running additional validators. The consolidation primarily benefits large operators but does not disadvantage small ones.
 
 **Q4: Will Layer 2 fees continue to decrease?**
 

@@ -11,7 +11,7 @@ author: "WordOK Team"
 
 ## Introduction
 
-Tesla's robotaxi ambitions have been one of the most anticipated and debated developments in the automotive and technology industries. After years of promises, demonstrations, and shifting timelines, the company has made meaningful progress toward launching an autonomous ride-hailing service in 2026. The approach 鈥?using camera-only systems and fleet learning from millions of consumer vehicles 鈥?remains fundamentally different from competitors like Waymo and Cruise, which rely on expensive sensor suites including lidar and high-definition maps.
+Tesla's robotaxi ambitions have been one of the most anticipated and debated developments in the automotive and technology industries. After years of promises, demonstrations, and shifting timelines, the company has made meaningful progress toward launching an autonomous ride-hailing service in 2026. The approach —using camera-only systems and fleet learning from millions of consumer vehicles —remains fundamentally different from competitors like Waymo and Cruise, which rely on expensive sensor suites including lidar and high-definition maps.
 
 The stakes are enormous. Morgan Stanley estimates that a successful robotaxi network could add $500 billion to Tesla's market capitalization. ARK Invest's bull case projects robotaxi revenue exceeding Tesla's automotive revenue by 2030. But the path from FSD Supervised (a driver-assist system) to unsupervised autonomous driving is fraught with technical, regulatory, and safety challenges.
 
@@ -31,7 +31,7 @@ Tesla's Full Self-Driving (Supervised) system has improved dramatically through 
 - More natural driving behavior, reducing the "jerky" feeling that characterized earlier versions
 - Better navigation of parking lots and driveways, a persistent weakness
 
-**Data Advantage**: Tesla's fleet of over 7 million vehicles equipped with Autopilot hardware generates billions of miles of driving data monthly. This data 鈥?collected from diverse geographic, weather, and traffic conditions 鈥?provides a training advantage that no competitor can match. The fleet effectively serves as a distributed data collection network.
+**Data Advantage**: Tesla's fleet of over 7 million vehicles equipped with Autopilot hardware generates billions of miles of driving data monthly. This data —collected from diverse geographic, weather, and traffic conditions —provides a training advantage that no competitor can match. The fleet effectively serves as a distributed data collection network.
 
 **Remaining Gaps**: Despite improvements, FSD Supervised still requires an attentive human driver. The system struggles with certain edge cases: unusual road configurations, emergency vehicle interactions, complex parking scenarios, and some construction zones. These gaps must be closed before unsupervised operation is safe.
 
@@ -41,7 +41,7 @@ Tesla's Cybercab, unveiled in 2024, represents the company's vision for a purpos
 
 **Design Philosophy**: The Cybercab is designed from the ground up for autonomous operation. It lacks a steering wheel and pedals, has a small footprint optimized for urban environments, and features a minimalist interior designed for passenger comfort rather than driver engagement.
 
-**Cost Structure**: Tesla targets a production cost below $30,000 per vehicle 鈥?significantly cheaper than Waymo's vehicles, which reportedly cost $150,000-$200,000 each. The lower cost is enabled by the camera-only sensor suite (no lidar), Tesla's vertical integration in manufacturing, and economies of scale from using the same FSD hardware platform as consumer vehicles.
+**Cost Structure**: Tesla targets a production cost below $30,000 per vehicle —significantly cheaper than Waymo's vehicles, which reportedly cost $150,000-$200,000 each. The lower cost is enabled by the camera-only sensor suite (no lidar), Tesla's vertical integration in manufacturing, and economies of scale from using the same FSD hardware platform as consumer vehicles.
 
 **Production Status**: Limited production of the Cybercab began in early 2026 at Tesla's Texas Gigafactory. Initial volumes are small (estimated 200-500 units per month), with ramp-up planned through 2026-2027. Tesla has indicated that volume production (thousands per month) is targeted for 2027.
 
@@ -51,7 +51,7 @@ Tesla's Cybercab, unveiled in 2024, represents the company's vision for a purpos
 
 While the Cybercab represents the long-term vision, Tesla's near-term robotaxi strategy leverages the existing vehicle fleet:
 
-**Fleet Deployment Model**: Tesla owners could opt their vehicles into a robotaxi network when they are not using them. The vehicle would drive itself to pick up passengers, complete rides, and return 鈥?all without the owner's involvement. This model, which Tesla calls the "Tesla Network," would create the world's largest ride-hailing fleet almost overnight.
+**Fleet Deployment Model**: Tesla owners could opt their vehicles into a robotaxi network when they are not using them. The vehicle would drive itself to pick up passengers, complete rides, and return —all without the owner's involvement. This model, which Tesla calls the "Tesla Network," would create the world's largest ride-hailing fleet almost overnight.
 
 **Economic Model**: Tesla would take a commission (reportedly 25-30%) on each ride, with the remainder going to the vehicle owner. For owners, this transforms a depreciating asset into a revenue-generating investment. Tesla estimates that a Model 3 or Model Y operating on the Tesla Network could generate $30,000+ in annual revenue for its owner.
 
@@ -99,7 +99,7 @@ Waymo (Alphabet) is Tesla's most visible competitor in the autonomous driving sp
 
 **Advantages**: Waymo has a proven commercial track record, extensive regulatory approvals, and strong safety data. Its vehicles have completed millions of fully autonomous miles without a serious at-fault accident.
 
-**Disadvantages**: The high cost per vehicle limits scalability. Each new city requires extensive mapping and testing. Waymo's approach is geographically constrained 鈥?it can only operate in cities it has thoroughly mapped and tested.
+**Disadvantages**: The high cost per vehicle limits scalability. Each new city requires extensive mapping and testing. Waymo's approach is geographically constrained —it can only operate in cities it has thoroughly mapped and tested.
 
 ### Cruise (GM)
 
@@ -127,7 +127,7 @@ Tesla's approach is fundamentally different from all competitors:
 
 **Cost**: The camera-only approach keeps per-vehicle costs low, making mass deployment economically viable.
 
-**Vertical Integration**: Tesla controls the entire stack 鈥?hardware, software, manufacturing, and now potentially the ride-hailing network. This gives it speed and efficiency advantages.
+**Vertical Integration**: Tesla controls the entire stack —hardware, software, manufacturing, and now potentially the ride-hailing network. This gives it speed and efficiency advantages.
 
 **Challenge**: Tesla has not yet demonstrated fully unsupervised autonomous driving at the reliability level of Waymo. The gap between "FSD Supervised" and "robotaxi-grade" autonomy remains the company's biggest challenge.
 

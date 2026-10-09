@@ -26,7 +26,7 @@ faq:
 
 ## 二、操作步骤（约 1 分钟）
 
-1. 打开 [https://wordok.top/tools/](https://wordok.top/tools/) ，切换到 **「图片压缩」** 标签。
+1. 打开 [图片压缩工具](https://wordok.top/tools/#compress)（或 [工具箱首页](https://wordok.top/tools/) 后点「图片压缩」标签）。
 2. 上传或拖拽图片（支持 PNG、JPG、WEBP、BMP、GIF）。
 3. 在 **「目标体积 (KB)」** 输入框填写目标，例如 `200`。
 4. 建议勾选 **「导出时去除 EXIF 元数据」**（默认已勾选）。

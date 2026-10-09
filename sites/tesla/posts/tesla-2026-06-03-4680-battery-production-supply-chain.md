@@ -11,7 +11,7 @@ author: "WordOK Team"
 
 ## Introduction
 
-The 4680 battery cell was supposed to be Tesla's game-changer. Announced at Battery Day in 2020 with ambitious promises of 5x energy density improvement, 6x power increase, and 56% cost reduction, the 4680 was expected to enable cheaper electric vehicles and fundamentally alter Tesla's cost structure. Five years later, the reality has been more nuanced 鈥?the technology is delivering meaningful improvements, but the scaling journey has been longer and harder than initially projected.
+The 4680 battery cell was supposed to be Tesla's game-changer. Announced at Battery Day in 2020 with ambitious promises of 5x energy density improvement, 6x power increase, and 56% cost reduction, the 4680 was expected to enable cheaper electric vehicles and fundamentally alter Tesla's cost structure. Five years later, the reality has been more nuanced —the technology is delivering meaningful improvements, but the scaling journey has been longer and harder than initially projected.
 
 In 2026, Tesla's 4680 production has reached meaningful volumes, though the company continues to rely heavily on external suppliers (Panasonic, LG Energy Solution, CATL) for the majority of its battery cells. The in-house production at Giga Texas and Giga Berlin has improved significantly, with yield rates climbing and costs declining, but the full vision of vertically integrated battery production remains a work in progress.
 
@@ -23,7 +23,7 @@ This article examines the current state of Tesla's 4680 battery production, the 
 
 The 4680 cell (46mm diameter, 80mm height) incorporates several design innovations:
 
-**Tabless Design**: The most significant innovation is the tabless electrode design. Traditional cylindrical cells have tabs 鈥?thin strips of metal that connect the electrode sheets to the cell's terminals. These tabs create a bottleneck for current flow, limiting charge and discharge rates and generating heat. The 4680's tabless design uses the entire electrode foil as a current collector, reducing the path length for electrons from 250mm (in a 2170 cell) to just 50mm.
+**Tabless Design**: The most significant innovation is the tabless electrode design. Traditional cylindrical cells have tabs —thin strips of metal that connect the electrode sheets to the cell's terminals. These tabs create a bottleneck for current flow, limiting charge and discharge rates and generating heat. The 4680's tabless design uses the entire electrode foil as a current collector, reducing the path length for electrons from 250mm (in a 2170 cell) to just 50mm.
 
 **Larger Format**: At 46mm x 80mm, the 4680 is significantly larger than the 2170 cell (21mm x 70mm) that Tesla uses in most current vehicles. The larger format means fewer cells per pack (approximately 830 cells for a Model Y pack vs. 4,416 for a 2170-based pack), reducing assembly complexity, structural components, and non-cell costs.
 
@@ -50,7 +50,7 @@ Tesla's primary 4680 production facility is at Giga Texas in Austin:
 
 **Current Capacity**: The 4680 production lines at Giga Texas have a capacity of approximately 25-30 GWh per year as of mid-2026. This is sufficient to equip roughly 300,000-350,000 vehicles annually.
 
-**Yield Improvements**: The biggest challenge has been manufacturing yield 鈥?the percentage of cells produced that meet quality specifications. Early production lines had yields below 60%, making the cells more expensive than purchased alternatives. Current yields have improved to approximately 85-90%, approaching the 92-95% yields typical of mature cell production lines.
+**Yield Improvements**: The biggest challenge has been manufacturing yield —the percentage of cells produced that meet quality specifications. Early production lines had yields below 60%, making the cells more expensive than purchased alternatives. Current yields have improved to approximately 85-90%, approaching the 92-95% yields typical of mature cell production lines.
 
 **Production Rate**: Tesla is producing approximately 2,000-2,500 MWh of 4680 cells per month at Giga Texas, up from approximately 500 MWh per month in early 2025.
 
@@ -108,7 +108,7 @@ Tesla uses multiple battery chemistries depending on the application:
 
 ### Cobalt Reduction
 
-Tesla has made significant progress in reducing cobalt 鈥?the most expensive and ethically problematic battery material:
+Tesla has made significant progress in reducing cobalt —the most expensive and ethically problematic battery material:
 
 - NCA cells: cobalt content reduced from 10% (2020) to 5% (2026)
 - LFP cells: zero cobalt by chemistry
@@ -192,7 +192,7 @@ As battery costs decline, grid-scale energy storage becomes economically viable 
 
 ## Conclusion
 
-Tesla's 4680 battery program has delivered meaningful improvements in cost, energy density, and manufacturing efficiency, even if the most ambitious Battery Day targets remain unmet. The hybrid supply strategy 鈥?combining in-house production with external suppliers 鈥?provides resilience and flexibility while Tesla continues to scale its manufacturing capabilities.
+Tesla's 4680 battery program has delivered meaningful improvements in cost, energy density, and manufacturing efficiency, even if the most ambitious Battery Day targets remain unmet. The hybrid supply strategy —combining in-house production with external suppliers —provides resilience and flexibility while Tesla continues to scale its manufacturing capabilities.
 
 The implications extend beyond vehicles. Lower battery costs enable cheaper electric cars, larger energy storage installations, and new business models around grid services. As Tesla approaches its $80/kWh cost target, the economic case for electrification strengthens across transportation, energy, and grid infrastructure.
 

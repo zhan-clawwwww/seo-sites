@@ -11,9 +11,9 @@ author: "WordOK Team"
 
 ## Introduction
 
-Apple's Worldwide Developers Conference 2026 delivered a packed keynote that set the direction for the company's platforms for the year ahead. Building on the Apple Intelligence foundation laid in 2024 and expanded in 2025, WWDC 2026 doubled down on AI integration while introducing meaningful improvements across every platform 鈥?iOS, iPadOS, macOS, watchOS, tvOS, and visionOS.
+Apple's Worldwide Developers Conference 2026 delivered a packed keynote that set the direction for the company's platforms for the year ahead. Building on the Apple Intelligence foundation laid in 2024 and expanded in 2025, WWDC 2026 doubled down on AI integration while introducing meaningful improvements across every platform —iOS, iPadOS, macOS, watchOS, tvOS, and visionOS.
 
-The keynote covered more than 30 major announcements across a two-hour presentation. Rather than cataloging every feature, this article focuses on the announcements that matter most 鈥?the ones that change how developers build apps, how users interact with their devices, and how Apple's ecosystem evolves in the competitive landscape.
+The keynote covered more than 30 major announcements across a two-hour presentation. Rather than cataloging every feature, this article focuses on the announcements that matter most —the ones that change how developers build apps, how users interact with their devices, and how Apple's ecosystem evolves in the competitive landscape.
 
 ## Section 1: Apple Intelligence 2.0
 
@@ -33,7 +33,7 @@ Apple Intelligence has matured significantly since its introduction, and the 2.0
 
 **Image Generation**: Apple Intelligence can now generate images directly within apps. Developers can integrate image generation into their apps using a new API. The feature includes strong safety guardrails and watermarking to identify AI-generated content.
 
-**Semantic Index**: Apple Intelligence builds a semantic index of the user's content 鈥?emails, messages, documents, photos, calendar events 鈥?that enables powerful cross-app search and suggestions. This index is built and maintained entirely on-device, preserving privacy.
+**Semantic Index**: Apple Intelligence builds a semantic index of the user's content —emails, messages, documents, photos, calendar events —that enables powerful cross-app search and suggestions. This index is built and maintained entirely on-device, preserving privacy.
 
 ### Developer APIs
 
@@ -94,7 +94,7 @@ macOS 17 deepens the integration between Mac and other Apple devices:
 
 **iPhone Mirroring Improvements**: iPhone mirroring now supports direct file transfer between Mac and iPhone, drag-and-drop of content between mirrored iPhone apps and Mac apps, and audio routing (iPhone audio plays through Mac speakers automatically).
 
-**Universal Clipboard Expansion**: Copy on one device, paste on another 鈥?now works with more content types, including files, images with metadata, and formatted text.
+**Universal Clipboard Expansion**: Copy on one device, paste on another —now works with more content types, including files, images with metadata, and formatted text.
 
 **Handoff Improvements**: Handoff between devices is faster and supports more app types. Third-party apps can now implement Handoff more easily using a new API.
 
@@ -194,7 +194,7 @@ visionOS 3 introduces features targeting enterprise adoption:
 
 Xcode 17 introduces several improvements:
 
-**AI-Assisted Coding**: Xcode includes AI-powered code completion and generation 鈥?Apple's answer to GitHub Copilot. The feature runs on-device using Apple Intelligence and understands the project context.
+**AI-Assisted Coding**: Xcode includes AI-powered code completion and generation —Apple's answer to GitHub Copilot. The feature runs on-device using Apple Intelligence and understands the project context.
 
 **Faster Build Times**: Build system improvements deliver 20-30% faster build times for large projects.
 
@@ -254,7 +254,7 @@ Apple typically supports devices for 5-6 years. iOS 27 is expected to support iP
 
 **Q3: Will Apple Intelligence work offline?**
 
-Most Apple Intelligence features work entirely on-device. For tasks that require more computational power, Apple uses Private Cloud Compute 鈥?which processes data on Apple silicon servers without storing or accessing user data. Users can opt out of cloud processing if they prefer.
+Most Apple Intelligence features work entirely on-device. For tasks that require more computational power, Apple uses Private Cloud Compute —which processes data on Apple silicon servers without storing or accessing user data. Users can opt out of cloud processing if they prefer.
 
 **Q4: Is Xcode's AI coding tool a replacement for GitHub Copilot?**
 

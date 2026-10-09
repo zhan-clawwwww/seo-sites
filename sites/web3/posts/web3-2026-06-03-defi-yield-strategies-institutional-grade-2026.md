@@ -11,9 +11,9 @@ author: "WordOK Team"
 
 ## Introduction
 
-Decentralized finance has matured significantly from the speculative yield farming craze of 2021. In 2026, DeFi yield strategies are increasingly sophisticated, risk-managed, and 鈥?crucially 鈥?attractive to institutional investors. The combination of tokenized real-world assets, improved protocol security, regulatory clarity, and professional-grade infrastructure has created an environment where institutional allocators can generate competitive risk-adjusted returns on-chain.
+Decentralized finance has matured significantly from the speculative yield farming craze of 2021. In 2026, DeFi yield strategies are increasingly sophisticated, risk-managed, and —crucially —attractive to institutional investors. The combination of tokenized real-world assets, improved protocol security, regulatory clarity, and professional-grade infrastructure has created an environment where institutional allocators can generate competitive risk-adjusted returns on-chain.
 
-The institutional DeFi market has grown from negligible volumes in 2022 to an estimated $85 billion in total value locked as of mid-2026. Major asset managers, pension funds, insurance companies, and sovereign wealth funds are deploying capital into DeFi strategies 鈥?not as a crypto bet, but as a legitimate allocation within diversified portfolios.
+The institutional DeFi market has grown from negligible volumes in 2022 to an estimated $85 billion in total value locked as of mid-2026. Major asset managers, pension funds, insurance companies, and sovereign wealth funds are deploying capital into DeFi strategies —not as a crypto bet, but as a legitimate allocation within diversified portfolios.
 
 This article examines the DeFi yield landscape in 2026, the strategies that institutions are deploying, the risk management frameworks they use, and the infrastructure that makes institutional DeFi participation possible.
 
@@ -68,7 +68,7 @@ Providing liquidity to decentralized exchanges generates trading fee income:
 
 **Concentrated Liquidity**: Uniswap V3's concentrated liquidity model allows LPs to specify price ranges for their liquidity, capital efficiency by up to 4,000x compared to V2. This is particularly attractive for institutional LPs who can actively manage their positions.
 
-**Risk Profile**: The primary risk is impermanent loss 鈥?the opportunity cost of holding LP positions versus simply holding the underlying tokens. This risk can be managed through concentrated liquidity strategies, hedging with derivatives, and selecting correlated token pairs.
+**Risk Profile**: The primary risk is impermanent loss —the opportunity cost of holding LP positions versus simply holding the underlying tokens. This risk can be managed through concentrated liquidity strategies, hedging with derivatives, and selecting correlated token pairs.
 
 **Institutional Implementation**: Professional LPs use automated position management tools (Arrakis, Gamma Strategies, Gelato) that rebalance concentrated liquidity positions based on market conditions. They also use options and futures to hedge impermanent loss exposure.
 

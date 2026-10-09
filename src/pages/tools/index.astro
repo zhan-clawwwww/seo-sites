@@ -70,6 +70,7 @@ const faqJsonLd = {
   title={title}
   description={description}
   canonical={canonical}
+  lang="zh-CN"
   keywords={keywords}
   jsonLd={[jsonLd, faqJsonLd]}
   openGraph={{
@@ -587,7 +588,7 @@ const faqJsonLd = {
 </div>
 
 <!-- ==================== 格式转换 ==================== -->
-<div class="tab-panel active" id="panel-convert" role="tabpanel">
+<div class="tab-panel active" id="convert" role="tabpanel">
   <h2>在线图片格式转换</h2>
   <div class="upload-zone" id="convert-upload">
     <input type="file" accept="image/png,image/jpeg,image/webp,image/bmp,image/gif" id="convert-file" />
@@ -627,7 +628,7 @@ const faqJsonLd = {
 </div>
 
 <!-- ==================== 图片裁切 ==================== -->
-<div class="tab-panel" id="panel-crop" role="tabpanel">
+<div class="tab-panel" id="crop" role="tabpanel">
   <h2>在线图片裁切工具</h2>
   <div class="upload-zone" id="crop-upload">
     <input type="file" accept="image/png,image/jpeg,image/webp,image/bmp,image/gif" id="crop-file" />
@@ -660,7 +661,7 @@ const faqJsonLd = {
 </div>
 
 <!-- ==================== 尺寸调整 ==================== -->
-<div class="tab-panel" id="panel-resize" role="tabpanel">
+<div class="tab-panel" id="resize" role="tabpanel">
   <h2>在线图片尺寸调整</h2>
   <div class="upload-zone" id="resize-upload">
     <input type="file" accept="image/png,image/jpeg,image/webp,image/bmp,image/gif" id="resize-file" />
@@ -708,7 +709,7 @@ const faqJsonLd = {
 </div>
 
 <!-- ==================== 加水印 ==================== -->
-<div class="tab-panel" id="panel-watermark" role="tabpanel">
+<div class="tab-panel" id="watermark" role="tabpanel">
   <h2>在线图片添加文字水印</h2>
   <div class="upload-zone" id="watermark-upload">
     <input type="file" accept="image/png,image/jpeg,image/webp,image/bmp,image/gif" id="watermark-file" />
@@ -777,7 +778,7 @@ const faqJsonLd = {
 </div>
 
 <!-- ==================== 图片压缩 ==================== -->
-<div class="tab-panel" id="panel-compress" role="tabpanel">
+<div class="tab-panel" id="compress" role="tabpanel">
   <h2>在线图片压缩工具</h2>
   <div class="upload-zone" id="compress-upload">
     <input type="file" accept="image/png,image/jpeg,image/webp,image/bmp,image/gif" id="compress-file" />
@@ -845,7 +846,7 @@ const faqJsonLd = {
   <h2>为什么选择 wordok.top 图片处理百宝箱？</h2>
   <p>wordok.top 图片处理百宝箱是一款完全免费的在线图片处理工具，提供图片格式转换、图片裁切、尺寸调整、添加文字水印和图片压缩五大核心功能。所有操作均在浏览器本地完成，您的图片不会被上传到任何服务器，充分保护您的隐私安全。</p>
 
-  <h3>图片格式转换</h3>
+  <h3 id="docs-convert">图片格式转换</h3>
   <p>支持 PNG、JPG/JPEG、WEBP、BMP、GIF 五种常见图片格式的互相转换。PNG 转 JPG、WEBP 转 PNG 等操作一键完成，无需安装任何软件。特别适合需要在不同平台间转换图片格式的场景。</p>
 
   <h3>图片裁切</h3>
@@ -864,7 +865,9 @@ const faqJsonLd = {
   <h4>Q: 图片会被上传到服务器吗？</h4>
   <p>A: 不会。所有图片处理均在您的浏览器本地通过 Canvas API 完成，图片数据不会离开您的设备。</p>
   <h4>Q: 支持哪些图片格式？</h4>
-  <p>A: 支持 PNG、JPG/JPEG、WEBP、BMP、GIF 五种常见格式。</p>
+  <p>A: 支持 PNG、JPG/JPEG、WEBP、BMP、GIF 五种常见格式。可直接打开 <a href="/tools/#convert">格式转换</a> 标签页操作。</p>
+  <h4>Q: 如何裁切、缩放、加水印或压缩？</h4>
+  <p>A: 使用页面顶部的标签页，或通过锚点直达：<a href="/tools/#crop">裁切</a>、<a href="/tools/#resize">尺寸调整</a>、<a href="/tools/#watermark">加水印</a>、<a href="/tools/#compress">压缩</a>。</p>
   <h4>Q: 有文件大小限制吗？</h4>
   <p>A: 理论上取决于您设备的内存，一般几十 MB 以内的图片都可以处理。</p>
 </section>
@@ -895,15 +898,34 @@ const faqJsonLd = {
   // ======== Tab switching ========
   var tabBtns = document.querySelectorAll('.tab-btn');
   var tabPanels = document.querySelectorAll('.tab-panel');
+  var tabIds = ['convert', 'crop', 'resize', 'watermark', 'compress'];
+  function activateTab(name) {
+    if (tabIds.indexOf(name) === -1) return;
+    tabBtns.forEach(function(b) {
+      var on = b.dataset.tab === name;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    tabPanels.forEach(function(p) { p.classList.remove('active'); });
+    var panel = document.getElementById(name);
+    if (panel) panel.classList.add('active');
+  }
   tabBtns.forEach(function(btn) {
     btn.addEventListener('click', function() {
-      tabBtns.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-      tabPanels.forEach(function(p) { p.classList.remove('active'); });
-      btn.classList.add('active');
-      btn.setAttribute('aria-selected','true');
-      document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+      activateTab(btn.dataset.tab);
+      if (history.replaceState) {
+        history.replaceState(null, '', '#' + btn.dataset.tab);
+      } else {
+        location.hash = btn.dataset.tab;
+      }
     });
   });
+  function applyHashTab() {
+    var h = (location.hash || '').replace(/^#/, '');
+    if (h) activateTab(h);
+  }
+  applyHashTab();
+  window.addEventListener('hashchange', applyHashTab);
 
   // ======== Utility ========
   function formatSize(bytes) {

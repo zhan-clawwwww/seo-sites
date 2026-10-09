@@ -1,3 +1,4 @@
+import { isUsableAffiliateUrl } from "./affiliate-url";
 import { shouldBuildPost } from "./index-schedule";
 import { estimateReadingTime } from "./reading-time";
 
@@ -238,7 +239,7 @@ function normalizeSiteConfig(raw: RawSiteConfig): SiteConfig {
           rating: typeof a.rating === "number" ? a.rating : undefined,
           logoText: a.logoText ? String(a.logoText).trim() : undefined,
         }))
-        .filter((a) => a.name && a.url)
+        .filter((a) => a.name && isUsableAffiliateUrl(a.url))
     : undefined;
 
   const adsense = raw.adsense
@@ -401,8 +402,19 @@ export function getPostRawContent(siteSlug: string, slug: string): string {
   return "";
 }
 
+function pathLooksLikeFile(pathname: string): boolean {
+  const segment = pathname.split("/").filter(Boolean).pop() ?? "";
+  return /\.[a-z0-9]{1,12}$/i.test(segment);
+}
+
+/** 与 astro trailingSlash: 'always' 对齐；带扩展名的资源路径不加尾部斜杠 */
 export function toCanonical(baseUrl: string, pathname: string) {
-  return new URL(pathname, baseUrl).toString();
+  const base = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+  let path = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  if (path !== "/" && !pathLooksLikeFile(path) && !path.endsWith("/")) {
+    path = `${path}/`;
+  }
+  return new URL(path, base).toString();
 }
 
 /**

@@ -1,0 +1,102 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { CHANNEL_LABELS } from "../lib/channel-nav";
+import { resolveRootSiteAnalytics } from "../lib/root-analytics";
+import { getPublicRootBaseUrl } from "../lib/root-base-url";
+import { getAllSites, getSiteConfig, toCanonical } from "../lib/site-data";
+
+const rootBaseUrl = getPublicRootBaseUrl();
+const firstSite = getAllSites()[0];
+const rootAnalytics = resolveRootSiteAnalytics(
+  firstSite ? getSiteConfig(firstSite.slug)?.analytics : undefined,
+);
+const canonical = toCanonical(rootBaseUrl, "/404/");
+const sites = getAllSites();
+---
+
+<BaseLayout
+  title="页面未找到 — wordok.top"
+  description="您访问的页面不存在或已移动。返回 wordok.top 首页、图片工具或站点地图继续浏览。"
+  canonical={canonical}
+  robots="noindex, follow"
+  analytics={rootAnalytics}
+>
+  <main class="not-found">
+    <h1>404 — 页面未找到</h1>
+    <p class="lead">
+      链接可能已失效，或地址输入有误。您可以从下面入口继续浏览本站内容。
+    </p>
+    <nav class="not-found-nav" aria-label="常用链接">
+      <ul>
+        <li><a href="/">wordok.top 首页</a></li>
+        <li><a href="/tools/">图片处理百宝箱</a></li>
+        <li><a href="/sitemap/">HTML 站点地图</a></li>
+        <li><a href="/sbti/">SBTI 人格测试</a></li>
+        <li><a href="/relay/">Token API 中转</a></li>
+      </ul>
+    </nav>
+    <section class="channels" aria-labelledby="channels-h">
+      <h2 id="channels-h">热门频道</h2>
+      <ul>
+        {sites.map((s) => (
+          <li>
+            <a href={`/${s.slug}/`}>{CHANNEL_LABELS[s.slug] ?? s.config.name}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+    <p class="footer-link">
+      <a href="/">← 返回首页</a>
+    </p>
+  </main>
+
+  <style>
+    .not-found {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 72px;
+      text-align: center;
+    }
+    .not-found h1 {
+      font-size: 1.75rem;
+      margin: 0 0 12px;
+    }
+    .lead {
+      color: var(--color-text-secondary);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+    .not-found-nav ul,
+    .channels ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      justify-content: center;
+    }
+    .not-found-nav a,
+    .channels a {
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .not-found-nav a:hover,
+    .channels a:hover {
+      text-decoration: underline;
+    }
+    .channels {
+      margin-top: 36px;
+    }
+    .channels h2 {
+      font-size: 1rem;
+      margin-bottom: 14px;
+      color: var(--color-text-secondary);
+    }
+    .footer-link {
+      margin-top: 40px;
+      font-size: 0.95rem;
+    }
+  </style>
+</BaseLayout>
