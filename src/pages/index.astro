@@ -442,6 +442,10 @@ const columnMeta: Record<string, { label: string; desc: string; color: string }>
         {orderedSites.map((s) => (
           <a href={`/${s.slug}/`}>{s.config.name}</a>
         ))}
+        <a href={absPath("/about/")}>About</a>
+        <a href={absPath("/privacy/")}>Privacy</a>
+        <a href={absPath("/contact/")}>Contact</a>
+        <a href={absPath("/sitemap/")}>Site Map</a>
       </div>
     </footer>
   </div>

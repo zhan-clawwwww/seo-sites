@@ -1,0 +1,86 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PortalPolicyNav from "../components/PortalPolicyNav.astro";
+import { resolveRootSiteAnalytics } from "../lib/root-analytics";
+import { getPublicRootBaseUrl } from "../lib/root-base-url";
+import { getAllSites, getSiteConfig, toCanonical } from "../lib/site-data";
+
+const sites = getAllSites();
+const firstSite = sites[0];
+const analytics = resolveRootSiteAnalytics(
+  firstSite ? getSiteConfig(firstSite.slug)?.analytics : undefined,
+);
+const rootBase = getPublicRootBaseUrl();
+const canonical = toCanonical(rootBase, "/about/");
+
+const openGraph = {
+  type: "website" as const,
+  title: "About — wordok.top",
+  description:
+    "wordok.top publishes practical tech guides, news-style coverage, and free browser-based tools.",
+  url: canonical,
+  siteName: "wordok.top",
+  image: "https://wordok.top/og-default.png",
+  locale: "en_US",
+};
+---
+
+<BaseLayout
+  title="About — wordok.top"
+  description="About wordok.top: multi-channel tech publishing, free image tools, and editorial standards."
+  canonical={canonical}
+  analytics={analytics}
+  openGraph={openGraph}
+  lang="en"
+>
+  <PortalPolicyNav current="about" />
+
+  <article class="section-page">
+    <h1>About wordok.top</h1>
+    <p>
+      <strong>wordok.top</strong> is an independent technology site network focused on clear,
+      actionable coverage—VPN and privacy, AI and Apple news, Tesla and EV topics, Web3, OpenClaw
+      gateway guides, streaming tips, and hands-on web/SEO tutorials.
+    </p>
+
+    <section>
+      <h2>What we publish</h2>
+      <ul>
+        {sites.map((s) => (
+          <li>
+            <a href={`/${s.slug}/`}>{s.config.name}</a> — {s.config.description}
+          </li>
+        ))}
+        <li><a href="/tools/">Free image tools</a> — format conversion, crop, resize, watermark, and compress in your browser</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Editorial approach</h2>
+      <p>
+        We prioritize accuracy, transparent affiliate disclosures where applicable, and practical
+        advice readers can use immediately. Product mentions may include affiliate links; see each
+        channel’s disclosure page when present.
+      </p>
+    </section>
+
+    <section>
+      <h2>Tools vs. editorial content</h2>
+      <p>
+        Image tools process files locally in your browser and do not require an account. Editorial
+        articles are static pages updated on a regular cadence; dates and changelogs reflect major
+        revisions when available.
+      </p>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p>
+        Feedback, corrections, or partnership inquiries: visit our <a href="/contact/">contact page</a>
+        or read the <a href="/privacy/">privacy policy</a> for how we handle messages.
+      </p>
+    </section>
+  </article>
+</BaseLayout>

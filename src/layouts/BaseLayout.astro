@@ -1,5 +1,7 @@
 ﻿---
+import AdSenseAutoReserve from "../components/AdSenseAutoReserve.astro";
 import { CHANNEL_LABELS, postsHubLabel, postsNavLabel, isPathActive } from "../lib/channel-nav";
+import { shouldSuppressAdReserves } from "../lib/ad-layout-policy";
 import { resolveAdsense } from "../lib/root-adsense";
 import { getPublicRootBaseUrl } from "../lib/root-base-url";
 import { DEFAULT_HTML_ROBOTS } from "../lib/seo-defaults";
@@ -60,6 +62,7 @@ type Props = {
   alternatePlain?: string;
   /** 鏍圭珯椤舵爮鍝佺墝鏂囨锛堝棣栭〉鏍囪锛夛紱榛樿 wordok.top */
   rootHeaderLabel?: string;
+  suppressAdReserves?: boolean;
 };
 
 const {
@@ -80,9 +83,13 @@ const {
   robots,
   alternatePlain,
   rootHeaderLabel,
+  suppressAdReserves: suppressAdReservesProp,
 } = Astro.props;
 
 const effectiveAdsense = resolveAdsense(adsense);
+const pathname = Astro.url.pathname;
+const suppressAdReserves =
+  suppressAdReservesProp ?? shouldSuppressAdReserves(pathname);
 const adsenseFundingChoicesOn =
   String(import.meta.env.PUBLIC_ENABLE_ADSENSE_FUNDING_CHOICES ?? "").toLowerCase() === "true";
 const rootHeaderTitle = rootHeaderLabel ?? "wordok.top";
@@ -102,7 +109,6 @@ function safeJsonStringify(v: unknown): string {
 const currentYear = new Date().getFullYear();
 
 const allSites = getAllSites();
-const pathname = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -1298,6 +1304,17 @@ const pathname = Astro.url.pathname;
       .ad-slot:empty {
         display: none;
       }
+      .ad-auto-reserve {
+        min-height: 90px;
+        margin: 20px auto;
+        max-width: 728px;
+        width: 100%;
+        text-align: center;
+      }
+      .ad-auto-reserve--after {
+        margin-top: 32px;
+        margin-bottom: 8px;
+      }
 
       /* === Print === */
       .root-discovery-footer {
@@ -1415,7 +1432,9 @@ const pathname = Astro.url.pathname;
     ) : null}
 
     <main class="main-content">
+      {!suppressAdReserves ? <AdSenseAutoReserve /> : null}
       <slot />
+      {!suppressAdReserves ? <AdSenseAutoReserve class="ad-auto-reserve--after" /> : null}
     </main>
 
     {!siteSlug ? (
@@ -1428,6 +1447,12 @@ const pathname = Astro.url.pathname;
           <a href={htmlSitemapHref}>HTML site map</a>
           <span aria-hidden="true"> 路 </span>
           <a href={robotsTxtHref}>robots.txt</a>
+          <span aria-hidden="true"> 路 </span>
+          <a href="/about/">About</a>
+          <span aria-hidden="true"> 路 </span>
+          <a href="/privacy/">Privacy</a>
+          <span aria-hidden="true"> 路 </span>
+          <a href="/contact/">Contact</a>
         </p>
       </footer>
     ) : null}

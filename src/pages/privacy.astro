@@ -1,0 +1,127 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PortalPolicyNav from "../components/PortalPolicyNav.astro";
+import { PORTAL_CONTACT_EMAIL } from "../lib/ad-layout-policy";
+import { resolveRootSiteAnalytics } from "../lib/root-analytics";
+import { getPublicRootBaseUrl } from "../lib/root-base-url";
+import { getAllSites, getSiteConfig, toCanonical } from "../lib/site-data";
+
+const sites = getAllSites();
+const firstSite = sites[0];
+const analytics = resolveRootSiteAnalytics(
+  firstSite ? getSiteConfig(firstSite.slug)?.analytics : undefined,
+);
+const rootBase = getPublicRootBaseUrl();
+const canonical = toCanonical(rootBase, "/privacy/");
+const lastUpdated = "2026-10-09";
+const privacyEmail = PORTAL_CONTACT_EMAIL;
+
+const openGraph = {
+  type: "website" as const,
+  title: "Privacy Policy — wordok.top",
+  description:
+    "How wordok.top collects, uses, and protects information across our channels, tools, and editorial sites.",
+  url: canonical,
+  siteName: "wordok.top",
+  image: "https://wordok.top/og-default.png",
+  locale: "en_US",
+};
+---
+
+<BaseLayout
+  title="Privacy Policy — wordok.top"
+  description="Privacy Policy for wordok.top: editorial channels, free browser-based image tools, and related services."
+  canonical={canonical}
+  analytics={analytics}
+  openGraph={openGraph}
+  lang="en"
+>
+  <PortalPolicyNav current="privacy" />
+
+  <article class="section-page">
+    <h1>Privacy Policy</h1>
+    <p><strong>Last updated:</strong> {lastUpdated}</p>
+    <p>
+      This policy describes how <strong>wordok.top</strong> (“we”, “us”) handles information when you
+      visit our network sites, including editorial channels (VPN, AI, Apple, Tesla, Web3, OpenClaw,
+      streaming, and tech guides), the <a href="/tools/">free image tools</a> suite, and related
+      pages such as <a href="/sitemap/">site maps</a> and <a href="/relay/">API relay</a> documentation.
+    </p>
+
+    <section>
+      <h2>1. Browser-local tools</h2>
+      <p>
+        Our image processing tools run entirely in your browser. Photos you edit are not uploaded to
+        our servers for processing. See the dedicated
+        <a href="/tools/privacy/">Tools privacy policy (中文)</a> for details on local processing.
+      </p>
+    </section>
+
+    <section>
+      <h2>2. Information we collect</h2>
+      <h3>Information you provide</h3>
+      <ul>
+        <li>Email or message content if you contact us voluntarily</li>
+        <li>Comments or feedback you choose to submit on supported pages</li>
+      </ul>
+      <h3>Automatically collected data</h3>
+      <ul>
+        <li>Standard server and analytics logs (pages viewed, approximate region, device/browser type)</li>
+        <li>Cookies and similar technologies used by analytics and advertising partners</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. Cookies, analytics, and advertising</h2>
+      <p>
+        We may use Google Analytics (or similar) to understand aggregate traffic. We use Google
+        AdSense to serve ads, including automated placements. Google may use cookies to personalize
+        ads; you can manage preferences at
+        <a href="https://adssettings.google.com/" rel="noopener noreferrer" target="_blank">Google Ads Settings</a>
+        and read
+        <a href="https://policies.google.com/technologies/ads" rel="noopener noreferrer" target="_blank">how Google uses advertising cookies</a>.
+      </p>
+      <p>
+        Consent messaging (Funding Choices) is <strong>disabled by default</strong> on this site until
+        explicitly enabled in our deployment configuration after it is set up in the AdSense dashboard.
+      </p>
+    </section>
+
+    <section>
+      <h2>4. Third-party links</h2>
+      <p>
+        Articles may link to external products, VPN providers, or services. Those sites have their
+        own privacy practices; review their policies before sharing personal data.
+      </p>
+    </section>
+
+    <section>
+      <h2>5. Children</h2>
+      <p>Our content is not directed at children under 13, and we do not knowingly collect their personal information.</p>
+    </section>
+
+    <section>
+      <h2>6. Your rights</h2>
+      <p>
+        Depending on your region (for example GDPR or CCPA), you may have rights to access, correct,
+        or delete personal data we hold. Contact us to exercise these rights.
+      </p>
+    </section>
+
+    <section>
+      <h2>7. Changes</h2>
+      <p>We may update this policy from time to time. The “Last updated” date at the top will change when we do.</p>
+    </section>
+
+    <section>
+      <h2>8. Contact</h2>
+      <p>
+        Questions about this policy: <a href={`mailto:${privacyEmail}`}>{privacyEmail}</a> or our
+        <a href="/contact/">contact page</a>. Channel-specific policies remain available on each
+        site (for example <a href="/vpn-usa/privacy/">VPN USA privacy</a>).
+      </p>
+    </section>
+  </article>
+</BaseLayout>
