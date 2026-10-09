@@ -1,7 +1,13 @@
 import type { APIRoute } from "astro";
 import { getPublicRootBaseUrl } from "../lib/root-base-url";
-import { isTemplateSpamSlug } from "../lib/post-indexing";
-import { getAllPosts, getAllSites, getPostLastmodDateRaw, toCanonical } from "../lib/site-data";
+import { shouldIncludePostInSitemap } from "../lib/post-indexing";
+import {
+  getAllPosts,
+  getAllSites,
+  getPostLastmodDateRaw,
+  getPostRawContent,
+  toCanonical,
+} from "../lib/site-data";
 import {
   asYyyyMmDd,
   buildStampYyyyMmDd,
@@ -90,7 +96,8 @@ export const GET: APIRoute = () => {
     urls.push({ loc: canonicalFor(siteConfig, `/${s.slug}/disclosure/`), priority: 0.4, changefreq: "yearly" });
 
     for (const p of posts) {
-      if (p.hasUnreplacedPlaceholders || isTemplateSpamSlug(p.slug)) continue;
+      const raw = getPostRawContent(s.slug, p.slug);
+      if (!shouldIncludePostInSitemap(s.slug, p.slug, raw, p.hasUnreplacedPlaceholders)) continue;
       const lastmod = asYyyyMmDd(getPostLastmodDateRaw(p.frontmatter));
       urls.push({
         loc: canonicalFor(siteConfig, `/${s.slug}/posts/${p.slug}/`),

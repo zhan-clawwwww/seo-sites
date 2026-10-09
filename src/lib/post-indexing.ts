@@ -31,6 +31,58 @@ export function isTemplateSpamPost(postSlug: string, rawContent?: string): boole
   return false;
 }
 
-export function shouldIncludePostInSitemap(postSlug: string, rawContent?: string): boolean {
-  return !isTemplateSpamPost(postSlug, rawContent);
+/** Programmatic iPhone / MacBook spec pages under sites/apple/posts/ */
+const APPLE_DEVICE_SPEC_SLUG = /^(iphone|macbook)(-|$)/;
+
+const APPLE_DEVICE_TEMPLATE_MARKER = "## Key Specifications";
+
+export const THIN_CONTENT_MAX_WORDS = 600;
+
+export function isAppleDeviceSpecSlug(postSlug: string): boolean {
+  return APPLE_DEVICE_SPEC_SLUG.test(postSlug);
+}
+
+export function markdownBodyWordCount(rawContent: string): number {
+  const body = rawContent.replace(/^---[\s\S]*?---\s*/, "");
+  return body.split(/\s+/).filter(Boolean).length;
+}
+
+/**
+ * Thin Apple device/spec templates: short body or obvious spec scaffold.
+ * ~80+ pages; keep noindex,follow and out of sitemaps until expanded.
+ */
+export function isAppleThinDeviceSpecPage(
+  siteSlug: string,
+  postSlug: string,
+  rawContent?: string,
+): boolean {
+  if (siteSlug !== "apple" || !isAppleDeviceSpecSlug(postSlug)) return false;
+  if (!rawContent?.trim()) return true;
+  const words = markdownBodyWordCount(rawContent);
+  if (words < THIN_CONTENT_MAX_WORDS) return true;
+  if (rawContent.includes(APPLE_DEVICE_TEMPLATE_MARKER) && words < THIN_CONTENT_MAX_WORDS + 150) {
+    return true;
+  }
+  return false;
+}
+
+export function shouldNoindexPost(
+  siteSlug: string,
+  postSlug: string,
+  rawContent?: string,
+  hasUnreplacedPlaceholders?: boolean,
+): boolean {
+  if (hasUnreplacedPlaceholders) return true;
+  if (isTemplateSpamPost(postSlug, rawContent)) return true;
+  if (isAppleThinDeviceSpecPage(siteSlug, postSlug, rawContent)) return true;
+  return false;
+}
+
+export function shouldIncludePostInSitemap(
+  siteSlug: string,
+  postSlug: string,
+  rawContent?: string,
+  hasUnreplacedPlaceholders?: boolean,
+): boolean {
+  return !shouldNoindexPost(siteSlug, postSlug, rawContent, hasUnreplacedPlaceholders);
 }

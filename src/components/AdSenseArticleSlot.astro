@@ -1,0 +1,26 @@
+---
+import type { AdSenseConfig } from "../lib/root-adsense";
+import { resolveAdsense } from "../lib/root-adsense";
+
+type Props = {
+  adsense?: AdSenseConfig;
+  class?: string;
+};
+
+const { adsense, class: className } = Astro.props;
+const effective = resolveAdsense(adsense);
+---
+
+{effective.adSlot ? (
+  <div class:list={["ad-slot", className]}>
+    <ins
+      class="adsbygoogle"
+      style="display:block"
+      data-ad-client={effective.publisherId}
+      data-ad-slot={effective.adSlot}
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    ></ins>
+    <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+) : null}

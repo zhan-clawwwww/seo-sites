@@ -5,8 +5,14 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { resolveRootSiteAnalytics } from "../../lib/root-analytics";
 import { postsHubLabel } from "../../lib/channel-nav";
 import { getPublicRootBaseUrl } from "../../lib/root-base-url";
-import { isTemplateSpamSlug } from "../../lib/post-indexing";
-import { getAllPosts, getAllSites, getSiteConfig, toCanonical } from "../../lib/site-data";
+import { shouldIncludePostInSitemap } from "../../lib/post-indexing";
+import {
+  getAllPosts,
+  getAllSites,
+  getPostRawContent,
+  getSiteConfig,
+  toCanonical,
+} from "../../lib/site-data";
 
 const sites = getAllSites();
 const firstSite = sites[0];
@@ -49,7 +55,8 @@ for (const s of sites) {
   ];
 
   for (const p of posts) {
-    if (p.hasUnreplacedPlaceholders || isTemplateSpamSlug(p.slug)) continue;
+    const raw = getPostRawContent(s.slug, p.slug);
+    if (!shouldIncludePostInSitemap(s.slug, p.slug, raw, p.hasUnreplacedPlaceholders)) continue;
     siteUrls.push({
       href: `${base}/${s.slug}/posts/${p.slug}/`,
       label: p.frontmatter.title,

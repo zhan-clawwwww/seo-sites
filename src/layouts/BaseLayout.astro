@@ -83,6 +83,8 @@ const {
 } = Astro.props;
 
 const effectiveAdsense = resolveAdsense(adsense);
+const adsenseFundingChoicesOn =
+  String(import.meta.env.PUBLIC_ENABLE_ADSENSE_FUNDING_CHOICES ?? "").toLowerCase() === "true";
 const rootHeaderTitle = rootHeaderLabel ?? "wordok.top";
 
 const robotsContent = robots ?? DEFAULT_HTML_ROBOTS;
@@ -153,6 +155,14 @@ const pathname = Astro.url.pathname;
       src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${effectiveAdsense.publisherId}`}
       crossorigin="anonymous"
     ></script>
+    {/* Funding Choices (CMP): set PUBLIC_ENABLE_ADSENSE_FUNDING_CHOICES=true only after AdSense Privacy & messaging is configured — default off */}
+    {adsenseFundingChoicesOn && effectiveAdsense.publisherId ? (
+      <script
+        is:inline
+        async
+        src={`https://fundingchoicesmessages.google.com/i/${effectiveAdsense.publisherId}?ers=1`}
+      ></script>
+    ) : null}
 
     {/* OpenGraph */}
     {openGraph?.title ? <meta property="og:title" content={openGraph.title} /> : null}
@@ -1329,7 +1339,7 @@ const pathname = Astro.url.pathname;
         <div class="header-inner header-inner-toolbar">
           <a href="/" class="site-logo-root">{rootHeaderTitle}</a>
           <nav class="root-header-nav" aria-label="Portal">
-            <a href="/tools/">🛠️ 图片工具箱</a>
+            <a href="/tools/" class="root-tools-cta">🛠️ Free image tools · 图片工具箱</a>
           </nav>
         </div>
       </header>

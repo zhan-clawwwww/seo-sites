@@ -3,7 +3,12 @@ export const prerender = true;
 
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import AiNewsLayout from "../../../layouts/AiNewsLayout.astro";
-import { isTemplateSpamSlug, TEMPLATE_SPAM_ROBOTS } from "../../../lib/post-indexing";
+import {
+  shouldNoindexPost,
+  TEMPLATE_SPAM_ROBOTS,
+} from "../../../lib/post-indexing";
+import AdSenseArticleSlot from "../../../components/AdSenseArticleSlot.astro";
+import { resolveAdsense } from "../../../lib/root-adsense";
 import {
   enrichPostFrontmatter,
   getAllPosts,
@@ -115,7 +120,7 @@ const isDraft =
   draftRaw === true || String(draftRaw ?? "").toLowerCase() === "true";
 const robotsFromFm = frontmatter.robots?.toString?.().trim?.() || undefined;
 const hasPlaceholders = postHasUnreplacedPlaceholders(rawContent);
-const suppressIndex = hasPlaceholders || isTemplateSpamSlug(slug);
+const suppressIndex = shouldNoindexPost(siteSlug, slug, rawContent, hasPlaceholders);
 const pageRobots = isDraft
   ? "noindex, nofollow"
   : suppressIndex
@@ -159,8 +164,9 @@ const hasGiscus = giscusConfig?.repo && giscusConfig?.repoId && giscusConfig?.ca
 const affiliates = siteConfig.affiliates ?? [];
 const hasAffiliates = affiliates.length > 0;
 
-// AdSense
-const adsense = siteConfig.adsense;
+// AdSense（slot 可由 sites/*/config.json 或 PUBLIC_ADSENSE_AD_SLOT 注入）
+const adsense = resolveAdsense(siteConfig.adsense);
+const showInArticleAd = Boolean(adsense.adSlot);
 
 const openGraph = {
   type: "article" as const,
@@ -367,6 +373,8 @@ const layoutProps = {
 
     <Content />
 
+    {showInArticleAd ? <AdSenseArticleSlot adsense={adsense} /> : null}
+
     {keywords && keywords.length > 0 ? (
       <div style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 8px;">
         {keywords.map((kw) => (
@@ -533,6 +541,8 @@ const layoutProps = {
     {/* 文章正文 */}
     <Content />
 
+    {showInArticleAd ? <AdSenseArticleSlot adsense={adsense} /> : null}
+
     {/* 关键词标签 */}
     {keywords && keywords.length > 0 ? (
       <div style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 8px;">
@@ -542,20 +552,6 @@ const layoutProps = {
       </div>
     ) : null}
 
-    {/* AdSense 广告位（文章底部）*/}
-    {adsense?.publisherId && adsense?.adSlot ? (
-      <div class="ad-slot">
-        <ins
-          class="adsbygoogle"
-          style="display:block"
-          data-ad-client={adsense.publisherId}
-          data-ad-slot={adsense.adSlot}
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        ></ins>
-        <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      </div>
-    ) : null}
   </article>
 
   {/* 基于关键词的相关文章推荐 */}
