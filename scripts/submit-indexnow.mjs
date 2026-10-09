@@ -10,8 +10,9 @@
  *   node scripts/submit-indexnow.mjs --all-sites   # 与 CI 一致的各频道 + Ping 全站 sitemap
  *
  * 前提：
- *   1. 在网站根目录放置验证文件 /public/<YOUR_API_KEY>.txt，内容为 API Key 本身
- *   2. 设置环境变量 INDEXNOW_KEY（在 https://www.bing.com/indexnow 申请），勿提交到 Git
+ *   1. 设置环境变量 INDEXNOW_KEY（在 https://www.bing.com/indexnow 申请），勿提交到 Git
+ *      CI：`npm run build` 会通过 scripts/write-indexnow-key.mjs 写入 public/<KEY>.txt
+ *   2. 部署完成后再运行本脚本
  *      例（PowerShell）: $env:INDEXNOW_KEY="你的key"; node scripts/submit-indexnow.mjs --site vpn-usa
  *      例（Node 20+）: node --env-file=.env scripts/submit-indexnow.mjs --site vpn-usa
  *   3. 部署后再运行
