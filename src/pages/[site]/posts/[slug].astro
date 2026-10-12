@@ -412,11 +412,12 @@ const layoutProps = {
   siteSlug={siteSlug}
   siteName={siteConfig.name}
   siteDescription={siteConfig.description}
-  lang={siteConfig.lang}
+  lang={pageLang ?? siteConfig.lang}
   analytics={siteConfig.analytics}
   adsense={adsense}
   hasAffiliates={hasAffiliates}
   alternatePlain={plainTextCanonical}
+  {...(pageRobots ? { robots: pageRobots } : {})}
 >
   {/* 面包屑导航 */}
   <nav class="breadcrumb">
